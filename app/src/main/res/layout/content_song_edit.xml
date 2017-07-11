@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_song_edit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.raffaelcavaliere.setlists.ui.library.SongEditActivity"
+    tools:showIn="@layout/activity_song_edit">
+
+    <TextView
+        android:text="Song title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editSongTitleLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/editSongTitle"
+        android:hint="Enter title"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/editSongTitleLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:maxLines="1"
+        android:inputType="text"/>
+
+    <TextView
+        android:text="Artist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editSongArtistLabel"
+        android:layout_below="@+id/editSongTitle"
+        android:layout_alignStart="@+id/editSongTitleLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongArtist"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/editSongNewArtist"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_below="@+id/editSongArtistLabel"
+        android:minHeight="40dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongNewArtist"
+        android:layout_alignBottom="@+id/editSongArtist"
+        android:layout_alignEnd="@+id/editSongArtistLabel"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:tint="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="2dp" />
+
+    <TextView
+        android:text="Key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editSongArtist"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editSongKeyLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongKey"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_below="@+id/editSongKeyLabel" />
+
+    <TextView
+        android:text="Tempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editSongKey"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editSongTempoLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:text="120"
+        android:hint="Enter tempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongTempo"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/editSongTempoLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="number"
+        android:maxLength="3"
+        android:maxLines="1" />
+
+    <TextView
+        android:text="Duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editSongTempo"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editSongDurationLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:text="0"
+        android:hint="Min"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongDurationMinutes"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="4dp"
+        android:layout_below="@+id/editSongDurationLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="number"
+        android:maxLength="2"
+        android:maxLines="1"
+        android:layout_width="38dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text=":"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/editSongDurationMinutes"
+        android:layout_below="@+id/editSongDurationLabel"
+        android:layout_marginTop="0dp"
+        android:id="@+id/editSongDurationCommas"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:layout_height="40dp" />
+
+    <EditText
+        android:text="00"
+        android:hint="Sec"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongDurationSeconds"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_below="@+id/editSongDurationLabel"
+        android:layout_toRightOf="@+id/editSongDurationCommas"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="number"
+        android:maxLength="2"
+        android:maxLines="1"
+        android:layout_width="38dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="Document"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editSongDurationMinutes"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editSongDocumentLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongDocument"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/editSongNewDocument"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_below="@+id/editSongDocumentLabel"
+        android:minHeight="40dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongNewDocument"
+        android:layout_alignBottom="@+id/editSongDocument"
+        android:layout_alignEnd="@+id/editSongArtistLabel"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:tint="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="2dp" />
+
+    <TextView
+        android:text="Notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editSongDocument"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/editSongNotesLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:text="Notes"
+        android:hint="Enter notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSongNotes"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@+id/editSongNotesLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="text"
+        android:maxLines="1" />
+
+</RelativeLayout>

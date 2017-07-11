@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.raffaelcavaliere.setlists.ui.document.SwipeViewerActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/appbar"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <ToggleButton
+                    android:layout_marginEnd="12dp"
+                    android:text=""
+                    android:textOn=""
+                    android:textOff=""
+                    android:checked="false"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/swipe_viewer_midi_toggle"
+                    android:layout_weight="1"
+                    android:background="@drawable/midi_icon"
+                    android:backgroundTint="@drawable/metronome_toggle"
+                    android:layout_gravity="end" />
+
+                <ToggleButton
+                    android:layout_marginEnd="12dp"
+                    android:text=""
+                    android:textOn=""
+                    android:textOff=""
+                    android:checked="false"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/swipe_viewer_metronome_toggle"
+                    android:layout_weight="1"
+                    android:background="@drawable/metronome_icon"
+                    android:backgroundTint="@drawable/metronome_toggle"
+                    android:layout_gravity="end" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/swipe_viewer_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/appbar"
+            android:background="@android:drawable/bottom_bar"
+            android:backgroundTint="@color/blue_grey_900"
+            android:elevation="0dp"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/swipe_viewer_midi_message_container">
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_viewer_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/swipe_viewer_footer"
+            android:layout_below="@+id/swipe_viewer_header">
+
+            <android.support.v4.view.PagerTitleStrip
+                android:id="@+id/swipe_viewer_pager_title_strip"
+                style="@style/viewPagerTitleStrip"
+                android:layout_width="match_parent"
+                android:paddingBottom="8dp"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp"
+                android:layout_height="36dp" />
+
+        </android.support.v4.view.ViewPager>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/swipe_viewer_footer"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:backgroundTint="@color/blue_grey_900"
+            android:background="@android:drawable/bottom_bar">
+
+            <ImageView
+                app:srcCompat="@drawable/led_off_96"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:id="@+id/swipe_viewer_metronome" />
+
+            <TextView
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/white"
+                android:id="@+id/swipe_viewer_footer_tempo"
+                android:layout_toEndOf="@id/swipe_viewer_metronome"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

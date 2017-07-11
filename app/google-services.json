@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "445191369134",
+    "project_id": "firebase-setlists"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445191369134:android:8107954a7a7fe204",
+        "android_client_info": {
+          "package_name": "com.raffaelcavaliere.setlists"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445191369134-atlsls0ru7svevfg6ag0lv5be9bk9vbp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.raffaelcavaliere.setlists",
+            "certificate_hash": "96FB2298E8E25823ACF525315BFADB4E778EE48C"
+          }
+        },
+        {
+          "client_id": "445191369134-eq8guu88g29sng8ac229ggttiej71mk4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [{ "current_key": "AIzaSyAStoOBONrTEDv1_ZlnrPdb9ZFP1R36H7E" }],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

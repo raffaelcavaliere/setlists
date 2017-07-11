@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/file_menu_transpose"
+        android:title="@string/menu_transpose_file"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        android:checkable="false"
+        android:checked="false" />
+
+    <item
+        android:id="@+id/file_menu_edit"
+        android:title="@string/menu_edit_file"
+        app:showAsAction="never"
+        android:orderInCategory="200"
+        android:checkable="false"
+        android:checked="false" />
+
+    <item
+        android:id="@+id/file_menu_export"
+        android:title="@string/menu_export_file"
+        app:showAsAction="never"
+        android:orderInCategory="300"
+        android:checkable="false"
+        android:checked="false" />
+
+    <item
+        android:id="@+id/file_menu_share"
+        android:title="@string/menu_share_file"
+        app:showAsAction="never"
+        android:orderInCategory="400"
+        android:checkable="false"
+        android:checked="false" />
+</menu>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_artist_edit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.raffaelcavaliere.setlists.ui.library.ArtistEditActivity"
+    tools:showIn="@layout/activity_artist_edit">
+
+    <TextView
+        android:text="Artist name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editArtistNameLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/editArtistName"
+        android:hint="Enter name"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/editArtistNameLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:maxLines="1"
+        android:inputType="text"/>
+
+    <TextView
+        android:text="Artist photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editArtistPhotoLabel"
+        android:layout_below="@+id/editArtistName"
+        android:layout_alignStart="@+id/editArtistNameLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/editArtistPhotoUrl"
+        android:hint="Enter url"
+        android:layout_below="@+id/editArtistPhotoLabel"
+        android:layout_toStartOf="@+id/editArtistSearchPhoto"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:maxLines="1"
+        android:inputType="text"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?android:attr/actionModeWebSearchDrawable"
+        android:id="@+id/editArtistSearchPhoto"
+        android:layout_alignTop="@+id/editArtistPhotoUrl"
+        android:layout_alignEnd="@+id/editArtistPhotoLabel"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:backgroundTint="@color/colorPrimary"
+        android:tint="@color/white"
+        android:elevation="2dp" />
+
+
+</RelativeLayout>

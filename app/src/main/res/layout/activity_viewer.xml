@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.raffaelcavaliere.setlists.ui.document.ViewerActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/appbar"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <ToggleButton
+                    android:layout_marginEnd="12dp"
+                    android:text=""
+                    android:textOn=""
+                    android:textOff=""
+                    android:checked="false"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/viewer_midi_toggle"
+                    android:layout_weight="1"
+                    android:background="@drawable/midi_icon"
+                    android:backgroundTint="@drawable/metronome_toggle"
+                    android:layout_gravity="end" />
+
+                <ToggleButton
+                    android:layout_marginEnd="12dp"
+                    android:text=""
+                    android:textOn=""
+                    android:textOff=""
+                    android:checked="false"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/viewer_metronome_toggle"
+                    android:layout_weight="1"
+                    android:background="@drawable/metronome_icon"
+                    android:backgroundTint="@drawable/metronome_toggle"
+                    android:layout_gravity="end" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/viewer_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/appbar"
+            android:background="@android:drawable/bottom_bar"
+            android:backgroundTint="@color/blue_grey_900"
+            android:elevation="0dp"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/viewer_midi_message_container">
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/text_no_document"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewer_header"
+            android:layout_margin="16dp"
+            android:text="@string/library_document_empty"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textSize="15sp"
+            android:visibility="invisible" />
+
+        <FrameLayout
+            android:id="@+id/document_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/viewer_footer"
+            android:layout_below="@+id/viewer_header" />
+
+        <RelativeLayout
+            android:id="@+id/viewer_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:drawable/bottom_bar"
+            android:backgroundTint="@color/blue_grey_900"
+            android:elevation="0dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/viewer_metronome"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/led_off_96" />
+
+            <TextView
+                android:id="@+id/viewer_footer_tempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:layout_toStartOf="@id/viewer_metronome"
+                android:text=""
+                android:textAlignment="textEnd"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

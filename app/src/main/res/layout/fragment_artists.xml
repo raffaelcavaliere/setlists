@@ -1,0 +1,34 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.raffaelcavaliere.setlists.ui.library.ArtistsFragment">
+
+    <TextView
+        android:text="@string/library_artist_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:id="@+id/text_no_artist"
+        android:visibility="gone"
+        android:textSize="15sp"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/artist_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="outsideOverlay"
+        android:clipToPadding="false" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="?attr/colorPrimary" />
+
+</FrameLayout>

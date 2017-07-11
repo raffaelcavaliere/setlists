@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.raffaelcavaliere.setlists.ui.library.SongsFragment">
+
+    <TextView
+        android:text="@string/library_song_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:id="@+id/text_no_song"
+        android:visibility="gone"
+        android:textSize="15sp"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/song_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:clipToPadding="false" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="?attr/colorPrimary" />
+
+</FrameLayout>

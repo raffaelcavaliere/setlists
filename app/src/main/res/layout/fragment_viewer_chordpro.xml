@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.raffaelcavaliere.setlists.ui.document.ChordproViewerFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:id="@+id/documentChordproView" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/chordpro_title"
+                        android:text="Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/DocumentTitle"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/chordpro_subtitle"
+                        android:text="Subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/DocumentSubtitle"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:text="Composed by "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chordpro_composer"
+                        style="@style/DocumentItalicComment"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:text="Arranged by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chordpro_arranger"
+                        style="@style/DocumentItalicComment"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:text="Lyrics by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chordpro_lyricist"
+                        style="@style/DocumentItalicComment"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="Am"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:id="@+id/chordpro_key"
+                        style="@style/DocumentSubtitle"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:text="♩ = 120"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:id="@+id/chordpro_tempo"
+                        style="@style/DocumentSubtitle"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chordpro_time"
+                        android:textAlignment="textEnd"
+                        style="@style/DocumentSubtitle"
+                        android:text="4/4"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chordpro_duration"
+                        android:textAlignment="textEnd"
+                        style="@style/DocumentSubtitle"
+                        android:text="5:05"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

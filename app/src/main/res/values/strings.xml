@@ -1,0 +1,263 @@
+<resources>
+    <string name="app_name">Setlist Controller</string>
+    <string name="signin_activity_title">Sign in</string>
+    <string name="library_activity_title">Library</string>
+
+    <string name="nav_library">Library</string>
+    <string name="nav_midi">MIDI</string>
+    <string name="nav_bands">Bands</string>
+    <string name="nav_community">Community</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_help">Help &amp; Feedback</string>
+
+    <string name="tab_setlists">Setlists</string>
+    <string name="tab_artists">Artists</string>
+    <string name="tab_songs">Songs</string>
+
+    <string name="library_artist_empty">No artist has been added to your library yet.  Use the plus button to add one.</string>
+    <string name="library_song_empty">No song has been added to your library yet.  Use the plus button to add one.</string>
+    <string name="library_setlist_empty">No setlist has been added to your library yet.  Use the plus button to add one.</string>
+    <string name="artist_song_empty">This artist does not have any song associated with him yet.  Use the plus button to add one.</string>
+    <string name="song_document_empty">This song does not have any document associated with it yet.  Use the plus button to add one.</string>
+    <string name="setlist_song_empty">This setlist does not have any song associated with it yet.  Use the plus button to add one.</string>
+    <string name="band_empty">No band has been added yet.  Use the plus button to add one.</string>
+    <string name="band_musician_empty">This band does not have any musician associated with it yet.  Use the plus button to add one.</string>
+    <string name="library_document_empty">This song does not have a valid document selected.</string>
+    <string name="midi_message_empty">No MIDI message has been added to your library yet.  Use the plus button to add one.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Sign-in status messages -->
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signed_in">Signed in</string>
+    <string name="signing_in">Signing in…</string>
+    <string name="signed_out">Signed out</string>
+    <string name="signed_in_err">"Error: please check logs."</string>
+    <string name="error_null_person">
+        Error: Plus.PeopleApi.getCurrentPerson returned null. Ensure that the Google+ API is
+        enabled for your project, you have a properly configured google-services.json file
+        and that your device has an internet connection.
+    </string>
+    <string name="loading">Loading…</string>
+    <string name="auth_code_fmt">Auth Code: %s</string>
+    <string name="id_token_fmt">ID Token: %s</string>
+
+    <!-- Google Play Services error for Toast -->
+    <string name="play_services_error_fmt">Google Play Services Error: %i</string>
+
+    <!-- Button labels -->
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="refresh_token">Get Fresh Token</string>
+    <string name="menu_edit_artist">Edit artist</string>
+    <string name="menu_remove_artist">Remove artist</string>
+    <string name="dialog_remove_artist">Do you really want to remove this artist?</string>
+    <string name="menu_edit_song">Edit song</string>
+    <string name="menu_remove_song">Remove song</string>
+    <string name="dialog_remove_song">Do you really want to remove this song?\nThis will remove all documents associated with it.</string>
+    <string name="menu_edit_document">Edit document</string>
+    <string name="menu_duplicate_document">Duplicate document</string>
+    <string name="menu_remove_document">Remove document</string>
+    <string name="menu_set_preferred_document">Set as preferred</string>
+    <string name="dialog_remove_document">Do you really want to remove this document?</string>
+    <string name="menu_edit_file">Edit file</string>
+    <string name="menu_export_file">Export file</string>
+    <string name="menu_share_file">Share file</string>
+    <string name="menu_transpose_file">Transpose</string>
+    <string name="menu_preferences">Preferences</string>
+    <string name="menu_batch_import">Import songs</string>
+    <string name="menu_restore_database">Restore database</string>
+    <string name="menu_backup_database">Backup database</string>
+    <string name="menu_edit_band">Edit band</string>
+    <string name="menu_remove_band">Remove band</string>
+    <string name="dialog_remove_band">Do you really want to remove this band?\nThis will remove all musicians associated with it.</string>
+    <string name="menu_edit_musician">Edit musician</string>
+    <string name="menu_remove_musician">Remove musician</string>
+    <string name="dialog_remove_musician">Do you really want to remove this musician?</string>
+    <string name="menu_send_email">Send email</string>
+    <string name="menu_share_set">Share set</string>
+    <string name="menu_edit_set">Edit set</string>
+    <string name="menu_remove_set">Remove set</string>
+    <string name="dialog_remove_set">Do you really want to remove this set?</string>
+    <string name="menu_edit_set_song">Edit song</string>
+    <string name="menu_remove_set_song">Remove song from set</string>
+    <string name="dialog_remove_set_song">Do you really want to remove this song from this set?</string>
+    <string name="menu_send_midi_message">Send message</string>
+    <string name="menu_edit_midi_message">Edit message</string>
+    <string name="menu_remove_midi_message">Remove message</string>
+    <string name="dialog_remove_midi_message">Do you really want to remove this message?</string>
+    <string name="menu_remove_document_midi_message">Detach message</string>
+    <string name="dialog_remove_document_midi_message">Do you really want to detach this message?</string>
+    <string name="menu_set_autosend_document_midi_message">Set auto send</string>
+    <string name="menu_remove_autosend_document_midi_message">Remove auto send</string>
+
+    <!-- Content Description for images -->
+    <string name="desc_google_icon">Google Logo</string>
+
+    <!-- Rationale for asking for Contacts -->
+    <string name="contacts_permission_rationale">Contacts access is needed in order to retrieve your email address.</string>
+
+    <!-- Activity Names and Descriptions -->
+    <string name="name_sign_in_activity">SignInActivity</string>
+    <string name="desc_sign_in_activity">Signing in, signing out, and revoking access.</string>
+    <string name="desc_sign_in_activity_scopes">Signing in, signing out, and revoking access with Google Drive permissions.</string>
+    <string name="name_id_token_activity">IdTokenActivity</string>
+    <string name="desc_id_token_activity">Retrieving an ID Token for the user.</string>
+    <string name="desc_auth_code_activity">Demonstrate retrieving an auth code for authorizing your server.</string>
+    <string name="name_auth_code_activity">ServerAuthCodeActivity</string>
+
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+         from https://console.developers.google.com/ -->
+    <string name="server_client_id">445191369134-atlsls0ru7svevfg6ag0lv5be9bk9vbp.apps.googleusercontent.com</string>
+    <string name="title_activity_artist_edit">Add/Edit artist</string>
+    <string name="title_activity_song_edit">Add/Edit song</string>
+    <string name="dialog_text_searching_picture">Searching for pictures&#8230;</string>
+    <string name="dialog_text_select_picture">Select a picture from the list.</string>
+    <string name="dialog_text_no_picture">No picture found.</string>
+    <string name="created_by">By</string>
+    <string name="bpm_note">\u2669 =</string>
+    <string name="modified_on">Modified on</string>
+    <string name="key_of">Key of</string>
+    <string name="title_activity_document_edit">Add/Edit document</string>
+    <string name="title_activity_file_edit">Add/Edit file</string>
+    <string name="title_activity_band_edit">Add/Edit band</string>
+    <string name="title_activity_musician_edit">Add/Edit musician</string>
+    <string name="title_activity_set_edit">Add/Edit set</string>
+    <string name="title_activity_set_song_picker">Select songs</string>
+    <string name="title_activity_midi_message_edit">Add/Edit MIDI message</string>
+    <string name="document_title_preferred">\u2713 Preferred</string>
+    <string name="document_midi_message_autosend">\u2713 Auto send on load</string>
+    <string name="title_activity_midi_message_picker">Select MIDI messages</string>
+    <string name="reorder">Reorder</string>
+    <string name="done">Done</string>
+
+    <string-array name="keys">
+        <item>C</item>
+        <item>Cm</item>
+        <item>C#</item>
+        <item>C#m</item>
+        <item>Db</item>
+        <item>Dbm</item>
+        <item>D</item>
+        <item>Dm</item>
+        <item>D#</item>
+        <item>D#m</item>
+        <item>Eb</item>
+        <item>Ebm</item>
+        <item>E</item>
+        <item>Em</item>
+        <item>F</item>
+        <item>Fm</item>
+        <item>F#</item>
+        <item>F#m</item>
+        <item>Gb</item>
+        <item>Gbm</item>
+        <item>G</item>
+        <item>Gm</item>
+        <item>G#</item>
+        <item>G#m</item>
+        <item>Ab</item>
+        <item>Abm</item>
+        <item>A</item>
+        <item>Am</item>
+        <item>A#</item>
+        <item>A#m</item>
+        <item>Bb</item>
+        <item>Bbm</item>
+        <item>B</item>
+        <item>Bm</item>
+    </string-array>
+
+    <string name="nnf_new_folder">New folder</string>
+    <string name="nnf_create_folder_error">Failed to create folder</string>
+    <string name="nnf_name">Name</string>
+    <string name="nnf_select_something_first">Please select something first</string>
+    <string name="nnf_need_valid_filename">Please enter or select a valid filename</string>
+    <string name="nnf_permission_external_write_denied">Permisson to access filesystem denied</string>
+    <string name="nnf_filename">Filename</string>
+
+    <string name="spotify_token_url">https://accounts.spotify.com/api/token</string>
+    <string name="spotify_client_id">bf4a0252445d44bd9fb9fe5db72e654e</string>
+    <string name="spotify_client_secret">1787958bf2164243a0f9813d2a4ba237</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+</resources>

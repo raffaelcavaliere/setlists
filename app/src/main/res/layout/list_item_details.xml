@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/window_margin"
+    android:clickable="true">
+
+    <TextView
+        android:id="@+id/item_details_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/window_margin"
+        android:paddingRight="@dimen/window_margin"
+        android:paddingTop="@dimen/window_margin"
+        android:text="Blue Suede Shoes"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/item_details_title_super"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/item_details_title"
+        android:layout_toEndOf="@+id/item_details_title"
+        android:layout_toStartOf="@+id/item_details_menu"
+        android:ellipsize="none"
+        android:maxLines="1"
+        android:paddingTop="@dimen/window_margin"
+        android:text="@string/document_title_preferred"
+        android:textColor="@color/colorAccent"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/item_details_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/window_margin"
+        android:paddingRight="@dimen/window_margin"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/item_details_title"
+        android:layout_toStartOf="@+id/item_details_menu"
+        android:text="Elvis Presley"
+        android:textSize="18sp"
+        android:textAlignment="viewStart" />
+
+    <TextView
+        android:id="@+id/item_details_comment_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/window_margin"
+        android:paddingRight="@dimen/window_margin"
+        android:textColor="@color/grey"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_below="@+id/item_details_subtitle"
+        android:text="120 BPM"
+        android:layout_alignParentStart="true"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_details_comment_center_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/window_margin"
+        android:paddingRight="@dimen/window_margin"
+        android:textColor="@color/white"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_below="@+id/item_details_subtitle"
+        android:text="Am"
+        android:visibility="invisible"
+        android:background="@drawable/rounded_corner"
+        android:layout_toEndOf="@id/item_details_comment_left"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_details_comment_center_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/window_margin"
+        android:paddingRight="@dimen/window_margin"
+        android:textColor="@color/grey"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_below="@+id/item_details_subtitle"
+        android:text="4:05"
+        android:visibility="invisible"
+        android:layout_toEndOf="@id/item_details_comment_center_left"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_details_comment_right"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:paddingLeft="@dimen/window_margin"
+        android:paddingRight="@dimen/window_margin"
+        android:textColor="@color/grey"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_below="@+id/item_details_subtitle"
+        android:text="Modified on Dec 3 2016"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="textEnd"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/item_details_menu"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_more_vert_black_24dp"
+        android:layout_height="30dp"
+        android:layout_width="30dp" />
+
+</RelativeLayout>

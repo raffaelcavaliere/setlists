@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_share_set"
+        android:id="@+id/set_context_menu_share" />
+    <item android:title="@string/menu_edit_set"
+        android:id="@+id/set_context_menu_edit" />
+    <item android:title="@string/menu_remove_set"
+        android:id="@+id/set_context_menu_remove" />
+</menu>

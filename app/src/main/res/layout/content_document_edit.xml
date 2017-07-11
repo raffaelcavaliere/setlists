@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_song_edit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.raffaelcavaliere.setlists.ui.document.TextEditorActivity"
+    tools:showIn="@layout/activity_document_edit">
+
+    <TextView
+        android:text="File"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editDocumentFileLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="No file selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editDocumentFileLabel"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editDocumentNoFileSelectedLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|italic" />
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/pdf_icon"
+        android:layout_below="@+id/editDocumentFileLabel"
+        android:id="@+id/editDocumentFileIcon"
+        android:visibility="invisible" />
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_mode_edit_black_24dp"
+        android:id="@+id/editDocumentFileEdit"
+        android:layout_toStartOf="@+id/editDocumentFileView"
+        android:tint="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:elevation="2dp"
+        android:visibility="invisible"
+        android:layout_below="@+id/editDocumentFileLabel" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_visibility_black_24dp"
+        android:id="@+id/editDocumentFileView"
+        android:layout_toStartOf="@+id/editDocumentFileBrowse"
+        android:tint="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:elevation="2dp"
+        android:visibility="invisible"
+        android:layout_below="@+id/editDocumentFileLabel" />
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_folder_open_black_24dp"
+        android:id="@+id/editDocumentFileBrowse"
+        android:tint="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:elevation="2dp"
+        android:layout_below="@+id/editDocumentFileLabel"
+        android:layout_alignEnd="@+id/editDocumentFileLabel" />
+
+
+    <TextView
+        android:text="Description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/editDocumentFileIcon"
+        android:id="@+id/editDocumentDescriptionLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:id="@+id/editDocumentDescription"
+        android:hint="Enter description"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/editDocumentDescriptionLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <TextView
+        android:text="MIDI messages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/editDocumentDescription"
+        android:id="@+id/editDocumentMidiMessagesLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/documentMidiMessageList"
+        android:layout_below="@+id/editDocumentMidiMessagesLabel"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="0dp">
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageButton
+        android:id="@+id/editDocumentAddMidiMessage"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editDocumentFileLabel"
+        android:layout_below="@+id/documentMidiMessageList"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="2dp"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
+
+</RelativeLayout>

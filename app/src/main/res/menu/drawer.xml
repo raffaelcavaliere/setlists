@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" android:id="@+id/group_mainmenu">
+        <item
+            android:id="@+id/nav_library"
+            android:icon="@drawable/ic_library_music_black_24dp"
+            android:title="@string/nav_library" />
+        <item
+            android:id="@+id/nav_midi"
+            android:icon="@drawable/midi_icon_black"
+            android:title="@string/nav_midi" />
+        <item
+            android:id="@+id/nav_bands"
+            android:icon="@drawable/ic_directions_bus_black_24dp"
+            android:title="@string/nav_bands" />
+        <item
+            android:id="@+id/nav_community"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="@string/nav_community" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/nav_search" />
+    </group>
+
+    <group android:checkableBehavior="none" android:id="@+id/group_preferences">
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/nav_settings" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/nav_help" />
+    </group>
+
+
+</menu>

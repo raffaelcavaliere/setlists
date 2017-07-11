@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_send_email"
+        android:id="@+id/musician_context_menu_email" />
+    <item android:title="@string/menu_edit_musician"
+        android:id="@+id/musician_context_menu_edit" />
+    <item android:title="@string/menu_remove_musician"
+        android:id="@+id/musician_context_menu_remove" />
+</menu>

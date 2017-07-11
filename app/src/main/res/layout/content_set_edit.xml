@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_song_edit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.raffaelcavaliere.setlists.ui.library.SetEditActivity"
+    tools:showIn="@layout/activity_set_edit">
+
+    <TextView
+        android:text="Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editSetNameLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:id="@+id/editSetName"
+        android:hint="Enter name"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/editSetNameLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <TextView
+        android:text="Band"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editSetBandLabel"
+        android:layout_below="@+id/editSetName"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:id="@+id/editSetBand"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/editSetNewBand"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_below="@+id/editSetBandLabel" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSetNewBand"
+        android:layout_alignBottom="@+id/editSetBand"
+        android:layout_alignEnd="@+id/editSetBandLabel"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        style="@android:style/Widget.Holo.ImageButton"
+        android:tint="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="2dp" />
+
+    <TextView
+        android:text="Location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editSetBand"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/editSetLocationLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="normal|bold" />
+
+    <EditText
+        android:text="Montreal"
+        android:hint="Enter location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSetLocation"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/editSetLocationLabel"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:inputType="text"
+        android:maxLines="1" />
+
+</RelativeLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_set_autosend_document_midi_message"
+        android:id="@+id/document_midi_message_context_menu_set_autosend" />
+    <item android:title="@string/menu_remove_autosend_document_midi_message"
+        android:id="@+id/document_midi_message_context_menu_remove_autosend" />
+    <item android:title="@string/menu_edit_midi_message"
+        android:id="@+id/document_midi_message_context_menu_edit" />
+    <item android:title="@string/menu_remove_document_midi_message"
+        android:id="@+id/document_midi_message_context_menu_remove" />
+</menu>
