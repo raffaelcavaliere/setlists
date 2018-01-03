@@ -2,8 +2,11 @@ package com.raffaelcavaliere.setlists.ui.document;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.midi.MidiDevice;
 import android.media.midi.MidiDeviceInfo;
 import android.media.midi.MidiInputPort;
@@ -40,8 +43,14 @@ import com.raffaelcavaliere.setlists.data.SetlistsDbItemDocumentMidiMessage;
 import com.raffaelcavaliere.setlists.data.SetlistsDbItemSetSong;
 import com.raffaelcavaliere.setlists.data.SetlistsDbSetSongLoader;
 import com.raffaelcavaliere.setlists.ui.MainActivity;
+import com.raffaelcavaliere.setlists.ui.library.DocumentEditActivity;
+import com.raffaelcavaliere.setlists.utils.FilteredFilePickerFragment;
 import com.raffaelcavaliere.setlists.utils.MidiHelper;
+import com.raffaelcavaliere.setlists.utils.Storage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -54,7 +63,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
     private ViewPager viewPager;
     private PagerTitleStrip titleStrip;
     private Toolbar toolbar;
-    private long set;
+    private String set;
     private int startPosition;
     private Adapter fragmentAdapter;
     private ToggleButton toggleMetronome;
@@ -66,6 +75,8 @@ public class SwipeViewerActivity extends AppCompatActivity implements
 
     private final int TEMPO_MAX_DELAY = 1500;
     private final int TEMPO_MIN_DELAY = 250;
+    private final int REQUEST_EDIT_DOCUMENT = 1002;
+    private final int REQUEST_EDIT_FILE = 1003;
 
     private ArrayList<SetlistsDbItemSetSong> songs = new ArrayList<>();
     private ArrayList<SetlistsDbItemDocumentMidiMessage> midiMessages = new ArrayList<>();
@@ -85,8 +96,12 @@ public class SwipeViewerActivity extends AppCompatActivity implements
         setTitle(extras.getString("title"));
         toolbar.setSubtitle(extras.getString("description"));
 
-        set = extras.getLong("set");
+        set = extras.getString("set");
         startPosition = extras.getInt("position", 0);
+
+        if (savedInstanceState != null) {
+            startPosition = savedInstanceState.getInt("position", 0);
+        }
 
         viewPager = (ViewPager) findViewById(R.id.swipe_viewer_pager);
         fragmentAdapter = new Adapter(getSupportFragmentManager());
@@ -101,6 +116,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
 
             @Override
             public void onPageSelected(int position) {
+                startPosition = position;
                 SetlistsDbItemSetSong selected = songs.get(position);
                 setSongLayout(selected);
             }
@@ -182,11 +198,13 @@ public class SwipeViewerActivity extends AppCompatActivity implements
                 }
             }, handler);
         }
+
+        getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("position", viewPager.getCurrentItem());
+        outState.putInt("position", startPosition);
         super.onSaveInstanceState(outState);
     }
 
@@ -231,8 +249,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
-        getSupportLoaderManager().restartLoader(MainActivity.DOCUMENT_MIDI_MESSAGES_LOADER, null, this);
+     //   getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
     }
 
     @Override
@@ -265,8 +282,8 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             int sequence = 1;
             if (cursor.moveToFirst()) {
                 do {
-                    songs.add(new SetlistsDbItemSetSong(cursor.getLong(0), cursor.getLong(1), cursor.getLong(2), sequence,
-                            cursor.getLong(4), cursor.getInt(5), cursor.getLong(6), cursor.getString(7),
+                    songs.add(new SetlistsDbItemSetSong(cursor.getString(0), cursor.getString(1), cursor.getString(2), sequence,
+                            cursor.getString(4), cursor.getInt(5), cursor.getString(6), cursor.getString(7),
                             cursor.getString(8), cursor.getString(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12),
                             cursor.getInt(13), cursor.getString(14)));
                     sequence++;
@@ -277,19 +294,19 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             this.fragmentAdapter.setData(songs);
             this.fragmentAdapter.notifyDataSetChanged();
 
-            if (startPosition > 0)
+            if (startPosition > 0) {
                 this.viewPager.setCurrentItem(startPosition, false);
-            else {
-                SetlistsDbItemSetSong selected = songs.get(startPosition);
-                setSongLayout(selected);
             }
+
+            getSupportLoaderManager().restartLoader(MainActivity.DOCUMENT_MIDI_MESSAGES_LOADER, null, this);
+
         } else if (cursorLoader.getId() == MainActivity.DOCUMENT_MIDI_MESSAGES_LOADER) {
             midiMessages.clear();
             if (cursor.moveToFirst()) {
                 do {
                     midiMessages.add(new SetlistsDbItemDocumentMidiMessage(
-                            cursor.getLong(0),
-                            cursor.getLong(1),
+                            cursor.getString(0),
+                            cursor.getString(1),
                             cursor.getString(4),
                             cursor.getInt(5),
                             cursor.getInt(6),
@@ -299,6 +316,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
                     );
                 } while (cursor.moveToNext());
             }
+            setSongLayout(songs.get(startPosition));
         }
     }
 
@@ -361,6 +379,11 @@ public class SwipeViewerActivity extends AppCompatActivity implements
         }
 
         @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
         public Fragment getItem(int position)
         {
             SetlistsDbItemSetSong item = this.items.get(position);
@@ -395,7 +418,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.transpose_only_document_menu, menu);
+        getMenuInflater().inflate(R.menu.swipe_viewer_menu, menu);
         return true;
     }
 
@@ -421,8 +444,30 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             args.putInt("mode", transposeMode);
             dialog.setArguments(args);
             dialog.show(getSupportFragmentManager(), "dialog");
-        } else {
+        } else if (id == R.id.file_menu_transpose) {
             Toast.makeText(this, "This document can't be tranposed", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.document_context_menu_edit && type > 0) {
+            Intent editDocumentIntent = new Intent(this, DocumentEditActivity.class);
+            editDocumentIntent.putExtra(DocumentEditActivity.EXTRA_MODE, DocumentEditActivity.EXTRA_MODE_EDIT);
+            editDocumentIntent.putExtra("id", selected.getDocument());
+            editDocumentIntent.putExtra("song", selected.getSong());
+            editDocumentIntent.putExtra("title", selected.getTitle());
+            editDocumentIntent.putExtra("description", selected.getDescription());
+            editDocumentIntent.putExtra("type", selected.getType());
+            editDocumentIntent.putExtra("tempo", selected.getTempo());
+            startActivityForResult(editDocumentIntent, REQUEST_EDIT_DOCUMENT);
+            return true;
+        } else if (id == R.id.document_context_menu_edit) {
+            Toast.makeText(this, "This document can't be edited", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.file_menu_edit &&
+                (selected.getType() == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_TEXT ||
+                 selected.getType() == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_CHORDPRO)) {
+            Intent editDocumentIntent = new Intent(this, TextEditorActivity.class);
+            editDocumentIntent.putExtra("path", getFilesDir().getPath() + "/" + String.valueOf(selected.getDocument()));
+            startActivityForResult(editDocumentIntent, REQUEST_EDIT_FILE);
+            return true;
+        } else if (id == R.id.file_menu_edit) {
+            Toast.makeText(this, "This file can't be edited", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -441,6 +486,25 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
         } catch (Exception ex) {
             Log.d("ERROR SAVING VERSION", ex.toString());
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_EDIT_DOCUMENT:
+                if (resultCode == RESULT_OK) {
+                    Log.d("RETURNED RESULT", "EDIT DOCUMENT OK");
+                    getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
+                }
+                break;
+            case REQUEST_EDIT_FILE:
+                if (resultCode == RESULT_OK) {
+                    String returnedResult = data.getData().toString();
+                    Log.d("RETURNED RESULT", returnedResult);
+                    getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
+                }
+                break;
         }
     }
 

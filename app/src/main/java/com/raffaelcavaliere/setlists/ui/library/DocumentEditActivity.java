@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import com.raffaelcavaliere.setlists.utils.Storage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 public class DocumentEditActivity extends AppCompatActivity
     implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -54,11 +56,13 @@ public class DocumentEditActivity extends AppCompatActivity
     private Button saveButton;
     private Button cancelButton;
     private ImageButton addMessageButton;
+    private CheckBox checkboxIsPreferred;
     private int type;
     private String title;
     private File fileToImport;
-    private long id = 0;
-    private long song;
+    private String id;
+    private String song;
+    private boolean isPreferred;
     private int tempo;
     private String description;
 
@@ -67,10 +71,10 @@ public class DocumentEditActivity extends AppCompatActivity
     private final int REQUEST_ADD_MIDI_MESSAGE = 1005;
 
     private int mode;
-    final static String EXTRA_MODE = "mode";
-    final static int EXTRA_MODE_NEW = 0;
-    final static int EXTRA_MODE_EDIT = 1;
-    final static int EXTRA_MODE_DUPLICATE = 2;
+    public final static String EXTRA_MODE = "mode";
+    public final static int EXTRA_MODE_NEW = 0;
+    public final static int EXTRA_MODE_EDIT = 1;
+    public final static int EXTRA_MODE_DUPLICATE = 2;
 
     private RecyclerView mRecyclerView;
 
@@ -85,8 +89,9 @@ public class DocumentEditActivity extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         mode = extras.getInt(EXTRA_MODE, 0);
 
-        song = getIntent().getExtras().getLong("song", 0);
-        id = getIntent().getExtras().getLong("id", 0);
+        song = getIntent().getExtras().getString("song", null);
+        isPreferred = getIntent().getExtras().getBoolean("isPreferred", true);
+        id = getIntent().getExtras().getString("id", null);
         title = getIntent().getExtras().getString("title", "");
         tempo = getIntent().getExtras().getInt("tempo", 0);
 
@@ -100,6 +105,7 @@ public class DocumentEditActivity extends AppCompatActivity
         editButton = (ImageButton) findViewById(R.id.editDocumentFileEdit);
         browseButton = (ImageButton) findViewById(R.id.editDocumentFileBrowse);
         addMessageButton = (ImageButton) findViewById(R.id.editDocumentAddMidiMessage);
+        checkboxIsPreferred = (CheckBox) findViewById(R.id.editDocumentIsPreferred);
 
         type = extras.getInt("type", 0);
 
@@ -118,7 +124,7 @@ public class DocumentEditActivity extends AppCompatActivity
                 Intent documentIntent = new Intent(v.getContext(), ViewerActivity.class);
                 if (fileToImport != null)
                     documentIntent.putExtra("path", fileToImport.getPath());
-                else if (id > 0)
+                else if (id != null)
                     documentIntent.putExtra("path", getFilesDir().getPath() + "/" + String.valueOf(id));
 
                 documentIntent.putExtra("type", type);
@@ -136,8 +142,8 @@ public class DocumentEditActivity extends AppCompatActivity
                 Intent editDocumentIntent = new Intent(v.getContext(), TextEditorActivity.class);
                 if (fileToImport != null)
                     editDocumentIntent.putExtra("path", fileToImport.getPath());
-                else if (id > 0)
-                    editDocumentIntent.putExtra("path", getFilesDir().getPath() + "/" + String.valueOf(id));
+                else if (id != null)
+                    editDocumentIntent.putExtra("path", getFilesDir().getPath() + "/" + id);
                 startActivity(editDocumentIntent);
             }
         });
@@ -154,6 +160,8 @@ public class DocumentEditActivity extends AppCompatActivity
                 startActivityForResult(filePickerIntent, REQUEST_SELECT_FILE);
             }
         });
+
+        checkboxIsPreferred.setChecked(isPreferred);
 
         addMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,17 +186,15 @@ public class DocumentEditActivity extends AppCompatActivity
                         if (fileToImport != null) {
                             importFile();
                         }
-                        setResult(RESULT_OK, data);
-
                     } else {
                         Uri result = addDocument(textDescription.getText().toString(), type);
                         data.setData(result);
-                        id = Long.valueOf(result.getLastPathSegment());
+                        id = result.getLastPathSegment();
                         if (fileToImport != null) {
                             importFile();
                         }
-                        setResult(RESULT_OK, data);
                     }
+                    setResult(RESULT_OK, data);
                     finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please provide a description", Toast.LENGTH_SHORT).show();
@@ -252,7 +258,7 @@ public class DocumentEditActivity extends AppCompatActivity
 
     private void importFile () {
         try {
-            Storage.copy(fileToImport, new File(getFilesDir().getPath() + "/" + String.valueOf(id)));
+            Storage.copy(fileToImport, new File(getFilesDir().getPath() + "/" + id));
             Log.d("IMPORT", fileToImport.getPath() + " > " + getFilesDir().getPath() + "/" + String.valueOf(id));
         } catch (IOException ex) {
             Log.d("EXCEPTION", ex.toString());
@@ -320,6 +326,8 @@ public class DocumentEditActivity extends AppCompatActivity
 
     private Uri addDocument(String description, int type) {
         ContentValues values = new ContentValues();
+        id = UUID.randomUUID().toString();
+        values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID, id);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DESCRIPTION, description);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG, song);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_AUTHOR, "raffaelcavaliere");
@@ -328,7 +336,12 @@ public class DocumentEditActivity extends AppCompatActivity
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         Uri result = getContentResolver().insert(SetlistsDbContract.SetlistsDbDocumentEntry.CONTENT_URI, values);
-        id = Long.valueOf(result.getLastPathSegment());
+
+        if (isPreferred && checkboxIsPreferred.isChecked() == false)
+            unsetDocumentAsPreferred();
+        else if (checkboxIsPreferred.isChecked())
+            setDocumentAsPreferred();
+
         return result;
     }
 
@@ -338,8 +351,35 @@ public class DocumentEditActivity extends AppCompatActivity
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TYPE, type <= 0 ? null : type);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
-        return getContentResolver().update(SetlistsDbContract.SetlistsDbDocumentEntry.buildSetlistsDbDocumentUri(id), values,
+        int result = getContentResolver().update(SetlistsDbContract.SetlistsDbDocumentEntry.buildSetlistsDbDocumentUri(id), values,
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+
+        if (isPreferred && checkboxIsPreferred.isChecked() == false)
+            unsetDocumentAsPreferred();
+        else if (checkboxIsPreferred.isChecked())
+            setDocumentAsPreferred();
+
+        return result;
+    }
+
+    private void setDocumentAsPreferred() {
+        ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, id);
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
+        if (getContentResolver().update(SetlistsDbContract.SetlistsDbSongEntry.buildSetlistsDbSongUri(song),
+                values, SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ID + "=?", new String[] {String.valueOf(song)}) > 0) {
+            isPreferred = true;
+        }
+    }
+
+    private void unsetDocumentAsPreferred() {
+        ContentValues values = new ContentValues();
+        values.putNull(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT);
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
+        if (getContentResolver().update(SetlistsDbContract.SetlistsDbSongEntry.buildSetlistsDbSongUri(song),
+                values, SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ID + "=?", new String[] {String.valueOf(song)}) > 0) {
+            isPreferred = false;
+        }
     }
 
     public class Adapter extends RecyclerView.Adapter<DocumentEditActivity.ViewHolder> {
@@ -364,7 +404,7 @@ public class DocumentEditActivity extends AppCompatActivity
         @Override
         public void onBindViewHolder(DocumentEditActivity.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getLong(2), mCursor.getInt(3), mCursor.getString(4),
+            holder.bindData(mCursor.getString(0), mCursor.getString(2), mCursor.getInt(3), mCursor.getString(4),
                     mCursor.getInt(5), mCursor.getInt(6), mCursor.getInt(7), mCursor.getInt(8));
         }
 
@@ -383,8 +423,8 @@ public class DocumentEditActivity extends AppCompatActivity
         private TextView textChannel;
         private ImageButton btnMenu;
 
-        private long id;
-        private long message;
+        private String id;
+        private String message;
         private int autosend;
         private String name;
         private int channel;
@@ -392,7 +432,7 @@ public class DocumentEditActivity extends AppCompatActivity
         private int data1;
         private int data2;
 
-        public void bindData(long id, long message, int autosend, String name, int channel, int status, int data1, int data2) {
+        public void bindData(String id, String message, int autosend, String name, int channel, int status, int data1, int data2) {
             this.id = id;
             this.message = message;
             this.autosend = autosend;

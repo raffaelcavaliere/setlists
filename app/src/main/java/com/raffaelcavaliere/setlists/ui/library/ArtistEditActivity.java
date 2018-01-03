@@ -18,12 +18,15 @@ import android.widget.Toast;
 import com.raffaelcavaliere.setlists.R;
 import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 
+import java.util.Date;
+import java.util.UUID;
+
 public class ArtistEditActivity extends AppCompatActivity {
 
     private TextView txtName, txtUrl;
     private Button saveButton;
     private Button cancelButton;
-    private long id = 0;
+    private String id = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class ArtistEditActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null)
-            id = getIntent().getExtras().getLong("id", 0);
+            id = getIntent().getExtras().getString("id", null);
 
         txtName = (TextView) findViewById(R.id.editArtistName);
         if (extras != null) {
@@ -58,7 +61,7 @@ public class ArtistEditActivity extends AppCompatActivity {
 
                 if (txtName.getText().length() > 0) {
                     Intent data = new Intent();
-                    if (id > 0) {
+                    if (id != null) {
                         int result = updateArtist(txtName.getText().toString(), txtUrl.getText().toString());
                         setResult(RESULT_OK, data);
                     } else {
@@ -115,16 +118,21 @@ public class ArtistEditActivity extends AppCompatActivity {
 
     public Uri addArtist(String name, String photo) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_NAME, name);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO, photo);
+        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
+        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().insert(SetlistsDbContract.SetlistsDbArtistEntry.CONTENT_URI, values);
     }
 
     public int updateArtist(String name, String photo) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID, id);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_NAME, name);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO, photo);
+        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().update(SetlistsDbContract.SetlistsDbArtistEntry.buildSetlistsDbArtistUri(id), values,
                 SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)});

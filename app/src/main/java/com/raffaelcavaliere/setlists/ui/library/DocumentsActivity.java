@@ -37,10 +37,10 @@ public class DocumentsActivity extends AppCompatActivity implements
     private Toolbar toolbar;
     private RecyclerView mRecyclerView;
     private TextView textNothingToShow;
-    private long song;
-    private long preferred;
+    private String song;
+    private String preferred;
     private int tempo;
-    private int selectedDocument = 0;
+    private int position = 0;
 
     private static final int REQUEST_ADD_DOCUMENT = 3000;
     private static final int REQUEST_EDIT_DOCUMENT = 3001;
@@ -57,8 +57,8 @@ public class DocumentsActivity extends AppCompatActivity implements
         Bundle extras = getIntent().getExtras();
         setTitle(extras.getString("title"));
 
-        song = extras.getLong("song");
-        preferred = extras.getLong("preferred", 0);
+        song = extras.getString("song");
+        preferred = extras.getString("preferred", null);
         tempo = extras.getInt("tempo", 0);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.document_list);
@@ -70,6 +70,7 @@ public class DocumentsActivity extends AppCompatActivity implements
                 Intent newVersionIntent = new Intent(view.getContext(), DocumentEditActivity.class);
                 newVersionIntent.putExtra(DocumentEditActivity.EXTRA_MODE, DocumentEditActivity.EXTRA_MODE_NEW);
                 newVersionIntent.putExtra("song", song);
+                newVersionIntent.putExtra("isPreferred", false);
                 startActivityForResult(newVersionIntent, REQUEST_ADD_DOCUMENT);
             }
         });
@@ -97,17 +98,20 @@ public class DocumentsActivity extends AppCompatActivity implements
             case REQUEST_ADD_DOCUMENT:
                 if (resultCode == RESULT_OK) {
                     String returnedResult = data.getData().toString();
+                    refreshPreferredDocument();
                     Log.d("RETURNED RESULT", returnedResult);
                 }
                 break;
             case REQUEST_EDIT_DOCUMENT:
                 if (resultCode == RESULT_OK) {
+                    refreshPreferredDocument();
                     Log.d("RETURNED RESULT", "OK UPDATE DOCUMENT");
                 }
                 break;
             case REQUEST_DUPLICATE_DOCUMENT:
                 if (resultCode == RESULT_OK) {
                     String returnedResult = data.getData().toString();
+                    refreshPreferredDocument();
                     Log.d("RETURNED RESULT", returnedResult);
                 }
                 break;
@@ -133,7 +137,7 @@ public class DocumentsActivity extends AppCompatActivity implements
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.scrollToPosition(selectedDocument);
+            mRecyclerView.scrollToPosition(position);
         }
     }
 
@@ -143,16 +147,39 @@ public class DocumentsActivity extends AppCompatActivity implements
             mRecyclerView.setAdapter(null);
     }
 
+    private void refreshPreferredDocument() {
+        Cursor songCursor = getContentResolver().query(SetlistsDbContract.SetlistsDbSongEntry.buildSetlistsDbSongUri(song),
+            null, null, null, null);
+
+        if (songCursor.moveToFirst()) {
+            if (songCursor.isNull(songCursor.getColumnIndex(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT))) {
+                Cursor documentCursor = getContentResolver().query(SetlistsDbContract.SetlistsDbDocumentEntry.buildSetlistsDbSongDocumentsUri(song),
+                        null, null, null, null);
+                if (documentCursor.moveToFirst()) {
+                    preferred = documentCursor.getString(documentCursor.getColumnIndex(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID));
+                    ContentValues values = new ContentValues();
+                    values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, preferred);
+                    values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
+                    if (getContentResolver().update(SetlistsDbContract.SetlistsDbSongEntry.buildSetlistsDbSongUri(song),
+                            values, SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ID + "=?", new String[] {String.valueOf(song)}) > 0) {
+                        getSupportLoaderManager().restartLoader(MainActivity.DOCUMENTS_LOADER, null, DocumentsActivity.this);
+                    }
+                } else {
+                    preferred = null;
+                }
+                documentCursor.close();
+            }
+            else
+                preferred = songCursor.getString(songCursor.getColumnIndex(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT));
+        }
+
+        songCursor.close();
+    }
+
     private class Adapter extends RecyclerView.Adapter<DocumentsActivity.ViewHolder> {
         private Cursor mCursor;
         public Adapter(Cursor cursor) {
             mCursor = cursor;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
         }
 
         @Override
@@ -165,7 +192,7 @@ public class DocumentsActivity extends AppCompatActivity implements
         @Override
         public void onBindViewHolder(DocumentsActivity.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getString(2), mCursor.getLong(3), mCursor.getString(9),
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3), mCursor.getString(9),
                     mCursor.getInt(4), mCursor.getInt(5), mCursor.getInt(6), new Date(mCursor.getLong(8) * 1000));
         }
 
@@ -183,8 +210,8 @@ public class DocumentsActivity extends AppCompatActivity implements
         private TextView textDateModified;
         private ImageButton btnMenu;
 
-        private long id;
-        private long song;
+        private String id;
+        private String song;
         private String title;
         private String author;
         private String description;
@@ -193,7 +220,7 @@ public class DocumentsActivity extends AppCompatActivity implements
         private int type;
         private Date dateModified;
 
-        public void bindData(long id, String description, String author, long song, String title, int type, int transpose, int transposeMode, Date dateModified) {
+        public void bindData(String id, String description, String author, String song, String title, int type, int transpose, int transposeMode, Date dateModified) {
             this.id = id;
             this.song = song;
             this.title = title == null ? "" : title;
@@ -228,7 +255,7 @@ public class DocumentsActivity extends AppCompatActivity implements
                 textDateModified.setText(getResources().getString(R.string.modified_on) + " " + dateModifiedFormatted);
             }
 
-            if (id == preferred) {
+            if (id.equals(preferred)) {
                 textPreferred.setText(getText(R.string.document_title_preferred));
                 textPreferred.setVisibility(View.VISIBLE);
             }
@@ -246,7 +273,7 @@ public class DocumentsActivity extends AppCompatActivity implements
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedDocument = getAdapterPosition();
+                    position = getAdapterPosition();
                     Intent documentIntent = new Intent(v.getContext(), ViewerActivity.class);
                     documentIntent.putExtra("id", id);
                     documentIntent.putExtra("path", getFilesDir().getPath() + "/" + String.valueOf(id));
@@ -273,7 +300,7 @@ public class DocumentsActivity extends AppCompatActivity implements
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.document_context_menu_preferred:
-                                    selectedDocument = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     ContentValues values = new ContentValues();
                                     values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, id);
                                     values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
@@ -284,7 +311,7 @@ public class DocumentsActivity extends AppCompatActivity implements
                                     }
                                     return true;
                                 case R.id.document_context_menu_edit:
-                                    selectedDocument = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editDocumentIntent = new Intent(v.getContext(), DocumentEditActivity.class);
                                     editDocumentIntent.putExtra(DocumentEditActivity.EXTRA_MODE, DocumentEditActivity.EXTRA_MODE_EDIT);
                                     editDocumentIntent.putExtra("id", id);
@@ -293,10 +320,11 @@ public class DocumentsActivity extends AppCompatActivity implements
                                     editDocumentIntent.putExtra("description", description);
                                     editDocumentIntent.putExtra("type", type);
                                     editDocumentIntent.putExtra("tempo", tempo);
+                                    editDocumentIntent.putExtra("isPreferred", id == preferred);
                                     startActivityForResult(editDocumentIntent, REQUEST_EDIT_DOCUMENT);
                                     return true;
                                 case R.id.document_context_menu_duplicate:
-                                    selectedDocument = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent duplicateDocumentIntent = new Intent(v.getContext(), DocumentEditActivity.class);
                                     duplicateDocumentIntent.putExtra(DocumentEditActivity.EXTRA_MODE, DocumentEditActivity.EXTRA_MODE_DUPLICATE);
                                     duplicateDocumentIntent.putExtra("id", id);
@@ -304,10 +332,11 @@ public class DocumentsActivity extends AppCompatActivity implements
                                     duplicateDocumentIntent.putExtra("description", description);
                                     duplicateDocumentIntent.putExtra("type", type);
                                     duplicateDocumentIntent.putExtra("tempo", tempo);
+                                    duplicateDocumentIntent.putExtra("isPreferred", false);
                                     startActivityForResult(duplicateDocumentIntent, REQUEST_DUPLICATE_DOCUMENT);
                                     return true;
                                 case R.id.document_context_menu_remove:
-                                    selectedDocument = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_document))
                                             .setMessage(getResources().getString(R.string.dialog_remove_document))
@@ -315,8 +344,10 @@ public class DocumentsActivity extends AppCompatActivity implements
                                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     if (getContentResolver().delete(SetlistsDbContract.SetlistsDbDocumentEntry.buildSetlistsDbDocumentUri(id),
-                                                            SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)}) > 0)
+                                                            SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)}) > 0) {
+                                                        refreshPreferredDocument();
                                                         getSupportLoaderManager().restartLoader(MainActivity.DOCUMENTS_LOADER, null, DocumentsActivity.this);
+                                                    }
                                                 }})
                                             .setNegativeButton(android.R.string.no, null)
                                             .show();

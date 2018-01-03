@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.raffaelcavaliere.setlists.R;
 import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 
+import java.util.Date;
+import java.util.UUID;
+
 public class MusicianEditActivity extends AppCompatActivity {
 
     private TextView textName;
@@ -22,8 +25,8 @@ public class MusicianEditActivity extends AppCompatActivity {
     private TextView textInstrument;
     private Button saveButton;
     private Button cancelButton;
-    private long id = 0;
-    private long band;
+    private String id = null;
+    private String band;
 
     private int mode;
     final static String EXTRA_MODE = "mode";
@@ -41,8 +44,8 @@ public class MusicianEditActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mode = extras.getInt(EXTRA_MODE, 0);
 
-        band = extras.getLong("band", 0);
-        id = extras.getLong("id", 0);
+        band = extras.getString("band", null);
+        id = extras.getString("id", null);
 
         String name = extras.getString("name", "");
         textName = (TextView) findViewById(R.id.editMusicianName);
@@ -75,7 +78,7 @@ public class MusicianEditActivity extends AppCompatActivity {
                     } else {
                         Uri result = addMusician(name, email, instrument);
                         data.setData(result);
-                        id = Long.valueOf(result.getLastPathSegment());
+                        id = result.getLastPathSegment();
                         setResult(RESULT_OK, data);
                     }
                     finish();
@@ -107,10 +110,13 @@ public class MusicianEditActivity extends AppCompatActivity {
 
     private Uri addMusician(String name, String email, String instrument) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_NAME, name);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL, email);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT, instrument);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_BAND, band);
+        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
+        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().insert(SetlistsDbContract.SetlistsDbMusicianEntry.CONTENT_URI, values);
     }
@@ -121,6 +127,7 @@ public class MusicianEditActivity extends AppCompatActivity {
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL, email);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT, instrument);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_BAND, band);
+        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().update(SetlistsDbContract.SetlistsDbMusicianEntry.buildSetlistsDbMusicianUri(id), values,
                 SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)});

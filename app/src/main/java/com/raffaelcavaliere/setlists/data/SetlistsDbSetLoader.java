@@ -13,11 +13,11 @@ public class SetlistsDbSetLoader extends CursorLoader {
         return new SetlistsDbSetLoader(context, SetlistsDbContract.SetlistsDbSetEntry.CONTENT_URI);
     }
 
-    public static SetlistsDbSetLoader newInstanceForItemId(Context context, long itemId) {
+    public static SetlistsDbSetLoader newInstanceForItemId(Context context, String itemId) {
         return new SetlistsDbSetLoader(context, SetlistsDbContract.SetlistsDbSetEntry.buildSetlistsDbSetUri(itemId));
     }
 
-    public static SetlistsDbSetLoader newInstanceForBandId(Context context, long bandId) {
+    public static SetlistsDbSetLoader newInstanceForBandId(Context context, String bandId) {
         return new SetlistsDbSetLoader(context, SetlistsDbContract.SetlistsDbSetEntry.buildSetlistsDbBandSetsUri(bandId));
     }
 

@@ -5,11 +5,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SetlistsDbItemSetSong implements Parcelable {
-    private long id;
-    private long set;
-    private long song;
-    private long document;
-    private long artist;
+    private String id;
+    private String set;
+    private String song;
+    private String document;
+    private String artist;
     private String title;
     private String description;
     private String key;
@@ -21,7 +21,7 @@ public class SetlistsDbItemSetSong implements Parcelable {
     private int transpose;
     private int transposeMode;
 
-    public SetlistsDbItemSetSong(long id, long set, long song, int sequence, long document, int type, long artist,
+    public SetlistsDbItemSetSong(String id, String set, String song, int sequence, String document, int type, String artist,
                                  String title, String description, String key, int tempo, int duration, int transpose,
                                  int tranposeMode, String notes) {
         this.id = id;
@@ -41,26 +41,26 @@ public class SetlistsDbItemSetSong implements Parcelable {
         this.notes = notes;
     }
 
-    public long getId() { return this.id; }
-    public void setId(long id) { this.id = id; }
+    public String getId() { return this.id; }
+    public void setId(String id) { this.id = id; }
 
-    public long getSet() { return this.set; }
-    public void setSet(long set) { this.set = set; }
+    public String getSet() { return this.set; }
+    public void setSet(String set) { this.set = set; }
 
-    public long getSong() { return this.song; }
-    public void setSong(long song) { this.song = song; }
+    public String getSong() { return this.song; }
+    public void setSong(String song) { this.song = song; }
 
     public int getSequence() { return this.sequence; }
     public void setSequence(int sequence) { this.sequence = sequence; }
 
-    public long getDocument() { return this.document; }
-    public void setDocument(long document) { this.document = document; }
+    public String getDocument() { return this.document; }
+    public void setDocument(String document) { this.document = document; }
 
     public int getType() { return this.type; }
     public void setType(int type) { this.type = type; }
 
-    public long getArtist() { return this.artist; }
-    public void setArtist(long artist) { this.artist = artist; }
+    public String getArtist() { return this.artist; }
+    public void setArtist(String artist) { this.artist = artist; }
 
     public String getTitle() { return this.title; }
     public void setTitle(String title) { this.title = title; }
@@ -88,13 +88,13 @@ public class SetlistsDbItemSetSong implements Parcelable {
 
     private SetlistsDbItemSetSong(Parcel in) {
         Bundle bundle = in.readBundle();
-        this.id = bundle.getLong("id");
-        this.set = bundle.getLong("set");
-        this.song = bundle.getLong("song");
+        this.id = bundle.getString("id");
+        this.set = bundle.getString("set");
+        this.song = bundle.getString("song");
         this.sequence = bundle.getInt("sequence");
-        this.document = bundle.getLong("document");
+        this.document = bundle.getString("document");
         this.type = bundle.getInt("type");
-        this.artist = bundle.getLong("artist");
+        this.artist = bundle.getString("artist");
         this.title = bundle.getString("title");
         this.description = bundle.getString("description");
         this.key = bundle.getString("key");
@@ -111,13 +111,13 @@ public class SetlistsDbItemSetSong implements Parcelable {
 
     public void writeToParcel(Parcel out, int flags) {
         Bundle bundle = new Bundle();
-        bundle.putLong("id", id);
-        bundle.putLong("set", set);
-        bundle.putLong("song", song);
+        bundle.putString("id", id);
+        bundle.putString("set", set);
+        bundle.putString("song", song);
         bundle.putInt("sequence", sequence);
-        bundle.putLong("document", document);
+        bundle.putString("document", document);
         bundle.putInt("type", type);
-        bundle.putLong("artist", artist);
+        bundle.putString("artist", artist);
         bundle.putString("title", title);
         bundle.putString("description", description);
         bundle.putString("key", key);

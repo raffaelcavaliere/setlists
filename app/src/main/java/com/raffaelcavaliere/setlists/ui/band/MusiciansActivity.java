@@ -30,8 +30,8 @@ public class MusiciansActivity extends AppCompatActivity implements
 
     private RecyclerView mRecyclerView;
     private TextView textNothingToShow;
-    private long band;
-    private int selectedMusician = 0;
+    private String band;
+    private int position = 0;
 
     private static final int REQUEST_ADD_MUSICIAN = 4000;
     private static final int REQUEST_EDIT_MUSICIAN = 4001;
@@ -47,7 +47,7 @@ public class MusiciansActivity extends AppCompatActivity implements
         Bundle extras = getIntent().getExtras();
         setTitle(extras.getString("name"));
 
-        band = extras.getLong("band");
+        band = extras.getString("band");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.musician_list);
 
@@ -115,7 +115,7 @@ public class MusiciansActivity extends AppCompatActivity implements
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.scrollToPosition(selectedMusician);
+            mRecyclerView.scrollToPosition(position);
         }
     }
 
@@ -147,7 +147,7 @@ public class MusiciansActivity extends AppCompatActivity implements
         @Override
         public void onBindViewHolder(MusiciansActivity.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3), mCursor.getLong(4), mCursor.getString(5));
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3), mCursor.getString(4), mCursor.getString(5));
         }
 
         @Override
@@ -162,14 +162,14 @@ public class MusiciansActivity extends AppCompatActivity implements
         private TextView textInstrument;
         private ImageButton btnMenu;
 
-        private long id;
-        private long band;
+        private String id;
+        private String band;
         private String name;
         private String email;
         private String instrument;
         private String bandName;
 
-        public void bindData(long id, String name, String email, String instrument, long band, String bandName) {
+        public void bindData(String id, String name, String email, String instrument, String band, String bandName) {
             this.id = id;
             this.name = name;
             this.email = email;
@@ -207,7 +207,7 @@ public class MusiciansActivity extends AppCompatActivity implements
                                     startActivity(Intent.createChooser(emailMusicianIntent, "Send email"));
                                     return true;
                                 case R.id.musician_context_menu_edit:
-                                    selectedMusician = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editMusicianIntent = new Intent(v.getContext(), MusicianEditActivity.class);
                                     editMusicianIntent.putExtra(MusicianEditActivity.EXTRA_MODE, MusicianEditActivity.EXTRA_MODE_EDIT);
                                     editMusicianIntent.putExtra("id", id);
@@ -218,7 +218,7 @@ public class MusiciansActivity extends AppCompatActivity implements
                                     startActivityForResult(editMusicianIntent, REQUEST_EDIT_MUSICIAN);
                                     return true;
                                 case R.id.musician_context_menu_remove:
-                                    selectedMusician = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_musician))
                                             .setMessage(getResources().getString(R.string.dialog_remove_musician))
@@ -226,7 +226,7 @@ public class MusiciansActivity extends AppCompatActivity implements
                                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     if (getContentResolver().delete(SetlistsDbContract.SetlistsDbMusicianEntry.buildSetlistsDbMusicianUri(id),
-                                                            SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)}) > 0)
+                                                            SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_ID + "=?", new String[] { id }) > 0)
                                                         getSupportLoaderManager().restartLoader(MainActivity.MUSICIANS_LOADER, null, MusiciansActivity.this);
                                                 }})
                                             .setNegativeButton(android.R.string.no, null)

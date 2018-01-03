@@ -43,7 +43,7 @@ public class SetsFragment extends Fragment implements
     private SetsFragment.OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private TextView textNothingToShow;
-    private int selectedSet = 0;
+    private int position = 0;
 
     public SetsFragment() {
     }
@@ -153,7 +153,7 @@ public class SetsFragment extends Fragment implements
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.scrollToPosition(selectedSet);
+        mRecyclerView.scrollToPosition(position);
     }
 
     @Override
@@ -168,12 +168,6 @@ public class SetsFragment extends Fragment implements
         }
 
         @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
-        }
-
-        @Override
         public SetsFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_details, parent, false);
             final SetsFragment.ViewHolder vh = new SetsFragment.ViewHolder(view);
@@ -183,7 +177,7 @@ public class SetsFragment extends Fragment implements
         @Override
         public void onBindViewHolder(SetsFragment.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(6), mCursor.getString(1), mCursor.getString(2), mCursor.getLong(3), mCursor.getString(7), mCursor.getInt(8), mCursor.getInt(9), new Date(mCursor.getLong(5) * 1000));
+            holder.bindData(mCursor.getString(0), mCursor.getString(6), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3), mCursor.getString(7), mCursor.getInt(8), mCursor.getInt(9), new Date(mCursor.getLong(5) * 1000));
         }
 
         @Override
@@ -201,17 +195,17 @@ public class SetsFragment extends Fragment implements
         private TextView textDateModified;
         private ImageButton btnMenu;
 
-        private long id;
+        private String id;
         private String name;
         private int songCount;
         private int duration;
-        private long band;
+        private String band;
         private String location;
         private String author;
         private String bandName;
         private Date dateModified;
 
-        public void bindData(long id, String author, String name, String location, long band, String bandName, int songCount, int duration, Date dateModified) {
+        public void bindData(String id, String author, String name, String location, String band, String bandName, int songCount, int duration, Date dateModified) {
             this.id = id;
             this.name = name == null ? "" : name;
             this.author = author == null ? "" : author;
@@ -250,7 +244,7 @@ public class SetsFragment extends Fragment implements
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedSet = getAdapterPosition();
+                    position = getAdapterPosition();
                     Intent setSongsIntent = new Intent(v.getContext(), SetSongsActivity.class);
                     setSongsIntent.putExtra("set", id);
                     setSongsIntent.putExtra("name", name);
@@ -310,7 +304,7 @@ public class SetsFragment extends Fragment implements
                                     startActivity(Intent.createChooser(emailBandIntent, "Send email"));
                                     return true;
                                 case R.id.set_context_menu_edit:
-                                    selectedSet = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editSetIntent = new Intent(v.getContext(), SetEditActivity.class);
                                     editSetIntent.putExtra("id", id);
                                     editSetIntent.putExtra("name", name);
@@ -319,7 +313,7 @@ public class SetsFragment extends Fragment implements
                                     startActivityForResult(editSetIntent, REQUEST_EDIT_SET);
                                     return true;
                                 case R.id.set_context_menu_remove:
-                                    selectedSet = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_set))
                                             .setMessage(getResources().getString(R.string.dialog_remove_set))

@@ -45,8 +45,8 @@ public class SongsFragment extends Fragment implements
     private RecyclerView mRecyclerView;
     private TextView textNothingToShow;
 
-    private long artistId = 0;
-    private int selectedSong = 0;
+    private String artistId = null;
+    private int position = 0;
 
     public SongsFragment() {
         // Required empty public constructor
@@ -59,10 +59,10 @@ public class SongsFragment extends Fragment implements
         return fragment;
     }
 
-    public static SongsFragment newInstance(long artistId) {
+    public static SongsFragment newInstance(String artistId) {
         SongsFragment fragment = new SongsFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_ARTIST_ID, artistId);
+        args.putString(ARG_ARTIST_ID, artistId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,7 +71,7 @@ public class SongsFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            artistId = getArguments().getLong(ARG_ARTIST_ID);
+            artistId = getArguments().getString(ARG_ARTIST_ID);
         }
     }
 
@@ -89,8 +89,8 @@ public class SongsFragment extends Fragment implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newSongIntent = new Intent(getActivity(), SongEditActivity.class);
-                if (artistId > 0)
+                Intent newSongIntent = new Intent(getContext(), SongEditActivity.class);
+                if (artistId != null)
                     newSongIntent.putExtra("artist", artistId);
                 startActivityForResult(newSongIntent, REQUEST_ADD_SONG);
             }
@@ -110,8 +110,25 @@ public class SongsFragment extends Fragment implements
         switch (requestCode) {
             case REQUEST_ADD_SONG:
                 if (resultCode == RESULT_OK) {
-                    String returnedResult = data.getData().toString();
-                    Log.d("RETURNED RESULT", returnedResult);
+                    Uri returnedResult = data.getData();
+                    String newId = returnedResult.getLastPathSegment();
+                    if (newId != null) {
+                        Cursor c = getActivity().getContentResolver().query(
+                                SetlistsDbContract.SetlistsDbSongEntry.buildSetlistsDbSongUri(newId),
+                                null, null, null, null
+                        );
+                        if (c != null && c.moveToFirst()) {
+                            Intent documentsIntent = new Intent(getContext(), DocumentsActivity.class);
+                            documentsIntent.putExtra("song", c.getString(0));
+                            documentsIntent.putExtra("title", c.getString(1));
+                            documentsIntent.putExtra("preferred", c.getString(8));
+                            documentsIntent.putExtra("tempo", c.getInt(5));
+                            startActivity(documentsIntent);
+                        }
+                        if (c != null)
+                            c.close();
+                    }
+                    Log.d("RETURNED RESULT", returnedResult.toString());
                 }
                 break;
             case REQUEST_EDIT_SONG:
@@ -150,7 +167,7 @@ public class SongsFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        if (artistId > 0)
+        if (artistId != null)
             return SetlistsDbSongLoader.newInstanceForArtistId(getActivity(), artistId);
         return SetlistsDbSongLoader.newAllSongsInstance(getActivity());
     }
@@ -172,7 +189,7 @@ public class SongsFragment extends Fragment implements
             final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.scrollToPosition(selectedSong);
+            mRecyclerView.scrollToPosition(position);
         }
     }
 
@@ -204,14 +221,24 @@ public class SongsFragment extends Fragment implements
         @Override
         public void onBindViewHolder(SongsFragment.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getLong(2), mCursor.getString(3),
-                    mCursor.getString(4), mCursor.getInt(5), mCursor.getInt(6), mCursor.getString(7), mCursor.getLong(8),
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3),
+                    mCursor.getString(4), mCursor.getInt(5), mCursor.getInt(6), mCursor.getString(7), mCursor.getString(8),
                     new Date(mCursor.getLong(10) * 1000));
         }
 
         @Override
         public int getItemCount() {
             return mCursor.getCount();
+        }
+
+        public int getItemPosition(long id) {
+            if (mCursor.moveToFirst()) {
+                do {
+                    if (mCursor.getLong(0) == id)
+                        return mCursor.getPosition();
+                } while (mCursor.moveToNext());
+            }
+            return -1;
         }
     }
 
@@ -224,18 +251,18 @@ public class SongsFragment extends Fragment implements
         private TextView textDateModified;
         private ImageButton btnMenu;
 
-        private long id;
+        private String id;
         private String title;
         private String artistName;
-        private long artist;
+        private String artist;
         private String key;
         private int tempo;
         private int duration;
-        private long document;
+        private String document;
         private String notes;
         private Date dateModified;
 
-        public void bindData(long id, String title, long artist, String artistName, String key, int tempo, int duration, String notes, long document, Date dateModified) {
+        public void bindData(String id, String title, String artist, String artistName, String key, int tempo, int duration, String notes, String document, Date dateModified) {
             this.id = id;
             this.title = title == null ? "" : title;
             this.artist = artist;
@@ -281,7 +308,7 @@ public class SongsFragment extends Fragment implements
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedSong = getAdapterPosition();
+                    position = getAdapterPosition();
                     Intent documentsIntent = new Intent(v.getContext(), DocumentsActivity.class);
                     documentsIntent.putExtra("song", id);
                     documentsIntent.putExtra("title", title);
@@ -301,7 +328,7 @@ public class SongsFragment extends Fragment implements
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.song_context_menu_edit:
-                                    selectedSong = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editSongIntent = new Intent(v.getContext(), SongEditActivity.class);
                                     editSongIntent.putExtra("id", id);
                                     editSongIntent.putExtra("title", title);
@@ -314,7 +341,7 @@ public class SongsFragment extends Fragment implements
                                     startActivityForResult(editSongIntent, REQUEST_EDIT_SONG);
                                     return true;
                                 case R.id.song_context_menu_remove:
-                                    selectedSong = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_song))
                                             .setMessage(getResources().getString(R.string.dialog_remove_song))

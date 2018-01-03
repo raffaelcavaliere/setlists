@@ -50,7 +50,7 @@ public class MidiMessagesFragment extends Fragment implements
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private TextView textNothingToShow;
-    private int selectedMessage = 0;
+    private int position = 0;
     MidiManager midiManager;
     private ArrayList<MidiInputPort> midiPorts = new ArrayList<>();
 
@@ -188,7 +188,7 @@ public class MidiMessagesFragment extends Fragment implements
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.scrollToPosition(selectedMessage);
+        mRecyclerView.scrollToPosition(position);
     }
 
     @Override
@@ -218,7 +218,7 @@ public class MidiMessagesFragment extends Fragment implements
         @Override
         public void onBindViewHolder(MidiMessagesFragment.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getInt(2), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5));
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getInt(2), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5));
         }
 
         @Override
@@ -236,14 +236,14 @@ public class MidiMessagesFragment extends Fragment implements
         private TextView textChannel;
         private ImageButton btnMenu;
 
-        private long id;
+        private String id;
         private String name;
         private int channel;
         private int status;
         private int data1;
         private int data2;
 
-        public void bindData(long id, String name, int channel, int status, int data1, int data2) {
+        public void bindData(String id, String name, int channel, int status, int data1, int data2) {
             this.id = id;
             this.name = name;
             this.channel = channel;
@@ -328,7 +328,7 @@ public class MidiMessagesFragment extends Fragment implements
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.midi_message_context_menu_edit:
-                                    selectedMessage = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editMidiMessageIntent = new Intent(v.getContext(), MidiMessageEditActivity.class);
                                     editMidiMessageIntent.putExtra("id", id);
                                     editMidiMessageIntent.putExtra("name", name);
@@ -340,7 +340,7 @@ public class MidiMessagesFragment extends Fragment implements
                                     startActivityForResult(editMidiMessageIntent, REQUEST_EDIT_MIDI_MESSAGE);
                                     return true;
                                 case R.id.midi_message_context_menu_remove:
-                                    selectedMessage = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_midi_message))
                                             .setMessage(getResources().getString(R.string.dialog_remove_midi_message))
@@ -348,7 +348,7 @@ public class MidiMessagesFragment extends Fragment implements
                                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     if (getActivity().getContentResolver().delete(SetlistsDbContract.SetlistsDbMidiMessageEntry.buildSetlistsDbMidiMessageUri(id),
-                                                            SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)}) > 0) {
+                                                            SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_ID + "=?", new String[] { id }) > 0) {
                                                         getActivity().getSupportLoaderManager().restartLoader(MainActivity.MIDI_MESSAGES_LOADER, null, MidiMessagesFragment.this);
                                                     }
                                                 }})

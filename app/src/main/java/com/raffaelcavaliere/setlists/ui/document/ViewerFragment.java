@@ -45,7 +45,7 @@ public abstract class ViewerFragment extends Fragment {
         }
         else {
             try {
-                loadDocument(Uri.fromFile(new File(path)));
+                loadDocument();
             } catch (Exception ex) {
                 Log.d("Exception", ex.toString());
             }
@@ -59,7 +59,7 @@ public abstract class ViewerFragment extends Fragment {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     try {
-                        loadDocument(Uri.fromFile(new File(path)));
+                        loadDocument();
                     } catch (Exception ex) {
                         Log.d("Exception", ex.toString());
                     }
@@ -103,5 +103,9 @@ public abstract class ViewerFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    abstract void loadDocument(Uri uri);
+    protected Uri getUri() {
+        return Uri.fromFile(new File(path));
+    }
+
+    public abstract void loadDocument();
 }

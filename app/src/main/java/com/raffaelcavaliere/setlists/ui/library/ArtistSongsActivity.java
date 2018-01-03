@@ -38,7 +38,7 @@ public class ArtistSongsActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private Toolbar toolbar;
     private TextView textNothingToShow;
-    private long artist;
+    private String artist;
     FragmentManager mFragmentManager;
 
     @Override
@@ -51,7 +51,7 @@ public class ArtistSongsActivity extends AppCompatActivity
 
         Bundle extras = getIntent().getExtras();
         setTitle(extras.getString("name"));
-        artist = extras.getLong("artist", 0);
+        artist = extras.getString("artist");
     }
 
     @Override

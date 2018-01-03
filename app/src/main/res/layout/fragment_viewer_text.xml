@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="com.raffaelcavaliere.setlists.ui.document.ImageViewerFragment">
+    android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/documentTextView"
-        android:padding="12dp" />
+        android:background="@color/white"
+        android:visibility="visible"
+        tools:context="com.raffaelcavaliere.setlists.ui.document.ImageViewerFragment">
 
-</ScrollView>
+        <TextView
+            android:id="@+id/documentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/text_no_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/document_viewer_no_file"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+</FrameLayout>

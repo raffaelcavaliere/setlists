@@ -41,7 +41,7 @@ public class BandsFragment extends Fragment implements
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private TextView textNothingToShow;
-    private int selectedBand = 0;
+    private int position = 0;
 
     public BandsFragment() {
         // Required empty public constructor
@@ -142,7 +142,7 @@ public class BandsFragment extends Fragment implements
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.scrollToPosition(selectedBand);
+        mRecyclerView.scrollToPosition(position);
     }
 
     @Override
@@ -157,12 +157,6 @@ public class BandsFragment extends Fragment implements
         }
 
         @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
-        }
-
-        @Override
         public BandsFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_details, parent, false);
             final BandsFragment.ViewHolder vh = new BandsFragment.ViewHolder(view);
@@ -172,7 +166,7 @@ public class BandsFragment extends Fragment implements
         @Override
         public void onBindViewHolder(BandsFragment.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getInt(2), mCursor.getInt(3));
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getInt(2), mCursor.getInt(3));
         }
 
         @Override
@@ -188,12 +182,12 @@ public class BandsFragment extends Fragment implements
         private TextView textSetCount;
         private ImageButton btnMenu;
 
-        private long id;
+        private String id;
         private String name;
         private int memberCount;
         private int setCount;
 
-        public void bindData(long id, String name, int memberCount, int setCount) {
+        public void bindData(String id, String name, int memberCount, int setCount) {
             this.id = id;
             this.name = name;
             this.memberCount = memberCount;
@@ -214,7 +208,7 @@ public class BandsFragment extends Fragment implements
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedBand = getAdapterPosition();
+                    position = getAdapterPosition();
                     Intent bandMusiciansIntent = new Intent(v.getContext(), MusiciansActivity.class);
                     bandMusiciansIntent.putExtra("name", name);
                     bandMusiciansIntent.putExtra("band", id);
@@ -256,14 +250,14 @@ public class BandsFragment extends Fragment implements
                                     startActivity(Intent.createChooser(emailBandIntent, "Send email"));
                                     return true;
                                 case R.id.band_context_menu_edit:
-                                    selectedBand = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editBandIntent = new Intent(v.getContext(), BandEditActivity.class);
                                     editBandIntent.putExtra("id", id);
                                     editBandIntent.putExtra("name", name);
                                     startActivityForResult(editBandIntent, REQUEST_EDIT_BAND);
                                     return true;
                                 case R.id.band_context_menu_remove:
-                                    selectedBand = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_band))
                                             .setMessage(getResources().getString(R.string.dialog_remove_band))

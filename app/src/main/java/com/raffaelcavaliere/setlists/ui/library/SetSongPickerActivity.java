@@ -29,16 +29,17 @@ import com.raffaelcavaliere.setlists.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class SetSongPickerActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView mRecyclerView;
 
-    private long set = 0;
+    private String set;
     private int sequence;
-    private ArrayList<Long> selectedSongs = new ArrayList<Long>();
-    private ArrayList<Long> excludedSongs = new ArrayList<Long>();
+    private ArrayList<String> selectedSongs = new ArrayList<String>();
+    private ArrayList<String> excludedSongs = new ArrayList<String>();
     private Button addButton;
     private Button cancelButton;
 
@@ -52,7 +53,7 @@ public class SetSongPickerActivity extends AppCompatActivity implements
 
         mRecyclerView = (RecyclerView) findViewById(R.id.set_song_picker_list);
 
-        set = getIntent().getExtras().getLong("set", 0);
+        set = getIntent().getExtras().getString("set");
         sequence = getIntent().getExtras().getInt("sequence", 1);
 
         addButton = (Button) findViewById(R.id.song_picker_add);
@@ -60,7 +61,7 @@ public class SetSongPickerActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 Intent data = new Intent();
-                    if (set > 0) {
+                    if (set != null) {
                         int result = addSetSongs();
                         setResult(RESULT_OK, data);
                     }
@@ -113,7 +114,7 @@ public class SetSongPickerActivity extends AppCompatActivity implements
         else if (cursorLoader.getId() == MainActivity.SET_SONGS_LOADER) {
             if (cursor.moveToFirst()) {
                 do {
-                    excludedSongs.add(cursor.getLong(2));
+                    excludedSongs.add(cursor.getString(2));
                 } while (cursor.moveToNext());
             }
             getSupportLoaderManager().restartLoader(MainActivity.SONGS_LOADER, null, this);
@@ -134,12 +135,6 @@ public class SetSongPickerActivity extends AppCompatActivity implements
         }
 
         @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
-        }
-
-        @Override
         public SetSongPickerActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.list_item_checkable, parent, false);
             final SetSongPickerActivity.ViewHolder vh = new SetSongPickerActivity.ViewHolder(view);
@@ -149,7 +144,7 @@ public class SetSongPickerActivity extends AppCompatActivity implements
         @Override
         public void onBindViewHolder(SetSongPickerActivity.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getLong(2), mCursor.getString(3),
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3),
                     new Date(mCursor.getLong(4) * 1000), mCursor.getInt(5), excludedSongs.contains(mCursor.getLong(0)));
         }
 
@@ -164,13 +159,13 @@ public class SetSongPickerActivity extends AppCompatActivity implements
         private TextView textArtist;
         private CheckBox checkSelect;
 
-        private long id;
+        private String id;
         private String title;
         private String artistName;
-        private long artist;
+        private String artist;
         private boolean disabled = false;
 
-        public void bindData(long id, String title, long artist, String artistName, Date dateModified, int versionCount, boolean disabled) {
+        public void bindData(String id, String title, String artist, String artistName, Date dateModified, int versionCount, boolean disabled) {
             this.id = id;
             this.title = title == null ? "" : title;
             this.artist = artist;
@@ -192,9 +187,9 @@ public class SetSongPickerActivity extends AppCompatActivity implements
             checkSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
+                    if (isChecked && !selectedSongs.contains(id))
                         selectedSongs.add(id);
-                    else
+                    else if (!isChecked && selectedSongs.contains(id))
                         selectedSongs.remove(id);
                 }
             });
@@ -211,9 +206,12 @@ public class SetSongPickerActivity extends AppCompatActivity implements
     private int addSetSongs() {
         for (int i = 0; i < selectedSongs.size(); i++) {
             ContentValues values = new ContentValues();
+            values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_ID, UUID.randomUUID().toString());
             values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_SEQUENCE, sequence);
             values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_SETLIST, set);
             values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_SONG, selectedSongs.get(i));
+            values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
+            values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
             Uri uri = getContentResolver().insert(SetlistsDbContract.SetlistsDbSetSongEntry.CONTENT_URI, values);
             sequence++;

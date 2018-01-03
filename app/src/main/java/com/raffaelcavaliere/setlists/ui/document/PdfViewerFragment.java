@@ -33,7 +33,7 @@ public class PdfViewerFragment extends ViewerFragment {
     }
 
     @Override
-    public void loadDocument(Uri uri) {
-        pdfView.fromUri(uri).load();
+    public void loadDocument() {
+        pdfView.fromUri(getUri()).load();
     }
 }

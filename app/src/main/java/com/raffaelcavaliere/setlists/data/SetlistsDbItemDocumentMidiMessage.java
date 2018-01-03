@@ -6,8 +6,8 @@ import android.os.Parcelable;
 
 public class SetlistsDbItemDocumentMidiMessage implements Parcelable {
 
-    private long id;
-    private long document;
+    private String id;
+    private String document;
     private String name;
     private int channel;
     private int status;
@@ -16,9 +16,9 @@ public class SetlistsDbItemDocumentMidiMessage implements Parcelable {
     private int autosend;
 
 
-    public long getId() { return this.id; }
+    public String getId() { return this.id; }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(String id) { this.id = id; }
 
     public String getName() {
         return name;
@@ -28,12 +28,11 @@ public class SetlistsDbItemDocumentMidiMessage implements Parcelable {
         this.name = name;
     }
 
-
-    public long getDocument() {
+    public String getDocument() {
         return document;
     }
 
-    public void setDocument(long document) {
+    public void setDocument(String document) {
         this.document = document;
     }
 
@@ -77,7 +76,7 @@ public class SetlistsDbItemDocumentMidiMessage implements Parcelable {
         this.autosend = autosend;
     }
 
-    public SetlistsDbItemDocumentMidiMessage(long id, long document, String name, int channel, int status, int data1, int data2, int autosend) {
+    public SetlistsDbItemDocumentMidiMessage(String id, String document, String name, int channel, int status, int data1, int data2, int autosend) {
         this.id = id;
         this.document = document;
         this.name = name;
@@ -92,8 +91,8 @@ public class SetlistsDbItemDocumentMidiMessage implements Parcelable {
 
     private SetlistsDbItemDocumentMidiMessage(Parcel in) {
         Bundle bundle = in.readBundle();
-        this.id = bundle.getLong("id");
-        this.document = bundle.getLong("document");
+        this.id = bundle.getString("id");
+        this.document = bundle.getString("document");
         this.name = bundle.getString("name");
         this.channel = bundle.getInt("channel");
         this.status = bundle.getInt("status");
@@ -108,8 +107,8 @@ public class SetlistsDbItemDocumentMidiMessage implements Parcelable {
 
     public void writeToParcel(Parcel out, int flags) {
         Bundle bundle = new Bundle();
-        bundle.putLong("id", id);
-        bundle.putLong("document", document);
+        bundle.putString("id", id);
+        bundle.putString("document", document);
         bundle.putString("name", name);
         bundle.putInt("channel", channel);
         bundle.putInt("status", status);

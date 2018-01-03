@@ -13,7 +13,7 @@ public class SetlistsDbBandLoader extends CursorLoader {
         return new SetlistsDbBandLoader(context, SetlistsDbContract.SetlistsDbBandEntry.CONTENT_URI);
     }
 
-    public static SetlistsDbBandLoader newInstanceForItemId(Context context, long itemId) {
+    public static SetlistsDbBandLoader newInstanceForItemId(Context context, String itemId) {
         return new SetlistsDbBandLoader(context, SetlistsDbContract.SetlistsDbBandEntry.buildSetlistsDbBandUri(itemId));
     }
 

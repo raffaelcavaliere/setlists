@@ -60,7 +60,7 @@ public class ViewerActivity extends AppCompatActivity
     private static final int REQUEST_EDIT_DOCUMENT = 1000;
     private static final int REQUEST_EXPORT_DOCUMENT = 1001;
 
-    private long id;
+    private String id;
     private String path;
     private ToggleButton toggleMetronome;
     private ToggleButton toggleMidi;
@@ -94,7 +94,7 @@ public class ViewerActivity extends AppCompatActivity
 
         toolbar.setSubtitle(extras.getString("description"));
 
-        id = extras.getLong("id", 0);
+        id = extras.getString("id");
         path = extras.getString("path", "");
         type = extras.getInt("type", 0);
 
@@ -227,8 +227,8 @@ public class ViewerActivity extends AppCompatActivity
             if (cursor.moveToFirst()) {
                 do {
                     midiMessages.add(new SetlistsDbItemDocumentMidiMessage(
-                            cursor.getLong(0),
-                            cursor.getLong(1),
+                            cursor.getString(0),
+                            cursor.getString(1),
                             cursor.getString(4),
                             cursor.getInt(5),
                             cursor.getInt(6),
@@ -311,10 +311,9 @@ public class ViewerActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         if (type > 0) {
             int layout = R.menu.document_menu;
-            if (type == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_TEXT ||
-                    type == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_CHORDPRO)
+            if (type == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_TEXT)
                 layout = R.menu.text_document_menu;
-            if (type == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_CHORDPRO && id > 0)
+            else if (type == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_CHORDPRO)
                 layout = R.menu.chordpro_document_menu;
             getMenuInflater().inflate(layout, menu);
         }
@@ -430,7 +429,6 @@ public class ViewerActivity extends AppCompatActivity
                 if (resultCode == RESULT_OK) {
                     String returnedResult = data.getData().toString();
                     Log.d("RETURNED RESULT", returnedResult);
-
                 }
                 break;
             case REQUEST_EXPORT_DOCUMENT:

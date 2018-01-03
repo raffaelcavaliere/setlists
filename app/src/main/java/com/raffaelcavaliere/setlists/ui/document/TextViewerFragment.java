@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class TextViewerFragment extends ViewerFragment {
 
     private TextView textView;
+    private TextView textNothingToShow;
 
     public TextViewerFragment() {
     }
@@ -33,24 +34,29 @@ public class TextViewerFragment extends ViewerFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_viewer_text, container, false);
         textView = (TextView) v.findViewById(R.id.documentTextView);
+        textNothingToShow = (TextView) v.findViewById(R.id.text_no_file);
         checkPermissionReadStorage(getContext(), getActivity());
         return v;
     }
 
     @Override
-    public void loadDocument(Uri uri) {
-        File file = new File(uri.getPath());
-        try {
-            String content = "";
-            Scanner scanner = new Scanner(file);
-            content = scanner.nextLine();
-            while (scanner.hasNextLine()) {
-                content = content + "\n" + scanner.nextLine();
-            }
-            textView.setText(content);
+    public void loadDocument() {
+        File file = new File(getUri().getPath());
+        if (!file.exists())
+            textNothingToShow.setVisibility(View.VISIBLE);
+        else {
+            try {
+                String content = "";
+                Scanner scanner = new Scanner(file);
+                content = scanner.nextLine();
+                while (scanner.hasNextLine()) {
+                    content = content + "\n" + scanner.nextLine();
+                }
+                textView.setText(content);
 
-        } catch (Exception ex) {
-            Log.d("EXCEPTION", ex.toString());
+            } catch (Exception ex) {
+                Log.d("EXCEPTION", ex.toString());
+            }
         }
     }
 }

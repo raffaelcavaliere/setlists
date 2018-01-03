@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,10 +36,15 @@ import com.raffaelcavaliere.setlists.data.SetlistsDbSetSongLoader;
 import com.raffaelcavaliere.setlists.ui.MainActivity;
 import com.raffaelcavaliere.setlists.ui.document.SwipeViewerActivity;
 import com.raffaelcavaliere.setlists.utils.ItemTouchHelperAdapter;
+import com.raffaelcavaliere.setlists.utils.ItemTouchHelperViewHolder;
 import com.raffaelcavaliere.setlists.utils.OnStartDragListener;
+import com.raffaelcavaliere.setlists.utils.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+
+import static java.security.AccessController.getContext;
 
 public class SetSongsActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, OnStartDragListener {
@@ -48,10 +55,10 @@ public class SetSongsActivity extends AppCompatActivity implements
     private ItemTouchHelper mItemTouchHelper;
     private TextView textNothingToShow;
     private FloatingActionButton fab;
-    private long set;
+    private String set;
     private Menu menu;
     private String name;
-    private int selectedSong = 0;
+    private int position = 0;
 
     private static final int REQUEST_ADD_SONG = 4000;
     private static final int REQUEST_EDIT_SONG = 4001;
@@ -72,7 +79,7 @@ public class SetSongsActivity extends AppCompatActivity implements
         name = extras.getString("name");
         setTitle(name);
 
-        set = extras.getLong("set");
+        set = extras.getString("set");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.set_song_list);
         mAdapter = new SetSongsActivity.Adapter(this);
@@ -81,28 +88,8 @@ public class SetSongsActivity extends AppCompatActivity implements
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mItemTouchHelper = new ItemTouchHelper(
-                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-                    @Override
-                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                        return mAdapter.onItemMove(viewHolder.getLayoutPosition(), target.getLayoutPosition());
-                    }
-
-                    @Override
-                    public boolean isLongPressDragEnabled() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean isItemViewSwipeEnabled() {
-                        return false;
-                    }
-
-                    @Override
-                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-                    }
-                });
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         fab = (FloatingActionButton)findViewById(R.id.fab_add_set_song);
@@ -147,8 +134,9 @@ public class SetSongsActivity extends AppCompatActivity implements
             for (int i = 0; i < mAdapter.getItemCount(); i++) {
                 ContentValues values = new ContentValues();
                 values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_SEQUENCE, i+1);
+                values.put(SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
                 int result = getContentResolver().update(
-                        SetlistsDbContract.SetlistsDbSetSongEntry.buildSetlistsDbSetSongUri(mAdapter.getItemId(i)),
+                        SetlistsDbContract.SetlistsDbSetSongEntry.buildSetlistsDbSetSongUri(mAdapter.getItemUuid(i)),
                         values,
                         SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_ID + "=?",
                         new String[] {String.valueOf(mAdapter.getItemId(i))});
@@ -215,8 +203,8 @@ public class SetSongsActivity extends AppCompatActivity implements
             int sequence = 1;
             if (cursor.moveToFirst()) {
                 do {
-                    items.add(new SetlistsDbItemSetSong(cursor.getLong(0), cursor.getLong(1), cursor.getLong(2), sequence,
-                            cursor.getLong(4), cursor.getInt(5), cursor.getLong(6), cursor.getString(7),
+                    items.add(new SetlistsDbItemSetSong(cursor.getString(0), cursor.getString(1), cursor.getString(2), sequence,
+                            cursor.getString(4), cursor.getInt(5), cursor.getString(6), cursor.getString(7),
                             cursor.getString(8), cursor.getString(9), cursor.getInt(10), cursor.getInt(11), cursor.getInt(12),
                             cursor.getInt(13), cursor.getString(14)));
                     sequence++;
@@ -225,7 +213,7 @@ public class SetSongsActivity extends AppCompatActivity implements
             }
             this.mAdapter.setData(items);
             mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.scrollToPosition(selectedSong);
+            mRecyclerView.scrollToPosition(position);
         }
     }
 
@@ -235,8 +223,7 @@ public class SetSongsActivity extends AppCompatActivity implements
             mRecyclerView.setAdapter(null);
     }
 
-    private class Adapter extends RecyclerView.Adapter<ViewHolder>
-            implements ItemTouchHelperAdapter {
+    private class Adapter extends RecyclerView.Adapter<ViewHolder>  implements ItemTouchHelperAdapter {
 
         private final ArrayList<SetlistsDbItemSetSong> items = new ArrayList<>();
         private final OnStartDragListener mDragStartListener;
@@ -250,8 +237,7 @@ public class SetSongsActivity extends AppCompatActivity implements
             this.items.addAll(items);
         }
 
-        @Override
-        public long getItemId(int position) {
+        public String getItemUuid(int position) {
             return items.get(position).getId();
         }
 
@@ -290,21 +276,24 @@ public class SetSongsActivity extends AppCompatActivity implements
             return items.size();
         }
 
-        public boolean onItemMove(int source, int destination) {
-            if (source >= 0 && destination >= 0) {
-                Collections.swap(items, source, destination);
-                notifyItemMoved(source, destination);
-                for (int i = 0; i < items.size(); i++) {
-                    items.get(i).setSequence(i + 1);
-                }
-                notifyDataSetChanged();
-                return true;
+        @Override
+        public void onItemClear(int position) {
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public boolean onItemMove(int fromPosition, int toPosition) {
+            Collections.swap(items, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+            for (int i = 0; i < items.size(); i++) {
+                items.get(i).setSequence(i + 1);
             }
-            return false;
+            return true;
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements
+            ItemTouchHelperViewHolder {
 
         private final TextView textTitle;
         private final TextView textDescription;
@@ -315,10 +304,10 @@ public class SetSongsActivity extends AppCompatActivity implements
         private final ImageView handleView;
         private final ImageButton btnMenu;
 
-        private long id;
-        private long song;
-        private long document;
-        private long artist;
+        private String id;
+        private String song;
+        private String document;
+        private String artist;
         private String title;
         private String description;
         private String key;
@@ -330,7 +319,7 @@ public class SetSongsActivity extends AppCompatActivity implements
         private int transpose;
         private int transposeMode;
 
-        public void bindData(long id, long song, int sequence, long document, int type, String title, String description, String key, int duration, int tempo, int transpose, int transposeMode, long artist, String notes) {
+        public void bindData(String id, String song, int sequence, String document, int type, String title, String description, String key, int duration, int tempo, int transpose, int transposeMode, String artist, String notes) {
             this.id = id;
             this.song = song;
             this.document = document;
@@ -348,7 +337,7 @@ public class SetSongsActivity extends AppCompatActivity implements
 
             textTitle.setText(this.title);
 
-            if (this.document > 0) {
+            if (this.document != null) {
                 textDescription.setText(this.description);
                 textDescription.setTextColor(getColor(R.color.black));
                 textDescription.setTypeface(null, Typeface.NORMAL);
@@ -372,6 +361,20 @@ public class SetSongsActivity extends AppCompatActivity implements
             textSequence.setText(String.valueOf(sequence));
         }
 
+        @Override
+        public void onItemSelected() {
+            TypedValue outValue = new TypedValue();
+            getTheme().resolveAttribute(android.R.attr.colorBackgroundFloating, outValue, true);
+            itemView.setBackgroundResource(outValue.resourceId);
+        }
+
+        @Override
+        public void onItemClear() {
+            TypedValue outValue = new TypedValue();
+            getTheme().resolveAttribute(android.R.attr.colorBackground, outValue, true);
+            itemView.setBackgroundResource(outValue.resourceId);
+        }
+
         public void setListMode(int mode) {
             this.handleView.setVisibility(mode == LIST_MODE_REORDER ? View.VISIBLE : View.INVISIBLE);
             this.btnMenu.setVisibility(mode == LIST_MODE_NORMAL ? View.VISIBLE : View.INVISIBLE);
@@ -391,7 +394,7 @@ public class SetSongsActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View v) {
                     if (listMode == LIST_MODE_NORMAL) {
-                        selectedSong = getAdapterPosition();
+                        position = getAdapterPosition();
                         Intent swipeIntent = new Intent(v.getContext(), SwipeViewerActivity.class);
                         swipeIntent.putExtra("song", song);
                         swipeIntent.putExtra("title", name);
@@ -414,7 +417,7 @@ public class SetSongsActivity extends AppCompatActivity implements
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.set_song_context_menu_edit:
-                                    selectedSong = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     Intent editSongIntent = new Intent(v.getContext(), SongEditActivity.class);
                                     editSongIntent.putExtra("id", song);
                                     editSongIntent.putExtra("title", title);
@@ -427,7 +430,7 @@ public class SetSongsActivity extends AppCompatActivity implements
                                     startActivityForResult(editSongIntent, REQUEST_EDIT_SONG);
                                     return true;
                                 case R.id.set_song_context_menu_remove:
-                                    selectedSong = getAdapterPosition();
+                                    position = getAdapterPosition();
                                     new AlertDialog.Builder(v.getContext())
                                             .setTitle(getResources().getString(R.string.menu_remove_set_song))
                                             .setMessage(getResources().getString(R.string.dialog_remove_set_song))

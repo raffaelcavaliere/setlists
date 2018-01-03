@@ -14,7 +14,6 @@ public class SetlistsDbContract {
     public static final String PATH_SONG = "songs";
     public static final String PATH_DOCUMENT = "documents";
     public static final String PATH_ARTIST = "artists";
-    public static final String PATH_AUTHOR = "authors";
     public static final String PATH_BAND = "bands";
     public static final String PATH_MUSICIAN = "musicians";
     public static final String PATH_SET = "sets";
@@ -41,14 +40,14 @@ public class SetlistsDbContract {
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
 
-        public static final String DEFAULT_SORT = COLUMN_TITLE + " ASC";
+        public static final String DEFAULT_SORT = COLUMN_TITLE + " COLLATE NOCASE ASC";
 
-        public static Uri buildSetlistsDbSongUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbSongUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
 
-        public static Uri buildSetlistsDbArtistSongsUri(long artistId) {
-            return SetlistsDbArtistEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(artistId)).appendPath(PATH_SONG).build();
+        public static Uri buildSetlistsDbArtistSongsUri(String artistId) {
+            return SetlistsDbArtistEntry.CONTENT_URI.buildUpon().appendPath(artistId).appendPath(PATH_SONG).build();
         }
     }
 
@@ -63,11 +62,13 @@ public class SetlistsDbContract {
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_PHOTO = "photo";
+        public static final String COLUMN_DATE_ADDED = "added";
+        public static final String COLUMN_DATE_MODIFIED = "modified";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
-        public static Uri buildSetlistsDbArtistUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbArtistUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
     }
 
@@ -99,31 +100,12 @@ public class SetlistsDbContract {
 
         public static final String DEFAULT_SORT = COLUMN_DESCRIPTION + " COLLATE NOCASE ASC";
 
-        public static Uri buildSetlistsDbDocumentUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbDocumentUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
 
-        public static Uri buildSetlistsDbSongDocumentsUri(long songId) {
-            return SetlistsDbSongEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(songId)).appendPath(PATH_DOCUMENT).build();
-        }
-    }
-
-    //AUTHOR
-    public static final class SetlistsDbAuthorEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_AUTHOR).build();
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_AUTHOR;
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_AUTHOR;
-
-        public static final String TABLE_NAME = "author";
-        public static final String COLUMN_ID = "_id";
-        public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_EMAIL = "email";
-
-        public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
-
-        public static Uri buildSetlistsDbAuthorUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(PATH_AUTHOR).appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbSongDocumentsUri(String songId) {
+            return SetlistsDbSongEntry.CONTENT_URI.buildUpon().appendPath(songId).appendPath(PATH_DOCUMENT).build();
         }
     }
 
@@ -137,11 +119,13 @@ public class SetlistsDbContract {
         public static final String TABLE_NAME = "band";
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_DATE_ADDED = "added";
+        public static final String COLUMN_DATE_MODIFIED = "modified";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
-        public static Uri buildSetlistsDbBandUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbBandUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
     }
 
@@ -158,15 +142,17 @@ public class SetlistsDbContract {
         public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_INSTRUMENT = "instrument";
         public static final String COLUMN_BAND = "band";
+        public static final String COLUMN_DATE_ADDED = "added";
+        public static final String COLUMN_DATE_MODIFIED = "modified";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
-        public static Uri buildSetlistsDbMusicianUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbMusicianUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
 
-        public static Uri buildSetlistsDbBandMusiciansUri(long bandId) {
-            return SetlistsDbBandEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(bandId)).appendPath(PATH_MUSICIAN).build();
+        public static Uri buildSetlistsDbBandMusiciansUri(String bandId) {
+            return SetlistsDbBandEntry.CONTENT_URI.buildUpon().appendPath(bandId).appendPath(PATH_MUSICIAN).build();
         }
     }
 
@@ -188,12 +174,12 @@ public class SetlistsDbContract {
 
         public static final String DEFAULT_SORT = COLUMN_DATE_MODIFIED + " DESC";
 
-        public static Uri buildSetlistsDbSetUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbSetUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
 
-        public static Uri buildSetlistsDbBandSetsUri(long bandId) {
-            return SetlistsDbBandEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(bandId)).appendPath(PATH_SET).build();
+        public static Uri buildSetlistsDbBandSetsUri(String bandId) {
+            return SetlistsDbBandEntry.CONTENT_URI.buildUpon().appendPath(bandId).appendPath(PATH_SET).build();
         }
     }
 
@@ -209,15 +195,17 @@ public class SetlistsDbContract {
         public static final String COLUMN_SETLIST = "setlist";
         public static final String COLUMN_SONG = "song";
         public static final String COLUMN_SEQUENCE = "sequence";
+        public static final String COLUMN_DATE_ADDED = "added";
+        public static final String COLUMN_DATE_MODIFIED = "modified";
 
         public static final String DEFAULT_SORT = COLUMN_SEQUENCE + " ASC";
 
-        public static Uri buildSetlistsDbSetSongUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbSetSongUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
 
-        public static Uri buildSetlistsDbSetSongForSetUri(long setId) {
-            return SetlistsDbSetEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(setId)).appendPath(PATH_SET_SONG).build();
+        public static Uri buildSetlistsDbSetSongForSetUri(String setId) {
+            return SetlistsDbSetEntry.CONTENT_URI.buildUpon().appendPath(setId).appendPath(PATH_SET_SONG).build();
         }
     }
 
@@ -235,11 +223,13 @@ public class SetlistsDbContract {
         public static final String COLUMN_STATUS = "status";
         public static final String COLUMN_DATA1 = "data1";
         public static final String COLUMN_DATA2 = "data2";
+        public static final String COLUMN_DATE_ADDED = "added";
+        public static final String COLUMN_DATE_MODIFIED = "modified";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
-        public static Uri buildSetlistsDbMidiMessageUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbMidiMessageUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
     }
 
@@ -255,19 +245,21 @@ public class SetlistsDbContract {
         public static final String COLUMN_DOCUMENT = "document";
         public static final String COLUMN_MESSAGE = "message";
         public static final String COLUMN_AUTOSEND = "autosend";
+        public static final String COLUMN_DATE_ADDED = "added";
+        public static final String COLUMN_DATE_MODIFIED = "modified";
 
         public static final String DEFAULT_SORT = COLUMN_ID + " ASC";
 
-        public static Uri buildSetlistsDbDocumentMidiMessageUri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(Long.toString(id)).build();
+        public static Uri buildSetlistsDbDocumentMidiMessageUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
 
-        public static Uri buildSetlistsDbDocumentMidiMessagesForDocumentUri(long documentId) {
-            return SetlistsDbDocumentEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(documentId)).appendPath(PATH_DOCUMENT_MIDI_MESSAGE).build();
+        public static Uri buildSetlistsDbDocumentMidiMessagesForDocumentUri(String documentId) {
+            return SetlistsDbDocumentEntry.CONTENT_URI.buildUpon().appendPath(documentId).appendPath(PATH_DOCUMENT_MIDI_MESSAGE).build();
         }
 
-        public static Uri buildSetlistsDbDocumentMidiMessagesForSetUri(long setId) {
-            return SetlistsDbSetEntry.CONTENT_URI.buildUpon().appendPath(Long.toString(setId)).appendPath(PATH_DOCUMENT_MIDI_MESSAGE).build();
+        public static Uri buildSetlistsDbDocumentMidiMessagesForSetUri(String setId) {
+            return SetlistsDbSetEntry.CONTENT_URI.buildUpon().appendPath(setId).appendPath(PATH_DOCUMENT_MIDI_MESSAGE).build();
         }
     }
 }

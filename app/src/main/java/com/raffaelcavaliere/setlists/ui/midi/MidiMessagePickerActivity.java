@@ -27,15 +27,17 @@ import com.raffaelcavaliere.setlists.ui.MainActivity;
 import com.raffaelcavaliere.setlists.utils.MidiHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 public class MidiMessagePickerActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView mRecyclerView;
 
-    private long document = 0;
-    private ArrayList<Long> selectedMessages = new ArrayList<Long>();
-    private ArrayList<Long> excludedMessages = new ArrayList<Long>();
+    private String document;
+    private ArrayList<String> selectedMessages = new ArrayList<String>();
+    private ArrayList<String> excludedMessages = new ArrayList<String>();
     private Button addButton;
     private Button cancelButton;
 
@@ -49,14 +51,14 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
 
         mRecyclerView = (RecyclerView) findViewById(R.id.midi_message_picker_list);
 
-        document = getIntent().getExtras().getLong("document", 0);
+        document = getIntent().getExtras().getString("document");
 
         addButton = (Button) findViewById(R.id.message_picker_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent data = new Intent();
-                if (document > 0) {
+                if (document != null) {
                     int result = addDocumentMidiMessages();
                     if (result > 0)
                         setResult(RESULT_OK, data);
@@ -110,7 +112,7 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
         else if (cursorLoader.getId() == MainActivity.DOCUMENT_MIDI_MESSAGES_LOADER) {
             if (cursor.moveToFirst()) {
                 do {
-                    excludedMessages.add(cursor.getLong(2));
+                    excludedMessages.add(cursor.getString(2));
                 } while (cursor.moveToNext());
             }
             getSupportLoaderManager().restartLoader(MainActivity.MIDI_MESSAGES_LOADER, null, this);
@@ -131,12 +133,6 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
         }
 
         @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
-        }
-
-        @Override
         public MidiMessagePickerActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.list_item_checkable, parent, false);
             final MidiMessagePickerActivity.ViewHolder vh = new MidiMessagePickerActivity.ViewHolder(view);
@@ -146,7 +142,7 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
         @Override
         public void onBindViewHolder(MidiMessagePickerActivity.ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getInt(2), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5), excludedMessages.contains(mCursor.getLong(0)));
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getInt(2), mCursor.getInt(3), mCursor.getInt(4), mCursor.getInt(5), excludedMessages.contains(mCursor.getLong(0)));
         }
 
         @Override
@@ -160,7 +156,7 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
         private TextView textDetails;
         private CheckBox checkSelect;
 
-        private long id;
+        private String id;
         private String name;
         private int channel;
         private int status;
@@ -168,7 +164,7 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
         private int data2;
         private boolean disabled = false;
 
-        public void bindData(long id, String name, int channel, int status, int data1, int data2, boolean disabled) {
+        public void bindData(String id, String name, int channel, int status, int data1, int data2, boolean disabled) {
             this.id = id;
             this.name = name;
             this.channel = channel;
@@ -215,9 +211,9 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
             checkSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
+                    if (isChecked && !selectedMessages.contains(id))
                         selectedMessages.add(id);
-                    else
+                    else if (!isChecked && selectedMessages.contains(id))
                         selectedMessages.remove(id);
                 }
             });
@@ -234,9 +230,12 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
     private int addDocumentMidiMessages() {
         for (int i = 0; i < selectedMessages.size(); i++) {
             ContentValues values = new ContentValues();
+            values.put(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_ID, UUID.randomUUID().toString());
             values.put(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_DOCUMENT, document);
             values.put(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_AUTOSEND, 0);
             values.put(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_MESSAGE, selectedMessages.get(i));
+            values.put(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
+            values.put(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
             Uri uri = getContentResolver().insert(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.CONTENT_URI, values);
         }

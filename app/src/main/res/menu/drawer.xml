@@ -25,7 +25,10 @@
     </group>
 
     <group android:checkableBehavior="none" android:id="@+id/group_preferences">
-
+        <item
+            android:id="@+id/nav_sync"
+            android:icon="@drawable/ic_sync_black_24dp"
+            android:title="@string/nav_sync" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"

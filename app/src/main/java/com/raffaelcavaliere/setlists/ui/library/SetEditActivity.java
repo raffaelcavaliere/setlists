@@ -29,6 +29,7 @@ import com.raffaelcavaliere.setlists.ui.band.BandEditActivity;
 import com.raffaelcavaliere.setlists.ui.MainActivity;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class SetEditActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -39,8 +40,8 @@ public class SetEditActivity extends AppCompatActivity  implements
     private ImageButton addBandButton;
     private Button saveButton;
     private Button cancelButton;
-    private long id = 0;
-    private long band = 0;
+    private String id = null;
+    private String band = null;
 
     private static final int REQUEST_ADD_BAND = 1000;
 
@@ -57,7 +58,7 @@ public class SetEditActivity extends AppCompatActivity  implements
         Bundle extras = getIntent().getExtras();
 
         if (extras != null)
-            id = extras.getLong("id", 0);
+            id = extras.getString("id", null);
 
         textName = (TextView) findViewById(R.id.editSetName);
         if (extras != null) {
@@ -78,11 +79,11 @@ public class SetEditActivity extends AppCompatActivity  implements
         spinnerBand = (Spinner) findViewById(R.id.editSetBand);
 
         if (extras != null)
-            band = extras.getLong("band", 0);
+            band = extras.getString("band", null);
         spinnerBand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                band = id;
+                band = ((MergeCursor)spinnerBand.getAdapter().getItem(position)).getString(0);
             }
 
             @Override
@@ -108,7 +109,7 @@ public class SetEditActivity extends AppCompatActivity  implements
 
                 if (textName.getText().length() > 0) {
                     Intent data = new Intent();
-                    if (id > 0) {
+                    if (id != null) {
                         int result = updateSet(textName.getText().toString(), textLocation.getText().toString(), band);
                         setResult(RESULT_OK, data);
                     } else {
@@ -151,7 +152,7 @@ public class SetEditActivity extends AppCompatActivity  implements
                 if (resultCode == RESULT_OK) {
                     String returnedResult = data.getData().toString();
                     Log.d("RETURNED RESULT", returnedResult);
-                    band = Long.valueOf(data.getData().getLastPathSegment());
+                    band = data.getData().getLastPathSegment();
                     getSupportLoaderManager().restartLoader(MainActivity.BANDS_LOADER, null, this);
                 }
                 break;
@@ -169,7 +170,7 @@ public class SetEditActivity extends AppCompatActivity  implements
                 SetlistsDbContract.SetlistsDbBandEntry.COLUMN_ID,
                 SetlistsDbContract.SetlistsDbBandEntry.COLUMN_NAME
         });
-        extras.addRow(new Object[] { 0, "" });
+        extras.addRow(new Object[] { null, "" });
         Cursor[] cursors = { extras, cursor };
         Cursor extendedCursor = new MergeCursor(cursors);
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
@@ -179,8 +180,8 @@ public class SetEditActivity extends AppCompatActivity  implements
                 new int[] { R.id.text1 },
                 SimpleCursorAdapter.NO_SELECTION);
         spinnerBand.setAdapter(adapter);
-        for (int i = 0; i < adapter.getCount(); i++) {
-            if (((MergeCursor)adapter.getItem(i)).getLong(0) == band)
+        for (int i = 1; i < adapter.getCount(); i++) {
+            if (((MergeCursor)adapter.getItem(i)).getString(0).equals(band))
                 spinnerBand.setSelection(i);
         }
     }
@@ -190,12 +191,13 @@ public class SetEditActivity extends AppCompatActivity  implements
         spinnerBand.setAdapter(null);
     }
 
-    public Uri addSet(String name, String location, long band) {
+    public Uri addSet(String name, String location, String band) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_AUTHOR, "raffaelcavaliere");
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_NAME, name);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION, location);
-        if (band > 0)
+        if (band != null)
             values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND, band);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
@@ -203,12 +205,12 @@ public class SetEditActivity extends AppCompatActivity  implements
         return getContentResolver().insert(SetlistsDbContract.SetlistsDbSetEntry.CONTENT_URI, values);
     }
 
-    public int updateSet(String name, String location, long band) {
+    public int updateSet(String name, String location, String band) {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_AUTHOR, "raffaelcavaliere");
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_NAME, name);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION, location);
-        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND, band > 0 ? band : null);
+        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND, band);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().update(SetlistsDbContract.SetlistsDbSetEntry.buildSetlistsDbSetUri(id), values,

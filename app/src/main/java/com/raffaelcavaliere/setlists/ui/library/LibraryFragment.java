@@ -1,6 +1,7 @@
 package com.raffaelcavaliere.setlists.ui.library;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -62,6 +63,11 @@ public class LibraryFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(startPosition);
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

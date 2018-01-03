@@ -19,6 +19,9 @@ import com.raffaelcavaliere.setlists.R;
 import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 import com.raffaelcavaliere.setlists.utils.MidiHelper;
 
+import java.util.Date;
+import java.util.UUID;
+
 public class MidiMessageEditActivity extends AppCompatActivity {
 
     private TextView textName;
@@ -28,7 +31,7 @@ public class MidiMessageEditActivity extends AppCompatActivity {
     private TextView textData2;
     private Button saveButton;
     private Button cancelButton;
-    private long id = 0;
+    private String id = null;
 
     private int mode;
     public final static String EXTRA_MODE = "mode";
@@ -46,7 +49,7 @@ public class MidiMessageEditActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         mode = extras.getInt(EXTRA_MODE, 0);
 
-        id = extras.getLong("id", 0);
+        id = extras.getString("id", null);
 
         String name = extras.getString("name", "");
         textName = (TextView) findViewById(R.id.editMidiMessageName);
@@ -110,7 +113,7 @@ public class MidiMessageEditActivity extends AppCompatActivity {
                                 data2.isEmpty() ? 0 : Integer.valueOf(data2)
                         );
                         data.setData(result);
-                        id = Long.valueOf(result.getLastPathSegment());
+                        id = result.getLastPathSegment();
                         setResult(RESULT_OK, data);
                     }
                     finish();
@@ -142,11 +145,14 @@ public class MidiMessageEditActivity extends AppCompatActivity {
 
     private Uri addMidiMessage(String name, int channel, int status, int data1, int data2) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_NAME, name);
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_CHANNEL, channel);
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_STATUS, status);
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATA1, data1);
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATA2, data2);
+        values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
+        values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().insert(SetlistsDbContract.SetlistsDbMidiMessageEntry.CONTENT_URI, values);
     }
@@ -158,6 +164,7 @@ public class MidiMessageEditActivity extends AppCompatActivity {
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_STATUS, status);
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATA1, data1);
         values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATA2, data2);
+        values.put(SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().update(SetlistsDbContract.SetlistsDbMidiMessageEntry.buildSetlistsDbMidiMessageUri(id), values,
                 SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)});

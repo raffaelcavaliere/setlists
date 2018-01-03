@@ -34,7 +34,7 @@ public class ImageViewerFragment extends ViewerFragment {
     }
 
     @Override
-    public void loadDocument(Uri uri) {
-        imageView.setImageURI(uri);
+    public void loadDocument() {
+        imageView.setImageURI(getUri());
     }
 }

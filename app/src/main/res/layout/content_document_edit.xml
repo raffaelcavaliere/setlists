@@ -71,16 +71,16 @@
 
 
     <ImageButton
+        android:id="@+id/editDocumentFileBrowse"
+        style="@android:style/Widget.Holo.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_folder_open_black_24dp"
-        android:id="@+id/editDocumentFileBrowse"
-        android:tint="@color/white"
-        android:backgroundTint="@color/colorPrimary"
-        style="@android:style/Widget.Holo.ImageButton"
-        android:elevation="2dp"
+        android:layout_alignEnd="@+id/editDocumentFileLabel"
         android:layout_below="@+id/editDocumentFileLabel"
-        android:layout_alignEnd="@+id/editDocumentFileLabel" />
+        android:backgroundTint="@color/colorPrimary"
+        android:elevation="2dp"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_folder_open_black_24dp" />
 
 
     <TextView
@@ -109,6 +109,17 @@
         android:inputType="text"
         android:maxLines="1" />
 
+    <CheckBox
+        android:id="@+id/editDocumentIsPreferred"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editDocumentDescription"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Set document as preferred"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
     <TextView
         android:text="MIDI messages"
         android:layout_width="match_parent"
@@ -116,7 +127,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/editDocumentDescription"
+        android:layout_below="@+id/editDocumentIsPreferred"
         android:id="@+id/editDocumentMidiMessagesLabel"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textStyle="normal|bold" />

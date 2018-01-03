@@ -30,6 +30,9 @@ import com.raffaelcavaliere.setlists.data.SetlistsDbDocumentLoader;
 import com.raffaelcavaliere.setlists.ui.MainActivity;
 
 import java.util.Date;
+import java.util.UUID;
+
+import static android.view.View.GONE;
 
 public class SongEditActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -47,9 +50,9 @@ public class SongEditActivity extends AppCompatActivity  implements
 
     private Button saveButton;
     private Button cancelButton;
-    private long id = 0;
-    private long artist = 0;
-    private long document = 0;
+    private String id = null;
+    private String artist = null;
+    private String document = null;
     private int tempo = 0;
     private String title = "";
 
@@ -67,7 +70,7 @@ public class SongEditActivity extends AppCompatActivity  implements
         Bundle extras = getIntent().getExtras();
 
         if (extras != null)
-            id = extras.getLong("id", 0);
+            id = extras.getString("id", null);
 
         txtTitle = (TextView) findViewById(R.id.editSongTitle);
         if (extras != null) {
@@ -77,16 +80,16 @@ public class SongEditActivity extends AppCompatActivity  implements
 
         spinnerArtist = (Spinner) findViewById(R.id.editSongArtist);
         if (extras != null)
-            artist = extras.getLong("artist", 0);
+            artist = extras.getString("artist", null);
         spinnerArtist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                artist = id;
+                artist = ((MergeCursor)spinnerArtist.getAdapter().getItem(position)).getString(0);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                artist = 0;
+                artist = null;
             }
         });
 
@@ -124,33 +127,41 @@ public class SongEditActivity extends AppCompatActivity  implements
             textSeconds.setText((seconds < 10 ? "0" : "") + String.valueOf(seconds));
         }
 
-        if (extras != null)
-            document = extras.getLong("document", 0);
-
         spinnerDocument = (Spinner) findViewById(R.id.editSongDocument);
-        spinnerDocument.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                document = id;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                document = 0;
-            }
-        });
-
         addDocumentButton = (ImageButton) findViewById(R.id.editSongNewDocument);
-        addDocumentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newDocumentIntent = new Intent(v.getContext(), DocumentEditActivity.class);
-                newDocumentIntent.putExtra("song", id);
-                newDocumentIntent.putExtra("title", title);
-                newDocumentIntent.putExtra("tempo", tempo);
-                startActivityForResult(newDocumentIntent, REQUEST_ADD_DOCUMENT);
-            }
-        });
+
+        if (id != null) {
+            if (extras != null)
+                document = extras.getString("document", null);
+
+            spinnerDocument.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    //document = id;
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    document = null;
+                }
+            });
+
+            addDocumentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent newDocumentIntent = new Intent(v.getContext(), DocumentEditActivity.class);
+                    newDocumentIntent.putExtra("song", id);
+                    newDocumentIntent.putExtra("title", title);
+                    newDocumentIntent.putExtra("tempo", tempo);
+                    startActivityForResult(newDocumentIntent, REQUEST_ADD_DOCUMENT);
+                }
+            });
+        }
+        else {
+            spinnerDocument.setVisibility(GONE);
+            addDocumentButton.setVisibility(GONE);
+            ((TextView)findViewById(R.id.editSongDocumentLabel)).setVisibility(GONE);
+        }
 
 
         textNotes = (TextView) findViewById(R.id.editSongNotes);
@@ -170,7 +181,7 @@ public class SongEditActivity extends AppCompatActivity  implements
                     String tempo = textTempo.getText().toString();
                     String minutes = textMinutes.getText().toString();
                     String seconds = textSeconds.getText().toString();
-                    if (id > 0) {
+                    if (id != null) {
                         int result = updateSong(txtTitle.getText().toString(),
                                 artist,
                                 spinnerKey.getSelectedItem().toString(),
@@ -229,7 +240,7 @@ public class SongEditActivity extends AppCompatActivity  implements
                 if (resultCode == RESULT_OK) {
                     String returnedResult = data.getData().toString();
                     Log.d("RETURNED RESULT", returnedResult);
-                    artist = Long.valueOf(data.getData().getLastPathSegment());
+                    artist = data.getData().getLastPathSegment();
                     getSupportLoaderManager().restartLoader(MainActivity.ARTISTS_LOADER, null, this);
                 }
                 break;
@@ -237,7 +248,7 @@ public class SongEditActivity extends AppCompatActivity  implements
                 if (resultCode == RESULT_OK) {
                     String returnedResult = data.getData().toString();
                     Log.d("RETURNED RESULT", returnedResult);
-                    document = Long.valueOf(data.getData().getLastPathSegment());
+                    document = data.getData().getLastPathSegment();
                     getSupportLoaderManager().restartLoader(MainActivity.DOCUMENTS_LOADER, null, this);
                 }
                 break;
@@ -260,7 +271,7 @@ public class SongEditActivity extends AppCompatActivity  implements
                     SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID,
                     SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_NAME
             });
-            extras.addRow(new Object[]{0, ""});
+            extras.addRow(new Object[]{null, ""});
             Cursor[] cursors = {extras, cursor};
             Cursor extendedCursor = new MergeCursor(cursors);
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
@@ -270,8 +281,8 @@ public class SongEditActivity extends AppCompatActivity  implements
                     new int[]{R.id.text1},
                     SimpleCursorAdapter.NO_SELECTION);
             spinnerArtist.setAdapter(adapter);
-            for (int i = 0; i < adapter.getCount(); i++) {
-                if (((MergeCursor) adapter.getItem(i)).getLong(0) == artist)
+            for (int i = 1; i < adapter.getCount(); i++) {
+                if (((MergeCursor) adapter.getItem(i)).getString(0).equals(artist))
                     spinnerArtist.setSelection(i);
             }
         }
@@ -291,7 +302,7 @@ public class SongEditActivity extends AppCompatActivity  implements
                     SimpleCursorAdapter.NO_SELECTION);
             spinnerDocument.setAdapter(adapter);
             for (int i = 0; i < adapter.getCount(); i++) {
-                if (((MergeCursor) adapter.getItem(i)).getLong(0) == document)
+                if (((MergeCursor) adapter.getItem(i)).getString(0).equals(document))
                     spinnerDocument.setSelection(i);
             }
         }
@@ -306,41 +317,31 @@ public class SongEditActivity extends AppCompatActivity  implements
             spinnerDocument.setAdapter(null);
     }
 
-    public Uri addSong(String title, long artist, String key, int tempo, int duration, long document, String notes) {
+    public Uri addSong(String title, String artist, String key, int tempo, int duration, String document, String notes) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_TITLE, title);
-        if (artist > 0)
+        if (artist != null)
             values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ARTIST, artist);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_KEY, key.isEmpty() ? null : key);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_TEMPO, tempo <= 0 ? null : tempo);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DURATION, duration <= 0 ? null : duration);
-        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, document <= 0 ? null : document);
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, document);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_NOTES, notes.isEmpty() ? null : notes);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
-        Uri result = getContentResolver().insert(SetlistsDbContract.SetlistsDbSongEntry.CONTENT_URI, values);
-        id = Long.valueOf(result.getLastPathSegment());
-
-        if (id > 0 && document > 0) {
-            values = new ContentValues();
-            values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG, id);
-            values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
-
-            getContentResolver().update(SetlistsDbContract.SetlistsDbDocumentEntry.buildSetlistsDbDocumentUri(id), values,
-                    SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + "=?", new String[] {String.valueOf(document)});
-        }
-        return result;
+        return getContentResolver().insert(SetlistsDbContract.SetlistsDbSongEntry.CONTENT_URI, values);
     }
 
-    public int updateSong(String title, long artist, String key, int tempo, int duration, long document, String notes) {
+    public int updateSong(String title, String artist, String key, int tempo, int duration, String document, String notes) {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_TITLE, title);
-        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ARTIST, artist > 0 ? artist : null);
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ARTIST, artist);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_KEY, key.isEmpty() ? null : key);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_TEMPO, tempo <= 0 ? null : tempo);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DURATION, duration <= 0 ? null : duration);
-        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, document <= 0 ? null : document);
+        values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT, document);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_NOTES, notes.isEmpty() ? null : notes);
         values.put(SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 

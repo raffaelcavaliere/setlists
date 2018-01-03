@@ -15,12 +15,15 @@ import android.widget.Toast;
 import com.raffaelcavaliere.setlists.R;
 import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 
+import java.util.Date;
+import java.util.UUID;
+
 public class BandEditActivity extends AppCompatActivity {
 
     private TextView txtName;
     private Button saveButton;
     private Button cancelButton;
-    private long id = 0;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class BandEditActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null)
-            id = getIntent().getExtras().getLong("id", 0);
+            id = getIntent().getExtras().getString("id", null);
 
         txtName = (TextView) findViewById(R.id.editBandName);
         if (extras != null) {
@@ -49,7 +52,7 @@ public class BandEditActivity extends AppCompatActivity {
 
                 if (txtName.getText().length() > 0) {
                     Intent data = new Intent();
-                    if (id > 0) {
+                    if (id != null) {
                         int result = updateBand(txtName.getText().toString());
                         setResult(RESULT_OK, data);
                     } else {
@@ -87,7 +90,10 @@ public class BandEditActivity extends AppCompatActivity {
 
     public Uri addBand(String name) {
         ContentValues values = new ContentValues();
+        values.put(SetlistsDbContract.SetlistsDbBandEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbBandEntry.COLUMN_NAME, name);
+        values.put(SetlistsDbContract.SetlistsDbBandEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
+        values.put(SetlistsDbContract.SetlistsDbBandEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().insert(SetlistsDbContract.SetlistsDbBandEntry.CONTENT_URI, values);
     }
@@ -95,6 +101,7 @@ public class BandEditActivity extends AppCompatActivity {
     public int updateBand(String name) {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbBandEntry.COLUMN_NAME, name);
+        values.put(SetlistsDbContract.SetlistsDbBandEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().update(SetlistsDbContract.SetlistsDbBandEntry.buildSetlistsDbBandUri(id), values,
                 SetlistsDbContract.SetlistsDbBandEntry.COLUMN_ID + "=?", new String[] {String.valueOf(id)});

@@ -13,15 +13,15 @@ public class SetlistsDbDocumentMidiMessageLoader extends CursorLoader {
         return new SetlistsDbDocumentMidiMessageLoader(context, SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.CONTENT_URI);
     }
 
-    public static SetlistsDbDocumentMidiMessageLoader newInstanceForItemId(Context context, long itemId) {
+    public static SetlistsDbDocumentMidiMessageLoader newInstanceForItemId(Context context, String itemId) {
         return new SetlistsDbDocumentMidiMessageLoader(context, SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.buildSetlistsDbDocumentMidiMessageUri(itemId));
     }
 
-    public static SetlistsDbDocumentMidiMessageLoader newInstanceForDocumentId(Context context, long documentId) {
+    public static SetlistsDbDocumentMidiMessageLoader newInstanceForDocumentId(Context context, String documentId) {
         return new SetlistsDbDocumentMidiMessageLoader(context, SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.buildSetlistsDbDocumentMidiMessagesForDocumentUri(documentId));
     }
 
-    public static SetlistsDbDocumentMidiMessageLoader newInstanceForSetId(Context context, long setId) {
+    public static SetlistsDbDocumentMidiMessageLoader newInstanceForSetId(Context context, String setId) {
         return new SetlistsDbDocumentMidiMessageLoader(context, SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.buildSetlistsDbDocumentMidiMessagesForSetUri(setId));
     }
 

@@ -12,6 +12,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -56,29 +60,29 @@ public class SetlistsContentProvider extends ContentProvider {
         final String authority = SetlistsDbContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, SetlistsDbContract.PATH_ARTIST, ARTIST);
-        matcher.addURI(authority, SetlistsDbContract.PATH_ARTIST + "/#", ARTIST_BY_ID);
-        matcher.addURI(authority, SetlistsDbContract.PATH_ARTIST + "/#/" + SetlistsDbContract.PATH_SONG, ARTIST_SONG);
+        matcher.addURI(authority, SetlistsDbContract.PATH_ARTIST + "/*", ARTIST_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_ARTIST + "/*/" + SetlistsDbContract.PATH_SONG, ARTIST_SONG);
         matcher.addURI(authority, SetlistsDbContract.PATH_SONG, SONG);
-        matcher.addURI(authority, SetlistsDbContract.PATH_SONG + "/#", SONG_BY_ID);
-        matcher.addURI(authority, SetlistsDbContract.PATH_SONG + "/#/" + SetlistsDbContract.PATH_DOCUMENT, SONG_DOCUMENT);
+        matcher.addURI(authority, SetlistsDbContract.PATH_SONG + "/*", SONG_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_SONG + "/*/" + SetlistsDbContract.PATH_DOCUMENT, SONG_DOCUMENT);
         matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT, DOCUMENT);
-        matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT + "/#", DOCUMENT_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT + "/*", DOCUMENT_BY_ID);
         matcher.addURI(authority, SetlistsDbContract.PATH_BAND, BAND);
-        matcher.addURI(authority, SetlistsDbContract.PATH_BAND + "/#", BAND_BY_ID);
-        matcher.addURI(authority, SetlistsDbContract.PATH_BAND + "/#/" + SetlistsDbContract.PATH_MUSICIAN, BAND_MUSICIAN);
+        matcher.addURI(authority, SetlistsDbContract.PATH_BAND + "/*", BAND_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_BAND + "/*/" + SetlistsDbContract.PATH_MUSICIAN, BAND_MUSICIAN);
         matcher.addURI(authority, SetlistsDbContract.PATH_MUSICIAN, MUSICIAN);
-        matcher.addURI(authority, SetlistsDbContract.PATH_MUSICIAN + "/#", MUSICIAN_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_MUSICIAN + "/*", MUSICIAN_BY_ID);
         matcher.addURI(authority, SetlistsDbContract.PATH_SET, SET);
-        matcher.addURI(authority, SetlistsDbContract.PATH_SET + "/#", SET_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_SET + "/*", SET_BY_ID);
         matcher.addURI(authority, SetlistsDbContract.PATH_SET_SONG, SET_SONG);
-        matcher.addURI(authority, SetlistsDbContract.PATH_SET_SONG + "/#", SET_SONG_BY_ID);
-        matcher.addURI(authority, SetlistsDbContract.PATH_SET + "/#/" + SetlistsDbContract.PATH_SET_SONG, SET_SET_SONG);
+        matcher.addURI(authority, SetlistsDbContract.PATH_SET_SONG + "/*", SET_SONG_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_SET + "/*/" + SetlistsDbContract.PATH_SET_SONG, SET_SET_SONG);
         matcher.addURI(authority, SetlistsDbContract.PATH_MIDI_MESSAGE, MIDI_MESSAGE);
-        matcher.addURI(authority, SetlistsDbContract.PATH_MIDI_MESSAGE + "/#", MIDI_MESSAGE_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_MIDI_MESSAGE + "/*", MIDI_MESSAGE_BY_ID);
         matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE, DOCUMENT_MIDI_MESSAGE);
-        matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE + "/#", DOCUMENT_MIDI_MESSAGE_BY_ID);
-        matcher.addURI(authority, SetlistsDbContract.PATH_SET + "/#/" + SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE, SET_DOCUMENT_MIDI_MESSAGE);
-        matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT + "/#/" + SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE, DOCUMENT_DOCUMENT_MIDI_MESSAGE);
+        matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE + "/*", DOCUMENT_MIDI_MESSAGE_BY_ID);
+        matcher.addURI(authority, SetlistsDbContract.PATH_SET + "/*/" + SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE, SET_DOCUMENT_MIDI_MESSAGE);
+        matcher.addURI(authority, SetlistsDbContract.PATH_DOCUMENT + "/*/" + SetlistsDbContract.PATH_DOCUMENT_MIDI_MESSAGE, DOCUMENT_DOCUMENT_MIDI_MESSAGE);
 
         return matcher;
     }
@@ -146,55 +150,55 @@ public class SetlistsContentProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case ARTIST_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbArtistEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case SONG_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case DOCUMENT_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case BAND_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbBandEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case MUSICIAN_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbMusicianEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case SET_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbSetEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case SET_SONG_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbSetSongEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case MIDI_MESSAGE_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbMidiMessageEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
             case DOCUMENT_MIDI_MESSAGE_BY_ID: {
                 result = db.delete(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.TABLE_NAME, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
                 break;
             }
@@ -214,73 +218,73 @@ public class SetlistsContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)) {
             case ARTIST: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbArtistEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri = ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbArtistEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case SONG: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case DOCUMENT: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case BAND: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbBandEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbBandEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case MUSICIAN: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbMusicianEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbMusicianEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case SET: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbSetEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbSetEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case SET_SONG: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbSetSongEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbSetSongEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case MIDI_MESSAGE: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbMidiMessageEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbMidiMessageEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
             }
             case DOCUMENT_MIDI_MESSAGE: {
-                long id = db.insert(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.TABLE_NAME, null, values);
-                if (id > 0)
-                    resultUri =  ContentUris.withAppendedId(uri, id);
+                long rowid = db.insert(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.TABLE_NAME, null, values);
+                if (rowid >= 0)
+                    resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
@@ -368,6 +372,21 @@ public class SetlistsContentProvider extends ContentProvider {
             case SONG_BY_ID: {
                 String id = uri.getPathSegments().get(1);
                 resultCursor = db.query(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, null, "_id = ?", new String[] { id }, null, null, null);
+                break;
+            }
+            case DOCUMENT: {
+                resultCursor = db.rawQuery("SELECT " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DESCRIPTION + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_AUTHOR + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TYPE + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TRANSPOSE + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TRANSPOSE_MODE + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_ADDED + ", " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "." + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED + " FROM " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + " ORDER BY " +
+                        SetlistsDbContract.SetlistsDbDocumentEntry.DEFAULT_SORT, null, null);
                 break;
             }
             case SONG_DOCUMENT: {
@@ -573,55 +592,55 @@ public class SetlistsContentProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case ARTIST_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbArtistEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case SONG_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case DOCUMENT_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case BAND_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbBandEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case MUSICIAN_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbMusicianEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case SET_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbSetEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case SET_SONG_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbSetSongEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case MIDI_MESSAGE_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbMidiMessageEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }
             case DOCUMENT_MIDI_MESSAGE_BY_ID: {
                 result = db.update(SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.TABLE_NAME, values, selection, selectionArgs);
-                if (result <= 0)
+                if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
                 break;
             }

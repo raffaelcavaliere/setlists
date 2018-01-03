@@ -20,8 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".authentication.BaseAuthActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar.NoTitle" />
+        <activity
+            android:name=".authentication.GoogleSignInActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,8 +34,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.SignInActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <provider
             android:name=".data.SetlistsContentProvider"
@@ -183,6 +189,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".widget.SetlistsWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/setlists_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".services.SyncService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

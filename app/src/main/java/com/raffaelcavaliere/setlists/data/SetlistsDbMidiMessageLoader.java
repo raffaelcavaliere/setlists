@@ -13,7 +13,7 @@ public class SetlistsDbMidiMessageLoader extends CursorLoader {
         return new SetlistsDbMidiMessageLoader(context, SetlistsDbContract.SetlistsDbMidiMessageEntry.CONTENT_URI);
     }
 
-    public static SetlistsDbMidiMessageLoader newInstanceForItemId(Context context, long itemId) {
+    public static SetlistsDbMidiMessageLoader newInstanceForItemId(Context context, String itemId) {
         return new SetlistsDbMidiMessageLoader(context, SetlistsDbContract.SetlistsDbMidiMessageEntry.buildSetlistsDbMidiMessageUri(itemId));
     }
 

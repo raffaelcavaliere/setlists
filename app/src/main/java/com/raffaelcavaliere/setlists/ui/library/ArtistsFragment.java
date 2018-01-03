@@ -167,12 +167,6 @@ public class ArtistsFragment extends Fragment implements
         }
 
         @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
-        }
-
-        @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_picture, parent, false);
             final ViewHolder vh = new ViewHolder(view);
@@ -182,7 +176,7 @@ public class ArtistsFragment extends Fragment implements
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
-            holder.bindData(mCursor.getLong(0), mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3));
+            holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getInt(3));
         }
 
         @Override
@@ -198,20 +192,20 @@ public class ArtistsFragment extends Fragment implements
         private ImageView imgPhoto;
         private ImageButton btnMenu;
 
-        private long id;
+        private String id;
         private String name;
         private String photoUrl;
         private int songCount;
 
-        public void bindData(long id, String name, String photoUrl, int songCount) {
+        public void bindData(String id, String name, String photoUrl, int songCount) {
             this.id = id;
             this.name = name;
             this.photoUrl = photoUrl == null ? "" : photoUrl;
             this.songCount = songCount;
             textName.setText(name);
             textSongCount.setText(songCount <= 0 ? "No song" : songCount + " song" + (songCount > 1 ? "s" : ""));
-            if (photoUrl != null && !photoUrl.isEmpty()) {
-                Picasso.with(getContext()).load(photoUrl).transform(new CircleTransform()).into(imgPhoto);
+            if (this.photoUrl != null && !this.photoUrl.isEmpty()) {
+                Picasso.with(getContext()).load(this.photoUrl).transform(new CircleTransform()).into(imgPhoto);
             }
         }
 

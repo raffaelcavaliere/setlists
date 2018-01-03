@@ -78,8 +78,8 @@ public class ChordproViewerFragment extends ViewerFragment {
     }
 
     @Override
-    public void loadDocument(Uri uri) {
-        File file = new File(uri.getPath());
+    public void loadDocument() {
+        File file = new File(getUri().getPath());
         try {
             String content = "";
             Scanner scanner = new Scanner(file);
