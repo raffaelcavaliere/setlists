@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
+import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 import com.raffaelcavaliere.setlists.utils.Storage;
 
 import java.io.File;
@@ -39,13 +40,13 @@ public class SyncService extends IntentService {
     }
 
     private void sync() {
-/*
+
         ArrayList<ContentValues> documents = new ArrayList<ContentValues>();
         Cursor cursor = getContentResolver().query(SetlistsDbContract.SetlistsDbDocumentEntry.CONTENT_URI, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                Long id = cursor.getLong(cursor.getColumnIndex(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID));
-                String path = getFilesDir().getPath() + "/" + String.valueOf(id);
+                String id = cursor.getString(cursor.getColumnIndex(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID));
+                String path = getFilesDir().getPath() + "/" + id;
                 ContentValues values = new ContentValues();
                 values.put("id", id);
                 values.put("path", path);
@@ -54,14 +55,14 @@ public class SyncService extends IntentService {
         }
         cursor.close();
         if (!documents.isEmpty())
-            upload(documents); */
+            upload(documents);
     }
 
     private void upload(final ArrayList<ContentValues> list) {
         ContentValues item = list.remove(0);
         String path = item.getAsString("path");
-        Long id = item.getAsLong("id");
-        Storage.uploadFile(new File(path), String.valueOf(id), new Storage.FirebaseStorageListener() {
+        String id = item.getAsString("id");
+        Storage.uploadFile(new File(path), id, new Storage.FirebaseStorageListener() {
             @Override
             public void onFailure(Exception exception) {
                 Log.d("UPLOAD FAILURE", exception.getMessage());

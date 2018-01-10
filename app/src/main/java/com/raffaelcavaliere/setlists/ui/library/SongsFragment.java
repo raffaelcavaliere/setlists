@@ -36,8 +36,8 @@ import static android.app.Activity.RESULT_OK;
 public class SongsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>, LibraryFragment.LibraryUpdateListener {
 
-    private static final int REQUEST_ADD_SONG = 2000;
-    private static final int REQUEST_EDIT_SONG = 2001;
+    public static final int REQUEST_ADD_SONG = 2000;
+    public static final int REQUEST_EDIT_SONG = 2001;
 
     static final String ARG_ARTIST_ID = "artist";
 

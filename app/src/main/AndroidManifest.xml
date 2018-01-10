@@ -36,7 +36,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
             android:name=".data.SetlistsContentProvider"
@@ -46,7 +46,8 @@
             android:grantUriPermissions="true"
             android:label="SetlistsContentProvider"
             android:readPermission="com.raffaelcavaliere.setlists.READ"
-            android:writePermission="com.raffaelcavaliere.setlists.WRITE" />
+            android:writePermission="com.raffaelcavaliere.setlists.WRITE">
+        </provider>
 
         <activity
             android:name=".ui.library.ArtistEditActivity"
@@ -202,7 +203,12 @@
 
         <service
             android:name=".services.SyncService"
-            android:exported="false"></service>
+            android:exported="false"/>
+
+        <service android:name=".widget.SetlistsWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
+        </service>
+
     </application>
 
 </manifest>

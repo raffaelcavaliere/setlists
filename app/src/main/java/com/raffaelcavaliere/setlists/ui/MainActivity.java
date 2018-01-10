@@ -36,12 +36,15 @@ import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 import com.raffaelcavaliere.setlists.services.SyncService;
 import com.raffaelcavaliere.setlists.ui.band.BandsFragment;
 import com.raffaelcavaliere.setlists.ui.library.ArtistsFragment;
+import com.raffaelcavaliere.setlists.ui.library.DocumentsActivity;
 import com.raffaelcavaliere.setlists.ui.library.LibraryFragment;
 import com.raffaelcavaliere.setlists.ui.library.SetsFragment;
+import com.raffaelcavaliere.setlists.ui.library.SongEditActivity;
 import com.raffaelcavaliere.setlists.ui.library.SongsFragment;
 import com.raffaelcavaliere.setlists.ui.midi.MidiMessagesFragment;
 import com.raffaelcavaliere.setlists.utils.FilteredFilePickerFragment;
 import com.raffaelcavaliere.setlists.utils.Storage;
+import com.raffaelcavaliere.setlists.widget.SetlistsWidget;
 
 import org.json.JSONObject;
 
@@ -181,6 +184,23 @@ public class MainActivity extends AppCompatActivity
         File tempDir = new File(getFilesDir().getPath() + "/temp");
         if (!tempDir.exists())
             tempDir.mkdir();
+
+        // Load specific activity on top of main activity if requested
+        int action = this.getIntent().getIntExtra(SetlistsWidget.WIDGET_ACTION, 0);
+        if (action > 0) {
+            if (action == SetlistsWidget.WIDGET_ACTION_NEW_SONG) {
+
+                Intent newSongIntent = new Intent(this, SongEditActivity.class);
+                startActivityForResult(newSongIntent, SongsFragment.REQUEST_ADD_SONG);
+            } else if (action == SetlistsWidget.WIDGET_ACTION_SHOW_SONG) {
+                Intent documentsIntent = new Intent(this, DocumentsActivity.class);
+                documentsIntent.putExtra("song", this.getIntent().getStringExtra("song"));
+                documentsIntent.putExtra("title", this.getIntent().getStringExtra("title"));
+                documentsIntent.putExtra("preferred", this.getIntent().getStringExtra("document"));
+                documentsIntent.putExtra("tempo", this.getIntent().getIntExtra("tempo", 0));
+                startActivity(documentsIntent);
+            }
+        }
     }
 
     @Override

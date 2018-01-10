@@ -15,6 +15,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.raffaelcavaliere.setlists.widget.SetlistsWidget;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -158,6 +159,7 @@ public class SetlistsContentProvider extends ContentProvider {
                 result = db.delete(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, selection, selectionArgs);
                 if (result < 0)
                     throw new SQLException("Problem while deleting into uri: " + uri);
+                SetlistsWidget.sendRefreshBroadcast(getContext());
                 break;
             }
             case DOCUMENT_BY_ID: {
@@ -227,8 +229,10 @@ public class SetlistsContentProvider extends ContentProvider {
             }
             case SONG: {
                 long rowid = db.insert(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, null, values);
-                if (rowid >= 0)
+                if (rowid >= 0) {
                     resultUri = uri.buildUpon().appendPath(values.getAsString("_id")).build();
+                    SetlistsWidget.sendRefreshBroadcast(getContext());
+                }
                 else
                     throw new SQLException("Problem while inserting into uri: " + uri);
                 break;
@@ -600,6 +604,7 @@ public class SetlistsContentProvider extends ContentProvider {
                 result = db.update(SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME, values, selection, selectionArgs);
                 if (result < 0)
                     throw new SQLException("Problem while updating into uri: " + uri);
+                SetlistsWidget.sendRefreshBroadcast(getContext());
                 break;
             }
             case DOCUMENT_BY_ID: {

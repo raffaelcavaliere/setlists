@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 
 public class SetlistsDatabase extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 62;
+    private static final int DATABASE_VERSION = 63;
     public static final String DATABASE_NAME = "setlists.db";
 
     public SetlistsDatabase(Context context) {

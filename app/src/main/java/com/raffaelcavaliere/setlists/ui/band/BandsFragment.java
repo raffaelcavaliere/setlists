@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.raffaelcavaliere.setlists.R;
 import com.raffaelcavaliere.setlists.data.SetlistsDbBandLoader;
 import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
-import com.raffaelcavaliere.setlists.data.SetlistsDbMusicianLoader;
 import com.raffaelcavaliere.setlists.ui.MainActivity;
 
 import java.util.ArrayList;

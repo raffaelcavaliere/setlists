@@ -188,8 +188,8 @@
     <string name="spotify_client_id">bf4a0252445d44bd9fb9fe5db72e654e</string>
     <string name="spotify_client_secret">1787958bf2164243a0f9813d2a4ba237</string>
 
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="txtWidgetTitle">SONGS</string>
+    <string name="btnWidgetAdd">Add song</string>
     <string name="title_activity_google_sign_in">Sign in</string>
 
     <!-- Strings related to login -->
