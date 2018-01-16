@@ -103,7 +103,6 @@ public class MidiMessagePickerActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         if (cursorLoader.getId() == MainActivity.MIDI_MESSAGES_LOADER) {
             MidiMessagePickerActivity.Adapter adapter = new MidiMessagePickerActivity.Adapter(cursor);
-            adapter.setHasStableIds(true);
             mRecyclerView.setAdapter(adapter);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

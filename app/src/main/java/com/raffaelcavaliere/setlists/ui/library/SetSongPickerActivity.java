@@ -105,7 +105,6 @@ public class SetSongPickerActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         if (cursorLoader.getId() == MainActivity.SONGS_LOADER) {
             SetSongPickerActivity.Adapter adapter = new SetSongPickerActivity.Adapter(cursor);
-            adapter.setHasStableIds(true);
             mRecyclerView.setAdapter(adapter);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

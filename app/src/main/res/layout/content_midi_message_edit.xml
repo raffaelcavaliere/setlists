@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_midi_message_edit">
 
     <TextView
-        android:text="Name"
+        android:text="@string/midi_message_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -23,9 +23,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/midi_message_name"
         android:id="@+id/editMidiMessageName"
-        android:hint="Enter name"
+        android:hint="@string/midi_message_enter_name"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
@@ -35,7 +35,7 @@
         android:maxLines="1" />
 
     <TextView
-        android:text="Channel"
+        android:text="@string/midi_message_channel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editMidiMessageName"
@@ -57,7 +57,7 @@
         android:layout_below="@+id/editMidiMessageChannelLabel" />
 
     <TextView
-        android:text="Status byte"
+        android:text="@string/midi_message_status_byte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editMidiMessageChannel"
@@ -79,7 +79,7 @@
         android:layout_below="@+id/editMidiMessageStatusLabel" />
 
     <TextView
-        android:text="First data byte"
+        android:text="@string/midi_message_first_data_byte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editMidiMessageStatus"
@@ -93,9 +93,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text=""
         android:id="@+id/editMidiMessageData1"
-        android:hint="Enter first data byte"
+        android:hint="@string/midi_message_enter_first_data_byte"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
@@ -105,7 +105,7 @@
         android:maxLines="1" />
 
     <TextView
-        android:text="Second data byte"
+        android:text="@string/midi_message_second_data_byte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editMidiMessageData1"
@@ -119,9 +119,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text=""
         android:id="@+id/editMidiMessageData2"
-        android:hint="Enter second data byte"
+        android:hint="@string/midi_message_enter_second_data_byte"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"

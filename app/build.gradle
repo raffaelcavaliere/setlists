@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        production {
-            keyAlias 'android'
-            keyPassword 'raff7678'
-            storeFile file('/Users/raffaelcavaliere/Projects/KeyStore')
-            storePassword 'raff7678'
+        config {
+            keyAlias 'setlists'
+            keyPassword 'password'
+            storeFile file("$rootDir/keystore.jks")
+            storePassword 'password'
         }
     }
     compileSdkVersion 25
@@ -18,16 +18,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.production
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.production
+            signingConfig signingConfigs.config
         }
         debug {
-            signingConfig signingConfigs.production
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {
@@ -46,7 +46,6 @@ dependencies {
     compile 'com.github.kaaes:spotify-web-api-android:0.4.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
-    compile 'com.google.firebase:firebase-database:11.0.2'
     compile 'com.google.firebase:firebase-storage:11.0.2'
     compile 'com.google.android.gms:play-services-auth:11.0.2'
     compile 'com.google.firebase:firebase-auth:11.0.2'

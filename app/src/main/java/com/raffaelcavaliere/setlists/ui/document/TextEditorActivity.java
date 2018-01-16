@@ -72,7 +72,7 @@ public class TextEditorActivity extends AppCompatActivity {
                 }
                 finish();
             } else {
-                Toast.makeText(getApplicationContext(), "File could not be opened.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_file_cannot_be_opened), Toast.LENGTH_SHORT).show();
             }
             }
         });

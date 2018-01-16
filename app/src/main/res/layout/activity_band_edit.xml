@@ -55,7 +55,7 @@
                 style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:layout_toStartOf="@+id/editBandSave"
                 android:textColor="@color/white"
                 android:layout_centerVertical="true" />
@@ -65,7 +65,7 @@
                 style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save"
+                android:text="@string/save"
                 android:textColor="@color/white"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true" />

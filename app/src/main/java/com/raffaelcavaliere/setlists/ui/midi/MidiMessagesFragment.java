@@ -79,7 +79,7 @@ public class MidiMessagesFragment extends Fragment implements
                 @Override
                 public void onDeviceOpened(MidiDevice device) {
                     if (device == null) {
-                        Toast.makeText(getContext(), "MIDI error: could not open device " + String.valueOf(deviceInfo.getId()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getResources().getText(R.string.toast_midi_device_error) + " " + String.valueOf(deviceInfo.getId()), Toast.LENGTH_LONG).show();
                     } else {
                         try {
                             for (int i = 0; i < device.getInfo().getInputPortCount(); i++) {
@@ -182,7 +182,6 @@ public class MidiMessagesFragment extends Fragment implements
             textNothingToShow.setVisibility(View.VISIBLE);
         else
             textNothingToShow.setVisibility(View.GONE);
-        adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -250,7 +249,7 @@ public class MidiMessagesFragment extends Fragment implements
             this.data1 = data1;
             this.data2 = data2;
             textName.setText(name);
-            textChannel.setText("Channel " + String.valueOf(channel));
+            textChannel.setText(getResources().getText(R.string.midi_message_channel) + " " + String.valueOf(channel));
             switch ((byte)status) {
                 case MidiHelper.NOTE_OFF:
                     textStatus.setText(MidiHelper.STATUS_NOTE_OFF.getLabel());
@@ -307,10 +306,10 @@ public class MidiMessagesFragment extends Fragment implements
                             int offset = 0;
                             long now = System.nanoTime();
                             try {
-                                Toast.makeText(getActivity(), "Sending MIDI: " + MidiHelper.bytesToHex(buffer), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getResources().getText(R.string.toast_sending_midi) + " " + MidiHelper.bytesToHex(buffer), Toast.LENGTH_SHORT).show();
                                 port.send(buffer, offset, numBytes, now);
                             } catch (Exception ex) {
-                                Toast.makeText(getActivity(), "MIDI error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getResources().getText(R.string.toast_midi_error) + " " + ex.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

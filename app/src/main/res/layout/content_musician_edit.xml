@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_musician_edit">
 
     <TextView
-        android:text="Name"
+        android:text="@string/musician_edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -23,9 +23,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/musician_edit_name"
         android:id="@+id/editMusicianName"
-        android:hint="Enter name"
+        android:hint="@string/musician_edit_name"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
@@ -35,7 +35,7 @@
         android:maxLines="1" />
 
     <TextView
-        android:text="Instrument"
+        android:text="@string/musician_edit_instrument"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editMusicianName"
@@ -47,8 +47,8 @@
         android:textStyle="normal|bold" />
 
     <EditText
-        android:text="Guitar"
-        android:hint="Enter instrument"
+        android:text=""
+        android:hint="@string/musician_edit_enter_instrument"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editMusicianInstrument"
@@ -61,7 +61,7 @@
         android:maxLines="1" />
 
     <TextView
-        android:text="Email"
+        android:text="@string/musician_edit_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editMusicianInstrument"
@@ -75,9 +75,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text=""
         android:id="@+id/editMusicianEmail"
-        android:hint="Enter email"
+        android:hint="@string/musician_edit_enter_email"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"

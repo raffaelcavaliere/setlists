@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_song_edit">
 
     <TextView
-        android:text="Song title"
+        android:text="@string/song_edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/editSongTitle"
-        android:hint="Enter title"
+        android:hint="@string/song_edit_enter_title"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
@@ -35,7 +35,7 @@
         android:inputType="text"/>
 
     <TextView
-        android:text="Artist"
+        android:text="@string/song_edit_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -63,6 +63,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_add_artist"
         android:id="@+id/editSongNewArtist"
         android:layout_alignBottom="@+id/editSongArtist"
         android:layout_alignEnd="@+id/editSongArtistLabel"
@@ -73,7 +74,7 @@
         android:elevation="2dp" />
 
     <TextView
-        android:text="Key"
+        android:text="@string/song_edit_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSongArtist"
@@ -95,7 +96,7 @@
         android:layout_below="@+id/editSongKeyLabel" />
 
     <TextView
-        android:text="Tempo"
+        android:text="@string/song_edit_tempo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSongKey"
@@ -107,8 +108,8 @@
         android:textStyle="normal|bold" />
 
     <EditText
-        android:text="120"
-        android:hint="Enter tempo"
+        android:text=""
+        android:hint="@string/song_edit_enter_tempo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editSongTempo"
@@ -122,7 +123,7 @@
         android:maxLines="1" />
 
     <TextView
-        android:text="Duration"
+        android:text="@string/song_edit_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSongTempo"
@@ -134,8 +135,8 @@
         android:textStyle="normal|bold" />
 
     <EditText
-        android:text="0"
-        android:hint="Min"
+        android:text=""
+        android:hint="@string/song_edit_minute"
         android:layout_height="wrap_content"
         android:id="@+id/editSongDurationMinutes"
         android:layout_marginTop="0dp"
@@ -150,9 +151,9 @@
         android:textAlignment="center" />
 
     <TextView
-        android:text=":"
+        android:text="@string/song_edit_commas"
         android:layout_width="wrap_content"
-        android:layout_toRightOf="@+id/editSongDurationMinutes"
+        android:layout_toEndOf="@+id/editSongDurationMinutes"
         android:layout_below="@+id/editSongDurationLabel"
         android:layout_marginTop="0dp"
         android:id="@+id/editSongDurationCommas"
@@ -163,15 +164,15 @@
         android:layout_height="40dp" />
 
     <EditText
-        android:text="00"
-        android:hint="Sec"
+        android:text=""
+        android:hint="@string/song_edit_second"
         android:layout_height="wrap_content"
         android:id="@+id/editSongDurationSeconds"
         android:layout_marginTop="0dp"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="12dp"
         android:layout_below="@+id/editSongDurationLabel"
-        android:layout_toRightOf="@+id/editSongDurationCommas"
+        android:layout_toEndOf="@+id/editSongDurationCommas"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:inputType="number"
         android:maxLength="2"
@@ -180,7 +181,7 @@
         android:textAlignment="center" />
 
     <TextView
-        android:text="Document"
+        android:text="@string/song_edit_document"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSongDurationMinutes"
@@ -206,6 +207,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_add_document"
         android:id="@+id/editSongNewDocument"
         android:layout_alignBottom="@+id/editSongDocument"
         android:layout_alignEnd="@+id/editSongArtistLabel"
@@ -216,7 +218,7 @@
         android:elevation="2dp" />
 
     <TextView
-        android:text="Notes"
+        android:text="@string/song_edit_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSongDocument"
@@ -228,8 +230,8 @@
         android:textStyle="normal|bold" />
 
     <EditText
-        android:text="Notes"
-        android:hint="Enter notes"
+        android:text=""
+        android:hint="@string/song_edit_enter_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editSongNotes"

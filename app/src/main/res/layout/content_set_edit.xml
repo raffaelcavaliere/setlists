@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_set_edit">
 
     <TextView
-        android:text="Name"
+        android:text="@string/set_edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -23,9 +23,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text=""
         android:id="@+id/editSetName"
-        android:hint="Enter name"
+        android:hint="@string/set_edit_enter_name"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
@@ -35,7 +35,7 @@
         android:maxLines="1" />
 
     <TextView
-        android:text="Band"
+        android:text="@string/set_edit_band"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -62,6 +62,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_add_band"
         android:id="@+id/editSetNewBand"
         android:layout_alignBottom="@+id/editSetBand"
         android:layout_alignEnd="@+id/editSetBandLabel"
@@ -72,7 +73,7 @@
         android:elevation="2dp" />
 
     <TextView
-        android:text="Location"
+        android:text="@string/set_edit_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSetBand"
@@ -84,8 +85,8 @@
         android:textStyle="normal|bold" />
 
     <EditText
-        android:text="Montreal"
-        android:hint="Enter location"
+        android:text=""
+        android:hint="@string/set_edit_enter_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editSetLocation"

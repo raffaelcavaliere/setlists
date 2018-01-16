@@ -153,7 +153,7 @@ public class ViewerActivity extends AppCompatActivity
                 @Override
                 public void onDeviceOpened(MidiDevice device) {
                     if (device == null) {
-                        Toast.makeText(getApplicationContext(), "MIDI error: could not open device " + String.valueOf(deviceInfo.getId()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_midi_device_error) + " " + String.valueOf(deviceInfo.getId()), Toast.LENGTH_LONG).show();
                     } else {
                         try {
                             for (int i = 0; i < device.getInfo().getInputPortCount(); i++) {
@@ -257,10 +257,10 @@ public class ViewerActivity extends AppCompatActivity
                                 int offset = 0;
                                 long now = System.nanoTime();
                                 try {
-                                    Toast.makeText(getApplicationContext(), "Sending MIDI: " + MidiHelper.bytesToHex(buffer), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_sending_midi) + " " + MidiHelper.bytesToHex(buffer), Toast.LENGTH_SHORT).show();
                                     port.send(buffer, offset, numBytes, now);
                                 } catch (Exception ex) {
-                                    Toast.makeText(getApplicationContext(), "MIDI error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_midi_error) + " " + ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

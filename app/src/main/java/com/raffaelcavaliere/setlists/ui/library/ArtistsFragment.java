@@ -147,7 +147,6 @@ public class ArtistsFragment extends Fragment implements
             textNothingToShow.setVisibility(View.VISIBLE);
         else
             textNothingToShow.setVisibility(View.GONE);
-        adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

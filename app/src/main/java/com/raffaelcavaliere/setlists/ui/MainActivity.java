@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            ;
+            super.onBackPressed();
         }
     }
 
@@ -253,13 +253,13 @@ public class MainActivity extends AppCompatActivity
             dst.transferFrom(src, 0, src.size());
             src.close();
             dst.close();
-            Toast.makeText(getApplicationContext(), "Import Successful!",
+            Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_import_success),
                     Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
 
             Log.d("EXCEPTION", e.getMessage());
-            Toast.makeText(getApplicationContext(), "Import Failed!", Toast.LENGTH_SHORT)
+            Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_import_failed), Toast.LENGTH_SHORT)
                     .show();
 
         }
@@ -278,13 +278,13 @@ public class MainActivity extends AppCompatActivity
             dst.transferFrom(src, 0, src.size());
             src.close();
             dst.close();
-            Toast.makeText(getApplicationContext(), "Backup Successful!",
+            Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_backup_success),
                     Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
 
-            Toast.makeText(getApplicationContext(), "Backup Failed!", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_backup_failed),
+                    Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_document_edit">
 
     <TextView
-        android:text="File"
+        android:text="@string/document_edit_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
         android:textStyle="normal|bold" />
 
     <TextView
-        android:text="No file selected"
+        android:text="@string/document_edit_no_file_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editDocumentFileLabel"
@@ -35,6 +35,7 @@
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@string/cd_document_icon"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:srcCompat="@drawable/pdf_icon"
@@ -46,6 +47,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_browse_document"
         app:srcCompat="@drawable/ic_mode_edit_black_24dp"
         android:id="@+id/editDocumentFileEdit"
         android:layout_toStartOf="@+id/editDocumentFileView"
@@ -59,6 +61,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_view_document"
         app:srcCompat="@drawable/ic_visibility_black_24dp"
         android:id="@+id/editDocumentFileView"
         android:layout_toStartOf="@+id/editDocumentFileBrowse"
@@ -72,6 +75,7 @@
 
     <ImageButton
         android:id="@+id/editDocumentFileBrowse"
+        android:contentDescription="@string/cd_browse_file"
         style="@android:style/Widget.Holo.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +88,7 @@
 
 
     <TextView
-        android:text="Description"
+        android:text="@string/document_edit_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -98,9 +102,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:text="@string/document_edit_enter_description"
         android:id="@+id/editDocumentDescription"
-        android:hint="Enter description"
+        android:hint="@string/document_edit_enter_description"
         android:layout_marginTop="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"
@@ -117,11 +121,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
-        android:text="Set document as preferred"
+        android:text="@string/document_edit_set_preferred"
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
     <TextView
-        android:text="MIDI messages"
+        android:text="@string/document_edit_midi_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -144,6 +148,7 @@
 
     <ImageButton
         android:id="@+id/editDocumentAddMidiMessage"
+        android:contentDescription="@string/cd_add_midi_message"
         style="@android:style/Widget.Holo.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

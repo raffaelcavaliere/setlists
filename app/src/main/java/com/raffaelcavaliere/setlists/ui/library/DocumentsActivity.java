@@ -132,7 +132,6 @@ public class DocumentsActivity extends AppCompatActivity implements
                 textNothingToShow.setVisibility(View.GONE);
             toolbar.setSubtitle(cursor.getCount() <= 0 ? "No document" : String.valueOf(cursor.getCount()) + " document" + (cursor.getCount() > 1 ? "s" : ""));
             DocumentsActivity.Adapter adapter = new DocumentsActivity.Adapter(cursor);
-            adapter.setHasStableIds(true);
             mRecyclerView.setAdapter(adapter);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -236,16 +235,16 @@ public class DocumentsActivity extends AppCompatActivity implements
 
             switch (type) {
                 case SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_PDF:
-                    textType.setText("PDF file");
+                    textType.setText(getResources().getText(R.string.pdf_file));
                     break;
                 case SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_CHORDPRO:
-                    textType.setText("Chordpro file");
+                    textType.setText(getResources().getText(R.string.chordpro_file));
                     break;
                 case SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_IMAGE:
-                    textType.setText("Image file");
+                    textType.setText(getResources().getText(R.string.image_file));
                     break;
                 case SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_TEXT:
-                    textType.setText("Text file");
+                    textType.setText(getResources().getText(R.string.text_file));
                     break;
             }
 
@@ -293,7 +292,7 @@ public class DocumentsActivity extends AppCompatActivity implements
                 public void onClick(final View v) {
                     PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
                     popupMenu.getMenuInflater().inflate(R.menu.document_context_menu, popupMenu.getMenu());
-                    if (id == preferred)
+                    if (id.equals(preferred))
                         popupMenu.getMenu().removeItem(R.id.document_context_menu_preferred);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
@@ -320,7 +319,7 @@ public class DocumentsActivity extends AppCompatActivity implements
                                     editDocumentIntent.putExtra("description", description);
                                     editDocumentIntent.putExtra("type", type);
                                     editDocumentIntent.putExtra("tempo", tempo);
-                                    editDocumentIntent.putExtra("isPreferred", id == preferred);
+                                    editDocumentIntent.putExtra("isPreferred", id.equals(preferred));
                                     startActivityForResult(editDocumentIntent, REQUEST_EDIT_DOCUMENT);
                                     return true;
                                 case R.id.document_context_menu_duplicate:

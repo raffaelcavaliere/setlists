@@ -110,7 +110,6 @@ public class MusiciansActivity extends AppCompatActivity implements
             else
                 textNothingToShow.setVisibility(View.GONE);
             MusiciansActivity.Adapter adapter = new MusiciansActivity.Adapter(cursor);
-            adapter.setHasStableIds(true);
             mRecyclerView.setAdapter(adapter);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -129,12 +128,6 @@ public class MusiciansActivity extends AppCompatActivity implements
         private Cursor mCursor;
         public Adapter(Cursor cursor) {
             mCursor = cursor;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
         }
 
         @Override

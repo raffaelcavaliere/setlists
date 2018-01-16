@@ -148,7 +148,6 @@ public class SetsFragment extends Fragment implements
             textNothingToShow.setVisibility(View.GONE);
         }
         SetsFragment.Adapter adapter = new SetsFragment.Adapter(cursor);
-        adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

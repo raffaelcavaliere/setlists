@@ -21,7 +21,7 @@
         android:paddingEnd="@dimen/window_margin"
         android:paddingStart="8dp"
         android:paddingTop="@dimen/window_margin"
-        android:text="Blue Suede Shoes"
+        android:text=""
         android:textAlignment="viewStart"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
@@ -39,7 +39,7 @@
         android:maxLines="1"
         android:paddingEnd="@dimen/window_margin"
         android:paddingStart="8dp"
-        android:text="Elvis Presley"
+        android:text=""
         android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -55,7 +55,7 @@
         android:maxLines="1"
         android:paddingEnd="@dimen/window_margin"
         android:paddingStart="8dp"
-        android:text="120 BPM"
+        android:text=""
         android:textColor="@color/grey"
         android:textSize="16sp" />
 
@@ -70,7 +70,7 @@
         android:maxLines="1"
         android:paddingEnd="@dimen/window_margin"
         android:paddingStart="@dimen/window_margin"
-        android:text="Am"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="16sp"
         android:visibility="invisible" />
@@ -85,7 +85,7 @@
         android:maxLines="1"
         android:paddingEnd="@dimen/window_margin"
         android:paddingStart="@dimen/window_margin"
-        android:text="4:05"
+        android:text=""
         android:textColor="@color/grey"
         android:textSize="16sp"
         android:visibility="invisible" />
@@ -97,7 +97,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
         android:background="@drawable/ic_more_vert_black_24dp"
-        android:contentDescription="Menu"
+        android:contentDescription="@string/cd_menu"
         android:visibility="visible" />
 
     <ImageView
@@ -106,7 +106,7 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_margin="10dp"
-        android:contentDescription="Handle"
+        android:contentDescription="@string/cd_handle"
         android:scaleType="center"
         android:src="@drawable/ic_reorder_black_24dp"
         android:visibility="invisible" />
@@ -120,7 +120,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="8dp"
         android:minWidth="32dp"
-        android:text="12"
+        android:text=""
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textColor="@color/colorPrimaryDark"

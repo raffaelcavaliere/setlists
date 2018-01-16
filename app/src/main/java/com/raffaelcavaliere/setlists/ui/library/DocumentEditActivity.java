@@ -197,7 +197,7 @@ public class DocumentEditActivity extends AppCompatActivity
                     setResult(RESULT_OK, data);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please provide a description", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_provide_description), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -272,7 +272,7 @@ public class DocumentEditActivity extends AppCompatActivity
             if (uri.getPath().length() > 0) {
                 int dot = uri.getLastPathSegment().lastIndexOf(".");
                 if (dot < 0) {
-                    Toast.makeText(this, "File type is not supported", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getText(R.string.toast_file_type_not_supported), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String extension = uri.getLastPathSegment().substring(dot);
@@ -289,7 +289,7 @@ public class DocumentEditActivity extends AppCompatActivity
                     type = SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_TEXT;
                 else
                 {
-                    Toast.makeText(this, "File type is not supported", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getText(R.string.toast_file_type_not_supported), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 fileToImport = new File(uri.getPath().replace("/root", ""));
@@ -310,7 +310,6 @@ public class DocumentEditActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         if (cursorLoader.getId() == MainActivity.DOCUMENT_MIDI_MESSAGES_LOADER) {
             DocumentEditActivity.Adapter adapter = new DocumentEditActivity.Adapter(cursor);
-            adapter.setHasStableIds(true);
             mRecyclerView.setAdapter(adapter);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -389,12 +388,6 @@ public class DocumentEditActivity extends AppCompatActivity
         }
 
         @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
-        }
-
-        @Override
         public DocumentEditActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.list_item_details, parent, false);
             final DocumentEditActivity.ViewHolder vh = new DocumentEditActivity.ViewHolder(view);
@@ -442,7 +435,7 @@ public class DocumentEditActivity extends AppCompatActivity
             this.data1 = data1;
             this.data2 = data2;
             textName.setText(name);
-            textChannel.setText("Channel " + String.valueOf(channel));
+            textChannel.setText(getResources().getText(R.string.midi_message_channel) + " " + String.valueOf(channel));
             switch ((byte)status) {
                 case MidiHelper.NOTE_OFF:
                     textStatus.setText(MidiHelper.STATUS_NOTE_OFF.getLabel());

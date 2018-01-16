@@ -180,7 +180,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
                 @Override
                 public void onDeviceOpened(MidiDevice device) {
                     if (device == null) {
-                        Toast.makeText(getApplicationContext(), "MIDI error: could not open device " + String.valueOf(deviceInfo.getId()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_midi_device_error) + " " + String.valueOf(deviceInfo.getId()), Toast.LENGTH_LONG).show();
                     } else {
                         try {
                             for (int i = 0; i < device.getInfo().getInputPortCount(); i++) {
@@ -349,10 +349,10 @@ public class SwipeViewerActivity extends AppCompatActivity implements
                                 int offset = 0;
                                 long now = System.nanoTime();
                                 try {
-                                    Toast.makeText(getApplicationContext(), "Sending MIDI: " + MidiHelper.bytesToHex(buffer), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_sending_midi) + " " + MidiHelper.bytesToHex(buffer), Toast.LENGTH_SHORT).show();
                                     port.send(buffer, offset, numBytes, now);
                                 } catch (Exception ex) {
-                                    Toast.makeText(getApplicationContext(), "MIDI error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_midi_error) + " " + ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -445,7 +445,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             dialog.setArguments(args);
             dialog.show(getSupportFragmentManager(), "dialog");
         } else if (id == R.id.file_menu_transpose) {
-            Toast.makeText(this, "This document can't be tranposed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getText(R.string.toast_document_cannot_be_transposed), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.document_context_menu_edit && type > 0) {
             Intent editDocumentIntent = new Intent(this, DocumentEditActivity.class);
             editDocumentIntent.putExtra(DocumentEditActivity.EXTRA_MODE, DocumentEditActivity.EXTRA_MODE_EDIT);
@@ -458,7 +458,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             startActivityForResult(editDocumentIntent, REQUEST_EDIT_DOCUMENT);
             return true;
         } else if (id == R.id.document_context_menu_edit) {
-            Toast.makeText(this, "This document can't be edited", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getText(R.string.toast_document_cannot_be_edited), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.file_menu_edit &&
                 (selected.getType() == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_TEXT ||
                  selected.getType() == SetlistsDbContract.SetlistsDbDocumentEntry.DOCUMENT_TYPE_CHORDPRO)) {
@@ -467,7 +467,7 @@ public class SwipeViewerActivity extends AppCompatActivity implements
             startActivityForResult(editDocumentIntent, REQUEST_EDIT_FILE);
             return true;
         } else if (id == R.id.file_menu_edit) {
-            Toast.makeText(this, "This file can't be edited", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getText(R.string.toast_file_cannot_be_edited), Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

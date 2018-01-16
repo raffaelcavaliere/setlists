@@ -184,7 +184,6 @@ public class SongsFragment extends Fragment implements
                 ((ArtistSongsActivity)getActivity()).setSubtitle(cursor.getCount() <= 0 ? "No song" : String.valueOf(cursor.getCount()) + " song" + (cursor.getCount() > 1 ? "s" : ""));
 
             SongsFragment.Adapter adapter = new SongsFragment.Adapter(cursor);
-            adapter.setHasStableIds(true);
             mRecyclerView.setAdapter(adapter);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -203,12 +202,6 @@ public class SongsFragment extends Fragment implements
         private Cursor mCursor;
         public Adapter(Cursor cursor) {
             mCursor = cursor;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            mCursor.moveToPosition(position);
-            return mCursor.getLong(0);
         }
 
         @Override

@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_band_edit">
 
     <TextView
-        android:text="Band name"
+        android:text="@string/band_edit_band_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/editBandName"
-        android:hint="Enter name"
+        android:hint="@string/band_edit_enter_name"
         android:layout_marginTop="4dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="16dp"

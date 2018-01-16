@@ -111,6 +111,7 @@
 
             <ImageView
                 android:id="@+id/viewer_metronome"
+                android:contentDescription="@string/cd_metronome_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"

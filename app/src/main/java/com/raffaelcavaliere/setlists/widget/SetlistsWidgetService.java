@@ -120,7 +120,7 @@ class SetlistsWidgetDataFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return false;
     }
 
     private void loadData() {

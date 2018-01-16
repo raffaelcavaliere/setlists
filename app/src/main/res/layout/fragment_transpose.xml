@@ -17,7 +17,7 @@
         android:paddingStart="16dp">
 
         <TextView
-            android:text="Transpose"
+            android:text="@string/transpose_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/transpose_title"
@@ -35,7 +35,7 @@
             <Button
                 android:id="@+id/transpose_down"
                 android:layout_weight="1"
-                android:text="-"
+                android:text="@string/transpose_popup_minus"
                 android:textAllCaps="false"
                 style="@android:style/Widget.Holo.Button.Small"
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/transpose_semitones"
-                android:text="0"
+                android:text=""
                 android:textAppearance="@android:style/TextAppearance.Material.Large"
                 android:layout_weight="1"
                 android:textAlignment="center"
@@ -56,7 +56,7 @@
                 android:textAllCaps="false" />
 
             <Button
-                android:text="+"
+                android:text="@string/transpose_popup_plus"
                 android:id="@+id/transpose_up"
                 android:layout_weight="1"
                 android:textAllCaps="false"
@@ -77,14 +77,14 @@
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:text="Use sharps (♯)"
+                android:text="@string/transpose_use_sharps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/transpose_prefer_sharps"
                 android:checked="true" />
 
             <RadioButton
-                android:text="Use flats (♭)"
+                android:text="@string/transpose_use_flats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/transpose_prefer_flats" />

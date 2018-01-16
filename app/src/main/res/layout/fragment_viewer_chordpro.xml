@@ -33,7 +33,7 @@
 
                     <TextView
                         android:id="@+id/chordpro_title"
-                        android:text="Title"
+                        android:text="@string/chordpro_viewer_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/DocumentTitle"
@@ -41,7 +41,7 @@
 
                     <TextView
                         android:id="@+id/chordpro_subtitle"
-                        android:text="Subtitle"
+                        android:text="@string/chordpro_viewer_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/DocumentSubtitle"
@@ -55,7 +55,7 @@
                     android:layout_marginTop="12dp">
 
                     <TextView
-                        android:text="Composed by "
+                        android:text="@string/chordpro_viewer_composer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/chordpro_composer"
@@ -63,7 +63,7 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:text="Arranged by"
+                        android:text="@string/chordpro_viewer_arranger"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/chordpro_arranger"
@@ -71,7 +71,7 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:text="Lyrics by"
+                        android:text="@string/chordpro_viewer_lyricist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/chordpro_lyricist"
@@ -94,7 +94,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:text="Am"
+                        android:text=""
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
@@ -103,7 +103,7 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:text="♩ = 120"
+                        android:text=""
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="textEnd"
@@ -124,7 +124,7 @@
                         android:id="@+id/chordpro_time"
                         android:textAlignment="textEnd"
                         style="@style/DocumentSubtitle"
-                        android:text="4/4"
+                        android:text=""
                         android:visibility="gone" />
 
                     <TextView
@@ -133,7 +133,7 @@
                         android:id="@+id/chordpro_duration"
                         android:textAlignment="textEnd"
                         style="@style/DocumentSubtitle"
-                        android:text="5:05"
+                        android:text=""
                         android:visibility="gone" />
                 </LinearLayout>
 

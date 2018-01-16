@@ -118,7 +118,7 @@ public class MidiMessageEditActivity extends AppCompatActivity {
                     }
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please provide a name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_provide_name), Toast.LENGTH_SHORT).show();
                 }
 
             }

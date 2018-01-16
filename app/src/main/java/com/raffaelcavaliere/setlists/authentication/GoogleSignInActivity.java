@@ -103,6 +103,8 @@ public class GoogleSignInActivity extends BaseAuthActivity implements
                 updateUI(null);
                 // [END_EXCLUDE]
             }
+        } else if (requestCode == RC_START_APP) {
+            finishAndRemoveTask();
         }
     }
     // [END onactivityresult]
@@ -127,7 +129,7 @@ public class GoogleSignInActivity extends BaseAuthActivity implements
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
+                            Toast.makeText(GoogleSignInActivity.this, getResources().getText(R.string.toast_authentication_failed),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -186,7 +188,7 @@ public class GoogleSignInActivity extends BaseAuthActivity implements
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             Intent signInToMain = new Intent(this, MainActivity.class);
-            startActivity(signInToMain);
+            startActivityForResult(signInToMain, RC_START_APP);
 
         } else {
             mStatusTextView.setText(R.string.signed_out);
@@ -201,7 +203,7 @@ public class GoogleSignInActivity extends BaseAuthActivity implements
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getText(R.string.toast_gps_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override

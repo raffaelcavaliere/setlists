@@ -83,7 +83,6 @@ public class SetSongsActivity extends AppCompatActivity implements
 
         mRecyclerView = (RecyclerView) findViewById(R.id.set_song_list);
         mAdapter = new SetSongsActivity.Adapter(this);
-        mAdapter.setHasStableIds(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -254,6 +253,7 @@ public class SetSongsActivity extends AppCompatActivity implements
 
         @Override
         public void onBindViewHolder(final SetSongsActivity.ViewHolder holder, int position) {
+            Log.d("POSITION", String.valueOf(position));
             SetlistsDbItemSetSong item = items.get(position);
             holder.bindData(item.getId(), item.getSong(), item.getSequence(), item.getDocument(), item.getType(),
                     item.getTitle(), item.getDescription(), item.getKey(), item.getDuration(), item.getTempo(),
@@ -342,7 +342,7 @@ public class SetSongsActivity extends AppCompatActivity implements
                 textDescription.setTextColor(getColor(R.color.black));
                 textDescription.setTypeface(null, Typeface.NORMAL);
             } else {
-                textDescription.setText("No document");
+                textDescription.setText(getResources().getText(R.string.no_document));
                 textDescription.setTextColor(getColor(R.color.colorAccent));
                 textDescription.setTypeface(null, Typeface.ITALIC);
             }
@@ -358,7 +358,7 @@ public class SetSongsActivity extends AppCompatActivity implements
                 textKey.setVisibility(View.VISIBLE);
             }
 
-            textSequence.setText(String.valueOf(sequence));
+            textSequence.setText(String.valueOf(this.sequence));
         }
 
         @Override

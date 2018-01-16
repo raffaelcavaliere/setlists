@@ -117,27 +117,107 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
          from https://console.developers.google.com/ -->
     <string name="server_client_id">445191369134-atlsls0ru7svevfg6ag0lv5be9bk9vbp.apps.googleusercontent.com</string>
+
+    <!-- Artist -->
     <string name="title_activity_artist_edit">Add/Edit artist</string>
-    <string name="title_activity_song_edit">Add/Edit song</string>
+    <string name="artist_edit_artist_name">Artist name</string>
+    <string name="artist_edit_enter_name">Enter name</string>
+    <string name="artist_edit_photo">Artist photo</string>
+    <string name="artist_edit_enter_url">Enter url</string>
     <string name="dialog_text_searching_picture">Searching for pictures&#8230;</string>
     <string name="dialog_text_select_picture">Select a picture from the list.</string>
     <string name="dialog_text_no_picture">No picture found.</string>
-    <string name="created_by">By</string>
-    <string name="bpm_note">\u2669 =</string>
-    <string name="modified_on">Modified on</string>
-    <string name="key_of">Key of</string>
+
+    <!-- Song -->
+    <string name="title_activity_song_edit">Add/Edit song</string>
+    <string name="song_edit_title">Song title</string>
+    <string name="song_edit_enter_title">Enter title</string>
+    <string name="song_edit_artist">Artist</string>
+    <string name="song_edit_key">Key</string>
+    <string name="song_edit_tempo">Tempo</string>
+    <string name="song_edit_enter_tempo">Enter tempo</string>
+    <string name="song_edit_duration">Duration</string>
+    <string name="song_edit_minute">Min</string>
+    <string name="song_edit_commas">:</string>
+    <string name="song_edit_second">Sec</string>
+    <string name="song_edit_document">Document</string>
+    <string name="song_edit_notes">Notes</string>
+    <string name="song_edit_enter_notes">Enter notes</string>
+
+    <!-- Document -->
     <string name="title_activity_document_edit">Add/Edit document</string>
-    <string name="title_activity_file_edit">Add/Edit file</string>
-    <string name="title_activity_band_edit">Add/Edit band</string>
-    <string name="title_activity_musician_edit">Add/Edit musician</string>
-    <string name="title_activity_set_edit">Add/Edit set</string>
-    <string name="title_activity_set_song_picker">Select songs</string>
-    <string name="title_activity_midi_message_edit">Add/Edit MIDI message</string>
+    <string name="document_edit_file">File</string>
+    <string name="document_edit_no_file_warning">No file selected</string>
+    <string name="document_edit_description">Description</string>
+    <string name="document_edit_enter_description">Enter description</string>
+    <string name="document_edit_set_preferred">Set document as preferred</string>
+    <string name="document_edit_midi_messages">MIDI messages</string>
     <string name="document_title_preferred">\u2713 Preferred</string>
     <string name="document_midi_message_autosend">\u2713 Auto send on load</string>
+
+    <!-- File -->
+    <string name="title_activity_file_edit">Add/Edit file</string>
+
+    <!-- Band -->
+    <string name="title_activity_band_edit">Add/Edit band</string>
+    <string name="band_edit_band_name">Band name</string>
+    <string name="band_edit_enter_name">Enter name</string>
+
+    <!-- Musician -->
+    <string name="title_activity_musician_edit">Add/Edit musician</string>
+    <string name="musician_edit_name">Name</string>
+    <string name="musician_edit_enter_name">Enter name</string>
+    <string name="musician_edit_instrument">Instrument</string>
+    <string name="musician_edit_enter_instrument">Enter instrument</string>
+    <string name="musician_edit_email">Email</string>
+    <string name="musician_edit_enter_email">Enter email</string>
+
+    <!-- Set -->
+    <string name="title_activity_set_edit">Add/Edit set</string>
+    <string name="set_edit_name">Name</string>
+    <string name="set_edit_enter_name">Enter name</string>
+    <string name="set_edit_band">Band</string>
+    <string name="set_edit_location">Location</string>
+    <string name="set_edit_enter_location">Enter location</string>
+
+    <!-- Set songs -->
+    <string name="title_activity_set_song_picker">Select songs</string>
+
+    <!-- Midi -->
+    <string name="title_activity_midi_message_edit">Add/Edit MIDI message</string>
+    <string name="midi_message_name">Name</string>
+    <string name="midi_message_enter_name">Enter name</string>
+    <string name="midi_message_channel">Channel</string>
+    <string name="midi_message_status_byte">Status byte</string>
+    <string name="midi_message_first_data_byte">First data byte</string>
+    <string name="midi_message_second_data_byte">Second data byte</string>
+    <string name="midi_message_enter_first_data_byte">Enter first data byte</string>
+    <string name="midi_message_enter_second_data_byte">Enter second data byte</string>
+
+    <!-- Message picker -->
     <string name="title_activity_midi_message_picker">Select MIDI messages</string>
     <string name="reorder">Reorder</string>
     <string name="done">Done</string>
+
+    <!-- Transpose popup -->
+    <string name="transpose_popup">Transpose</string>
+    <string name="transpose_popup_minus">-</string>
+    <string name='transpose_popup_plus'>+</string>
+    <string name="transpose_use_sharps">Use sharps (♯)</string>
+    <string name="transpose_use_flats">Use flats (♭)</string>
+
+    <!-- Chordpro viewer -->
+    <string name="chordpro_viewer_title">Title</string>
+    <string name="chordpro_viewer_subtitle">Subtitle</string>
+    <string name="chordpro_viewer_composer">Composed by</string>
+    <string name="chordpro_viewer_arranger">Arranged by</string>
+    <string name="chordpro_viewer_lyricist">Lyrics by</string>
+
+    <string name="pdf_file">PDF file</string>
+    <string name="chordpro_file">Chordpro file</string>
+    <string name="image_file">Image file</string>
+    <string name="text_file">Text file</string>
+    <string name="no_document">No document</string>
 
     <string-array name="keys">
         <item>C</item>
@@ -205,4 +285,61 @@
         completions."
     </string>
 
+    <!-- Common strings -->
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="add">Add</string>
+    <string name="created_by">By</string>
+    <string name="bpm_note">\u2669 =</string>
+    <string name="modified_on">Modified on</string>
+    <string name="key_of">Key of</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_metronome_led_off">Metronome led off</string>
+    <string name="cd_metronome_icon">Metronome icon</string>
+    <string name="cd_document_icon">Document icon</string>
+    <string name="cd_browse_document">Browse document</string>
+    <string name="cd_view_document">View document</string>
+    <string name="cd_browse_file">Browse file</string>
+    <string name="cd_add_midi_message">Add midi message</string>
+    <string name="cd_add_band">Add band</string>
+    <string name="cd_add_artist">Add artist</string>
+    <string name="cd_add_document">Add document</string>
+    <string name="cd_search_artist_picture">Search artist picture</string>
+    <string name="cd_item_menu">Item menu</string>
+    <string name="cd_menu">Menu</string>
+    <string name="cd_handle">Handle</string>
+    <string name="cd_item_picture">Item picture</string>
+    <string name="cd_application_icon">Application icon</string>
+    <string name="cd_pick_file">Pick file</string>
+
+    <!-- Toast messages -->
+    <string name="toast_authentication_failed">Authentication failed.</string>
+    <string name="toast_gps_error">Google Play Services error.</string>
+    <string name="toast_backup_success">Backup successful!</string>
+    <string name="toast_backup_failed">Backup failed!</string>
+    <string name="toast_import_success">Import successful!</string>
+    <string name="toast_import_failed">Import failed!</string>
+    <string name="toast_provide_name">Please provide a name</string>
+    <string name="toast_midi_device_error">MIDI error: could not open device</string>
+    <string name="toast_document_cannot_be_transposed">This document can\'t be transposed</string>
+    <string name="toast_document_cannot_be_edited">This document can\'t be edited</string>
+    <string name="toast_file_cannot_be_edited">This file can\'t be edited</string>
+    <string name="toast_sending_midi">Sending MIDI:</string>
+    <string name="toast_midi_error">MIDI error:</string>
+    <string name="toast_file_cannot_be_opened">File could not be opened.</string>
+    <string name="toast_permission_denied">Permission denied!</string>
+    <string name="toast_file_type_not_supported">File type is not supported</string>
+    <string name="toast_provide_description">Please provide a description</string>
+    <string name="toast_provide_title">Please provide a title</string>
+
+    <!-- fab content descriptions -->
+    <string name="fab_add_document">Add document</string>
+    <string name="fab_add_musician">Add musician</string>
+    <string name="fab_add_set_song">Add set song</string>
+    <string name="fab_add_artist">Add artist</string>
+    <string name="fab_add_band">Add band</string>
+    <string name="fab_add_midi_message">Add midi message</string>
+    <string name="fab_add_set">Add set</string>
+    <string name="fab_add_song">Add song</string>
 </resources>

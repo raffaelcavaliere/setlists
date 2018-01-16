@@ -204,7 +204,7 @@ public class SongEditActivity extends AppCompatActivity  implements
 
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please provide a title", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_provide_title), Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.raffaelcavaliere.setlists.R;
+
 import java.io.File;
 
 public abstract class ViewerFragment extends Fragment {
@@ -64,7 +66,7 @@ public abstract class ViewerFragment extends Fragment {
                         Log.d("Exception", ex.toString());
                     }
                 } else {
-                    Toast.makeText(getContext(), "We Need permission Storage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getText(R.string.toast_permission_denied), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }

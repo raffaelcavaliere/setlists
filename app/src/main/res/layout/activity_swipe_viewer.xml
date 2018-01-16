@@ -112,6 +112,7 @@
 
             <ImageView
                 app:srcCompat="@drawable/led_off_96"
+                android:contentDescription="@string/cd_metronome_led_off"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"

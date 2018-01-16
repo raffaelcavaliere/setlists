@@ -96,8 +96,8 @@
                 android:layout_weight="1"
                 android:hint="@string/nnf_filename"
                 android:maxLines="1"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@color/white"
                 android:singleLine="true"
                 android:inputType="text"
@@ -106,9 +106,9 @@
             <ImageButton
                 android:id="@+id/nnf_button_ok_newfile"
                 style="?attr/borderlessButtonStyle"
+                android:contentDescription="@string/cd_pick_file"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:hint="@android:string/ok"
                 app:srcCompat="@drawable/nnf_ic_save_black_24dp"
                 android:tint="@android:color/white"/>
 

@@ -12,15 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.raffaelcavaliere.setlists.widget.SetlistsWidget;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 
 public class SetlistsContentProvider extends ContentProvider {
 
