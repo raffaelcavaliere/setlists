@@ -142,8 +142,10 @@ public class DocumentEditActivity extends AppCompatActivity
                 Intent editDocumentIntent = new Intent(v.getContext(), TextEditorActivity.class);
                 if (fileToImport != null)
                     editDocumentIntent.putExtra("path", fileToImport.getPath());
-                else if (id != null)
+                else if (id != null) {
                     editDocumentIntent.putExtra("path", getFilesDir().getPath() + "/" + id);
+                    editDocumentIntent.putExtra("id", id);
+                }
                 startActivity(editDocumentIntent);
             }
         });
@@ -329,7 +331,6 @@ public class DocumentEditActivity extends AppCompatActivity
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID, id);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DESCRIPTION, description);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG, song);
-        values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_AUTHOR, "raffaelcavaliere");
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TYPE, type <= 0 ? null : type);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
         values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);

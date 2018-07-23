@@ -1,5 +1,6 @@
 package com.raffaelcavaliere.setlists.ui.document;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +14,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.raffaelcavaliere.setlists.R;
+import com.raffaelcavaliere.setlists.data.SetlistsDbContract;
 import com.raffaelcavaliere.setlists.utils.Storage;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Scanner;
 
 
 public class TextEditorActivity extends AppCompatActivity {
 
+    String id;
     String path;
     EditText editText;
     private Button saveButton;
@@ -55,6 +59,8 @@ public class TextEditorActivity extends AppCompatActivity {
             Log.d("EXCEPTION", ex.toString());
         }
 
+        id = extras.getString("id", "");
+
         saveButton = (Button) findViewById(R.id.editTextEditorSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +71,12 @@ public class TextEditorActivity extends AppCompatActivity {
                 try {
                     File file = new File(path);
                     Storage.replace(file, editText.getText().toString());
+                    if (!id.isEmpty()) {
+                        ContentValues values = new ContentValues();
+                        values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
+                        int result = getContentResolver().update(SetlistsDbContract.SetlistsDbDocumentEntry.buildSetlistsDbDocumentUri(id), values,
+                                SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + "=?", new String[]{String.valueOf(id)});
+                    }
                     data.setData(Uri.fromFile(file));
                     setResult(RESULT_OK, data);
                 } catch (Exception ex) {

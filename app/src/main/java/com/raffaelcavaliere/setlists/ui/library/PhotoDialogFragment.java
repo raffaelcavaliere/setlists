@@ -2,6 +2,8 @@ package com.raffaelcavaliere.setlists.ui.library;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.raffaelcavaliere.setlists.R;
 import com.raffaelcavaliere.setlists.ui.MainActivity;
@@ -29,6 +32,8 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 
 /**
@@ -100,6 +105,18 @@ public class PhotoDialogFragment extends DialogFragment implements AbsListView.O
 
     private void searchArtist(String name) {
 
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+            if (ni == null || !ni.isConnected()) {
+                Toast.makeText(getContext(), "Network is unavailable", Toast.LENGTH_LONG).show();
+                return;
+            }
+        } else {
+            Toast.makeText(getContext(), "Network is unavailable", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         SpotifyApi api = new SpotifyApi();
         SpotifyService spotify = api.getService();
         api.setAccessToken(MainActivity.spotifyAccessToken);
@@ -167,7 +184,7 @@ public class PhotoDialogFragment extends DialogFragment implements AbsListView.O
 
             String item = items.get(position);
             Uri uri = Uri.parse(item);
-            Picasso.with(context).load(uri.toString()).into(holder.imgPoster);
+            Picasso.get().load(uri.toString()).into(holder.imgPoster);
 
             return row;
         }

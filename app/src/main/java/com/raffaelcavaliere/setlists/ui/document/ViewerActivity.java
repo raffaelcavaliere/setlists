@@ -331,6 +331,7 @@ public class ViewerActivity extends AppCompatActivity
         } else if (id == R.id.file_menu_edit) {
             Intent editDocumentIntent = new Intent(this, TextEditorActivity.class);
             editDocumentIntent.putExtra("path", path);
+            editDocumentIntent.putExtra("id", this.id);
             startActivityForResult(editDocumentIntent, REQUEST_EDIT_DOCUMENT);
             return true;
         }

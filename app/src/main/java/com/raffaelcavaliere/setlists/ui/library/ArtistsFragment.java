@@ -203,8 +203,10 @@ public class ArtistsFragment extends Fragment implements
             this.songCount = songCount;
             textName.setText(name);
             textSongCount.setText(songCount <= 0 ? "No song" : songCount + " song" + (songCount > 1 ? "s" : ""));
-            if (this.photoUrl != null && !this.photoUrl.isEmpty()) {
-                Picasso.with(getContext()).load(this.photoUrl).transform(new CircleTransform()).into(imgPhoto);
+            if (!this.photoUrl.isEmpty()) {
+                Picasso.get().load(this.photoUrl).transform(new CircleTransform()).into(imgPhoto);
+            } else {
+                imgPhoto.setImageResource(R.drawable.ic_person_black_24dp);
             }
         }
 

@@ -138,7 +138,7 @@ public class SetSongsActivity extends AppCompatActivity implements
                         SetlistsDbContract.SetlistsDbSetSongEntry.buildSetlistsDbSetSongUri(mAdapter.getItemUuid(i)),
                         values,
                         SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_ID + "=?",
-                        new String[] {String.valueOf(mAdapter.getItemId(i))});
+                        new String[] {mAdapter.getItemUuid(i)});
             }
             getSupportLoaderManager().restartLoader(MainActivity.SET_SONGS_LOADER, null, this);
             listMode = LIST_MODE_NORMAL;
@@ -253,7 +253,6 @@ public class SetSongsActivity extends AppCompatActivity implements
 
         @Override
         public void onBindViewHolder(final SetSongsActivity.ViewHolder holder, int position) {
-            Log.d("POSITION", String.valueOf(position));
             SetlistsDbItemSetSong item = items.get(position);
             holder.bindData(item.getId(), item.getSong(), item.getSequence(), item.getDocument(), item.getType(),
                     item.getTitle(), item.getDescription(), item.getKey(), item.getDuration(), item.getTempo(),

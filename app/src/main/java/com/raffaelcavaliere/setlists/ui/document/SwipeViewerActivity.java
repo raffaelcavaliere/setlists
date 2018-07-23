@@ -3,6 +3,7 @@ package com.raffaelcavaliere.setlists.ui.document;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -53,6 +54,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.prefs.Preferences;
 
 
 public class SwipeViewerActivity extends AppCompatActivity implements

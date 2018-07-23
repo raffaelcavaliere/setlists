@@ -216,7 +216,7 @@ public class SongsFragment extends Fragment implements
             mCursor.moveToPosition(position);
             holder.bindData(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3),
                     mCursor.getString(4), mCursor.getInt(5), mCursor.getInt(6), mCursor.getString(7), mCursor.getString(8),
-                    new Date(mCursor.getLong(10) * 1000));
+                    new Date(mCursor.getLong(11) * 1000));
         }
 
         @Override

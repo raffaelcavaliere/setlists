@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/file_menu_edit"
+        android:title="@string/menu_edit_file"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/file_menu_transpose"
         android:title="@string/menu_transpose_file"
         app:showAsAction="never" />
@@ -10,10 +14,5 @@
     <item android:title="@string/menu_edit_document"
         android:id="@+id/document_context_menu_edit"
         app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/file_menu_edit"
-        android:title="@string/menu_edit_file"
-        app:showAsAction="never" />
 
 </menu>

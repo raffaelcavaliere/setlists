@@ -1,0 +1,21 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_document_category">
+
+        <CheckBoxPreference
+            android:key="pref_show_lyrics"
+            android:title="@string/pref_show_lyrics"
+            android:checked="true"
+            android:summary="@string/pref_show_lyrics_summary" />
+
+        <CheckBoxPreference
+            android:key="pref_show_chords"
+            android:title="@string/pref_show_chords"
+            android:checked="true"
+            android:summary="@string/pref_show_chords_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

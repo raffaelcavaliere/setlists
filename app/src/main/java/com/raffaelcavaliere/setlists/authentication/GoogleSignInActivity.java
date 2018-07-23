@@ -104,7 +104,7 @@ public class GoogleSignInActivity extends BaseAuthActivity implements
                 // [END_EXCLUDE]
             }
         } else if (requestCode == RC_START_APP) {
-            finishAndRemoveTask();
+         //   finishAndRemoveTask();
         }
     }
     // [END onactivityresult]

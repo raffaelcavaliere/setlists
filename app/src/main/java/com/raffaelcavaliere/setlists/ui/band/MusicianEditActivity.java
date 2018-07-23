@@ -112,8 +112,10 @@ public class MusicianEditActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_NAME, name);
-        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL, email);
-        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT, instrument);
+        if (email != null && !email.isEmpty())
+            values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL, email);
+        if (email != null && !email.isEmpty())
+            values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT, instrument);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_BAND, band);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
@@ -124,8 +126,15 @@ public class MusicianEditActivity extends AppCompatActivity {
     private int updateMusician(String name, String email, String instrument) {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_NAME, name);
-        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL, email);
-        values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT, instrument);
+        if (email == null || email.isEmpty())
+            values.putNull(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL);
+        else
+            values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_EMAIL, email);
+        if (instrument == null || instrument.isEmpty())
+            values.putNull(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT);
+        else
+            values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT, instrument);
+
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_BAND, band);
         values.put(SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 

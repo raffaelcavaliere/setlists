@@ -20,6 +20,7 @@ public class SetlistsDbContract {
     public static final String PATH_SET_SONG = "setsongs";
     public static final String PATH_MIDI_MESSAGE = "messages";
     public static final String PATH_DOCUMENT_MIDI_MESSAGE = "documentmessages";
+    public static final String PATH_DELETED_RECORD = "deletedrecords";
 
     //SONG
     public static final class SetlistsDbSongEntry implements BaseColumns {
@@ -37,8 +38,10 @@ public class SetlistsDbContract {
         public static final String COLUMN_DURATION = "duration";
         public static final String COLUMN_NOTES = "notes";
         public static final String COLUMN_DOCUMENT = "document";
+        public static final String COLUMN_AUTHOR = "author";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_TITLE + " COLLATE NOCASE ASC";
 
@@ -64,6 +67,7 @@ public class SetlistsDbContract {
         public static final String COLUMN_PHOTO = "photo";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
@@ -89,14 +93,15 @@ public class SetlistsDbContract {
 
         public static final String TABLE_NAME = "document";
         public static final String COLUMN_ID = "_id";
-        public static final String COLUMN_AUTHOR = "author";
         public static final String COLUMN_SONG = "song";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_TRANSPOSE = "transpose";
         public static final String COLUMN_TRANSPOSE_MODE = "transpose_mode";
+        public static final String COLUMN_AUTHOR = "author";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_DESCRIPTION + " COLLATE NOCASE ASC";
 
@@ -121,6 +126,7 @@ public class SetlistsDbContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
@@ -144,6 +150,7 @@ public class SetlistsDbContract {
         public static final String COLUMN_BAND = "band";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
@@ -168,9 +175,10 @@ public class SetlistsDbContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_LOCATION = "location";
         public static final String COLUMN_BAND = "band";
+        public static final String COLUMN_AUTHOR = "author";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
-        public static final String COLUMN_AUTHOR = "author";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_DATE_MODIFIED + " DESC";
 
@@ -197,6 +205,7 @@ public class SetlistsDbContract {
         public static final String COLUMN_SEQUENCE = "sequence";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_SEQUENCE + " ASC";
 
@@ -225,6 +234,7 @@ public class SetlistsDbContract {
         public static final String COLUMN_DATA2 = "data2";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_NAME + " COLLATE NOCASE ASC";
 
@@ -247,6 +257,7 @@ public class SetlistsDbContract {
         public static final String COLUMN_AUTOSEND = "autosend";
         public static final String COLUMN_DATE_ADDED = "added";
         public static final String COLUMN_DATE_MODIFIED = "modified";
+        public static final String COLUMN_USER = "user";
 
         public static final String DEFAULT_SORT = COLUMN_ID + " ASC";
 
@@ -260,6 +271,27 @@ public class SetlistsDbContract {
 
         public static Uri buildSetlistsDbDocumentMidiMessagesForSetUri(String setId) {
             return SetlistsDbSetEntry.CONTENT_URI.buildUpon().appendPath(setId).appendPath(PATH_DOCUMENT_MIDI_MESSAGE).build();
+        }
+    }
+
+    //DELETED RECORDS
+    public static final class SetlistsDbDeletedRecordEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_DELETED_RECORD).build();
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DELETED_RECORD;
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DELETED_RECORD;
+
+        public static final String TABLE_NAME = "deleted_record";
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_TABLE = "table_name";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_DATE_DELETED = "deleted";
+        public static final String COLUMN_USER = "user";
+
+        public static final String DEFAULT_SORT = COLUMN_ID + " ASC";
+
+        public static Uri buildSetlistsDbDeletedRecordUri(String id) {
+            return CONTENT_URI.buildUpon().appendPath(id).build();
         }
     }
 }

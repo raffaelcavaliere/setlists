@@ -8,14 +8,14 @@
     android:clickable="true">
 
     <ImageView
-        app:srcCompat="@drawable/ic_person_black_24dp"
         android:id="@+id/item_picture_photo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
         android:contentDescription="@string/cd_item_picture"
         android:paddingStart="@dimen/window_margin"
         android:paddingTop="@dimen/window_margin"
-        android:layout_alignParentStart="true"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        app:srcCompat="@drawable/ic_person_black_24dp" />
 
     <TextView
         android:id="@+id/item_picture_title"

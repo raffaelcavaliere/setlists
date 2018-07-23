@@ -14,12 +14,14 @@ public class SetlistsDbItemSong implements Parcelable {
     private String title;
     private String key;
     private String notes;
+    private String author;
     private int tempo;
     private int duration;
     private Date modified;
 
     public SetlistsDbItemSong(String id, String document, String artist, String artistName,
-                              String title, String key, int tempo, int duration, String notes, Date modified) {
+                              String title, String key, int tempo, int duration, String notes,
+                              String author, Date modified) {
         this.id = id;
         this.document = document;
         this.artist = artist;
@@ -29,6 +31,7 @@ public class SetlistsDbItemSong implements Parcelable {
         this.tempo = tempo;
         this.duration = duration;
         this.notes = notes;
+        this.author = author;
         this.modified = modified;
     }
 
@@ -59,6 +62,9 @@ public class SetlistsDbItemSong implements Parcelable {
     public String getNotes() { return this.notes; }
     public void setNotes(String notes) { this.notes = notes; }
 
+    public String getAuthor() { return this.author; }
+    public void setAuthor(String author) { this.author = author; }
+
     public Date getModified() { return this.modified; }
     public void setModified(Date modified) { this.modified = modified; }
 
@@ -73,6 +79,7 @@ public class SetlistsDbItemSong implements Parcelable {
         this.tempo = bundle.getInt("tempo");
         this.duration = bundle.getInt("duration");
         this.notes = bundle.getString("notes");
+        this.author = bundle.getString("author");
         this.modified = new Date(bundle.getLong("modified") * 1000);
     }
 
@@ -91,6 +98,7 @@ public class SetlistsDbItemSong implements Parcelable {
         bundle.putInt("tempo", tempo);
         bundle.putInt("duration", duration);
         bundle.putString("notes", notes);
+        bundle.putString("author", author);
         bundle.putLong("modified", modified.getTime() / 1000);
         out.writeBundle(bundle);
     }

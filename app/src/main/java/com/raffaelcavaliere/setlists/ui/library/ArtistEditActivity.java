@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -120,7 +121,8 @@ public class ArtistEditActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID, UUID.randomUUID().toString());
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_NAME, name);
-        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO, photo);
+        if (photo != null && !photo.isEmpty())
+            values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO, photo);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
@@ -131,7 +133,10 @@ public class ArtistEditActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID, id);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_NAME, name);
-        values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO, photo);
+        if (photo == null || photo.isEmpty())
+            values.putNull(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO);
+        else
+            values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO, photo);
         values.put(SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
         return getContentResolver().update(SetlistsDbContract.SetlistsDbArtistEntry.buildSetlistsDbArtistUri(id), values,

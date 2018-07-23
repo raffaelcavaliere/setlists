@@ -98,6 +98,8 @@
     <string name="dialog_remove_document_midi_message">Do you really want to detach this message?</string>
     <string name="menu_set_autosend_document_midi_message">Set auto send</string>
     <string name="menu_remove_autosend_document_midi_message">Remove auto send</string>
+    <string name="menu_show_lyrics">Show lyrics</string>
+    <string name="menu_show_chords">Show chords</string>
 
     <!-- Content Description for images -->
     <string name="desc_google_icon">Google Logo</string>
@@ -342,4 +344,13 @@
     <string name="fab_add_midi_message">Add midi message</string>
     <string name="fab_add_set">Add set</string>
     <string name="fab_add_song">Add song</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- settings -->
+    <string name="pref_document_category">Documents</string>
+
+    <string name="pref_show_lyrics">Show lyrics</string>
+    <string name="pref_show_chords">Show chords</string>
+    <string name="pref_show_lyrics_summary">Show lyrics in chordpro files</string>
+    <string name="pref_show_chords_summary">Show chords in chordpro files</string>
 </resources>

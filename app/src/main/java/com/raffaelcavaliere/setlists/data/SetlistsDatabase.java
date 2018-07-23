@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 
 public class SetlistsDatabase extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 63;
+    private static final int DATABASE_VERSION = 71;
     public static final String DATABASE_NAME = "setlists.db";
 
     public SetlistsDatabase(Context context) {
@@ -39,9 +39,11 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbSongEntry.COLUMN_TEMPO + " INTEGER NULL, " +
                 SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DURATION + " INTEGER NULL, " +
                 SetlistsDbContract.SetlistsDbSongEntry.COLUMN_NOTES + " TEXT NULL, " +
-                SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT + " INTEGER NULL, " +
+                SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DOCUMENT + " TEXT NULL, " +
+                SetlistsDbContract.SetlistsDbSongEntry.COLUMN_AUTHOR + " TEXT NULL, " +
                 SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbSongEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbSongEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ID + ")" +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ARTIST +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbArtistEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID + ") ON DELETE SET NULL" +
@@ -53,19 +55,21 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_PHOTO + " TEXT NULL, " +
                 SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbArtistEntry.COLUMN_ID + ")" +
                 ") WITHOUT ROWID;";
 
         final String SQL_CREATE_DOCUMENT_TABLE = "CREATE TABLE " + SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + " (" +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + " TEXT NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG + " INTEGER NOT NULL, " +
-                SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_AUTHOR + " TEXT NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TRANSPOSE + " INTEGER NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TRANSPOSE_MODE + " INTEGER NULL, " +
+                SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_AUTHOR + " TEXT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + ")" +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbSongEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbSongEntry.COLUMN_ID + ") ON DELETE CASCADE" +
@@ -76,6 +80,7 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbBandEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 SetlistsDbContract.SetlistsDbBandEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbBandEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbBandEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbBandEntry.COLUMN_ID + ")" +
                 ") WITHOUT ROWID;";
 
@@ -87,6 +92,7 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_INSTRUMENT + " TEXT NULL, " +
                 SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_ID + ")" +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbMusicianEntry.COLUMN_BAND +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbBandEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbBandEntry.COLUMN_ID + ") ON DELETE CASCADE" +
@@ -94,12 +100,13 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
 
         final String SQL_CREATE_SETLIST_TABLE = "CREATE TABLE " + SetlistsDbContract.SetlistsDbSetEntry.TABLE_NAME + " (" +
                 SetlistsDbContract.SetlistsDbSetEntry.COLUMN_ID + " TEXT NOT NULL, " +
-                SetlistsDbContract.SetlistsDbSetEntry.COLUMN_AUTHOR + " TEXT NOT NULL, " +
                 SetlistsDbContract.SetlistsDbSetEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION + " TEXT NULL, " +
                 SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND + " INTEGER NULL, " +
+                SetlistsDbContract.SetlistsDbSetEntry.COLUMN_AUTHOR + " TEXT NULL, " +
                 SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbSetEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbSetEntry.COLUMN_ID + ")" +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbBandEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbBandEntry.COLUMN_ID + ") ON DELETE SET NULL" +
@@ -112,6 +119,7 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_SEQUENCE + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_ID + ")"  +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbSetSongEntry.COLUMN_SETLIST +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbSetEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbSetEntry.COLUMN_ID + ") ON DELETE CASCADE" +
@@ -128,6 +136,7 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATA2 + " INTEGER NULL, " +
                 SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_ID + ")" +
                 ") WITHOUT ROWID;";
 
@@ -138,11 +147,21 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
                 SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_AUTOSEND + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_DATE_ADDED + " INTEGER NOT NULL, " +
                 SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_USER + " TEXT NOT NULL, " +
                 " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_ID + ")"  +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_DOCUMENT +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbDocumentEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID + ") ON DELETE CASCADE" +
                 " FOREIGN KEY (" + SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.COLUMN_MESSAGE +
                 ") REFERENCES " + SetlistsDbContract.SetlistsDbMidiMessageEntry.TABLE_NAME + "(" + SetlistsDbContract.SetlistsDbMidiMessageEntry.COLUMN_ID + ") ON DELETE CASCADE" +
+                ") WITHOUT ROWID;";
+
+        final String SQL_CREATE_DELETED_RECORDS_TABLE = "CREATE TABLE " + SetlistsDbContract.SetlistsDbDeletedRecordEntry.TABLE_NAME + " (" +
+                SetlistsDbContract.SetlistsDbDeletedRecordEntry.COLUMN_ID + " TEXT NOT NULL, " +
+                SetlistsDbContract.SetlistsDbDeletedRecordEntry.COLUMN_TABLE + " TEXT NOT NULL, " +
+                SetlistsDbContract.SetlistsDbDeletedRecordEntry.COLUMN_DESCRIPTION + " TEXT NULL, " +
+                SetlistsDbContract.SetlistsDbDeletedRecordEntry.COLUMN_DATE_DELETED + " INTEGER NOT NULL, " +
+                SetlistsDbContract.SetlistsDbDeletedRecordEntry.COLUMN_USER + " TEXT NOT NULL, " +
+                " PRIMARY KEY (" + SetlistsDbContract.SetlistsDbDeletedRecordEntry.COLUMN_ID + ")" +
                 ") WITHOUT ROWID;";
 
         sqLiteDatabase.execSQL(SQL_CREATE_ARTIST_TABLE);
@@ -154,6 +173,7 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_SET_SONG_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_MIDI_MESSAGE_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_DOCUMENT_MIDI_MESSAGE_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_DELETED_RECORDS_TABLE);
     }
 
     @Override
@@ -173,6 +193,7 @@ public class SetlistsDatabase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SetlistsDbContract.SetlistsDbSetSongEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SetlistsDbContract.SetlistsDbMidiMessageEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SetlistsDbContract.SetlistsDbDocumentMidiMessageEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SetlistsDbContract.SetlistsDbDeletedRecordEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
 
     }

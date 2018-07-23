@@ -297,9 +297,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.main_menu_preferences) {
-            return true;
-        } else if (id == R.id.main_menu_restore_database) {
+        if (id == R.id.main_menu_restore_database) {
             Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
             filePickerIntent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
             filePickerIntent.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
@@ -417,7 +415,6 @@ public class MainActivity extends AppCompatActivity
                 values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_ID, document);
                 values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DESCRIPTION, uri.getLastPathSegment().substring(0, dot));
                 values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_SONG, song);
-                values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_AUTHOR, "raffaelcavaliere");
                 values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_TYPE, type);
                 values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
                 values.put(SetlistsDbContract.SetlistsDbDocumentEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
@@ -472,7 +469,8 @@ public class MainActivity extends AppCompatActivity
             SyncService.startSync(this);
 
         } else if (selectedNav == R.id.nav_settings) {
-
+            Intent settings = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(settings);
         } else if (selectedNav == R.id.nav_help) {
 
         }

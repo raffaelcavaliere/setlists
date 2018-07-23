@@ -132,7 +132,8 @@ class SetlistsWidgetDataFactory implements RemoteViewsService.RemoteViewsFactory
         if (c != null && c.moveToFirst()) {
             do {
                 mCollection.add(new SetlistsDbItemSong(c.getString(0), c.getString(8), c.getString(2), c.getString(3),
-                        c.getString(1), c.getString(4), c.getInt(5), c.getInt(6), c.getString(7), new Date(c.getLong(10) * 1000)));
+                        c.getString(1), c.getString(4), c.getInt(5), c.getInt(6), c.getString(7),
+                        c.getString(9), new Date(c.getLong(11) * 1000)));
             } while (c.moveToNext());
         }
         if (c != null)

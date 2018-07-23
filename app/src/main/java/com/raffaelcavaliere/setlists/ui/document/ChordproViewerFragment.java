@@ -3,6 +3,7 @@ package com.raffaelcavaliere.setlists.ui.document;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ public class ChordproViewerFragment extends ViewerFragment {
     private TextView title, subtitle, key, tempo, composer, arranger, lyricist, album, copyright, year, time, duration;
     private int transpose = 0;
     private int transposeMode = SetlistsDbContract.SetlistsDbDocumentEntry.TRANSPOSE_USE_SHARPS;
+    private boolean showChords = true;
+    private boolean showLyrics = true;
 
     public ChordproViewerFragment() {
     }
@@ -46,6 +49,9 @@ public class ChordproViewerFragment extends ViewerFragment {
             transpose = getArguments().getInt(ARG_TRANSPOSE);
             transposeMode = getArguments().getInt(ARG_TRANSPOSE_MODE);
         }
+        showLyrics = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("pref_show_lyrics", true);
+        showChords = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("pref_show_chords", true);
+
     }
 
     public static ChordproViewerFragment newInstance(String path, int transpose, int transposeMode) {
@@ -365,24 +371,40 @@ public class ChordproViewerFragment extends ViewerFragment {
                     break;
                 }
             }
+            boolean chordOnly = true;
+            for (int i = 0; i < columns.size(); i++) {
+                if (columns.get(i).getLyric() != null) {
+                    if (!columns.get(i).getLyric().trim().isEmpty())
+                        chordOnly = false;
+                }
+            }
+
+            int charCount = 0;
+            for (int i = 0; i < columns.size(); i++) {
+                if (columns.get(i).getLyric() != null)
+                    charCount += columns.get(i).getLyric().length();
+            }
 
             for (int i = 0; i < columns.size(); i++) {
                 LinearLayout column = new LinearLayout(getContext());
                 column.setOrientation(LinearLayout.VERTICAL);
-                if (!lyricOnly) {
+                if (!lyricOnly && showChords) {
                     TextView vChord = new TextView(getContext());
                     vChord.setTextAppearance(R.style.DocumentChord);
                     if (columns.get(i).getChord() != null)
                         vChord.setText(transposeChord(columns.get(i).getChord()).concat(" "));
                     column.addView(vChord);
                 }
-                TextView vLyric = new TextView(getContext());
-                vLyric.setTextAppearance(R.style.DocumentLyric);
-                vLyric.setMaxWidth(screenWidth / columns.size());
-                if (columns.get(i).getLyric() != null) {
-                    vLyric.setText(columns.get(i).getLyric());
+                if (!chordOnly && showLyrics) {
+                    TextView vLyric = new TextView(getContext());
+                    vLyric.setTextAppearance(R.style.DocumentLyric);
+                    //vLyric.setMaxWidth(screenWidth / columns.size());
+                    if (columns.get(i).getLyric() != null) {
+                        vLyric.setText(columns.get(i).getLyric());
+                        vLyric.setMaxWidth(screenWidth / charCount * columns.get(i).getLyric().length());
+                    }
+                    column.addView(vLyric);
                 }
-                column.addView(vLyric);
 
                 line.addView(column);
             }

@@ -194,9 +194,8 @@ public class SetEditActivity extends AppCompatActivity  implements
     public Uri addSet(String name, String location, String band) {
         ContentValues values = new ContentValues();
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_ID, UUID.randomUUID().toString());
-        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_AUTHOR, "raffaelcavaliere");
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_NAME, name);
-        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION, location);
+        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION, location.isEmpty() ? null : location);
         if (band != null)
             values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND, band);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_ADDED, new Date().getTime() / 1000);
@@ -207,9 +206,8 @@ public class SetEditActivity extends AppCompatActivity  implements
 
     public int updateSet(String name, String location, String band) {
         ContentValues values = new ContentValues();
-        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_AUTHOR, "raffaelcavaliere");
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_NAME, name);
-        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION, location);
+        values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_LOCATION, location.isEmpty() ? null : location);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_BAND, band);
         values.put(SetlistsDbContract.SetlistsDbSetEntry.COLUMN_DATE_MODIFIED, new Date().getTime() / 1000);
 
